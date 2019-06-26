@@ -1,0 +1,87 @@
+﻿@model IEnumerable<C_R_M.Models.Empresa>
+
+@{
+
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Empresa</h2>
+
+<p>
+    @Html.ActionLink("Crear Nuevo", "Create")
+</p>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Nombre)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Correo)
+        </th>
+        <th>
+            @Html.DisplayName("Cédula")
+        </th>
+        <th>
+            @Html.DisplayName("País")
+        </th>
+        <th>
+            @Html.DisplayName("Provincia")
+        </th>
+        <th>
+            @Html.DisplayName("Cantón")
+        </th>
+        <th>
+            @Html.DisplayName("Distrito")
+        </th>
+        <th>
+            @Html.DisplayName("Otras Señas")
+        </th>
+        <th>
+            @Html.DisplayName("Código Postal")
+        </th>
+
+
+
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Nombre)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Correo)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Cedula)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Pais)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Provincia.Nombre)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Canton.Nombre)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Distrito.Nombre)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Otras_Señas)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Codigo_Postal)
+        </td>
+
+
+        <td>
+            @Html.ActionLink("Editar", "Edit", new { id = item.Id_Empresa }) |
+            @Html.ActionLink("Detalles", "Details", new { id = item.Id_Empresa })
+        </td>
+    </tr>
+}
+
+</table>

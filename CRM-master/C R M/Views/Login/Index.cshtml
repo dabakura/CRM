@@ -1,0 +1,57 @@
+﻿@using C_R_M.Models
+@model LoginModel
+@Styles.Render("~/Content/css-Login")
+@{
+    ViewBag.Title = "Iniciar sesión";
+    Layout = "~/Views/Shared/_LayoutVacio.cshtml";
+}
+
+<div class="row">
+    <div class="col-lg-10 col-xl-9 mx-auto">
+        <div class="card card-signin flex-row my-5">
+            <div class="card-img-left d-none d-md-flex">
+            </div>
+            <div class="card-body">
+                <h5 class="card-title text-center">Iniciar Sesión</h5>
+                @using (Html.BeginForm())
+                {
+                    @Html.AntiForgeryToken()
+                    <hr />
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.Email)
+                        <div class="form-label-group">
+                            @Html.TextBoxFor(m => m.Email, new { @class = "form-control", id = "inputEmail", placeholder = "email@example.com" })
+                            @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.Password)
+                        <div class="form-label-group">
+                            @Html.TextBoxFor(m => m.Password, new { @class = "form-control", id = "inputPassword", placeholder = "Contraseña", type="password" })
+                            @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-offset-2 col-md-10">
+                            <div class="checkbox">
+                                @Html.CheckBoxFor(m => m.RememberMe)
+                                @Html.LabelFor(m => m.RememberMe)
+                            </div>
+                        </div>
+                    </div>
+                    <input type="submit" value="Iniciar sesión" class="btn btn-lg btn-primary btn-block text-uppercase" />
+
+                    <p>
+                        @Html.ActionLink("Registrar como nuevo usuario", "Register")
+                    </p>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

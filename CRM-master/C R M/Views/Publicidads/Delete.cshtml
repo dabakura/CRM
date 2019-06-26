@@ -1,0 +1,73 @@
+﻿@model C_R_M.Models.Publicidad
+
+@{
+    ViewBag.Title = "Delete";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Eliminar</h2>
+
+<h3>¿Está seguro que desea eliminar el registro?</h3>
+<div>
+    <h4>Publicidad</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayName("Fecha Inicio")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Fecha_Inicio)
+        </dd>
+
+        <dt>
+            @Html.DisplayName("Fecha Caducidad")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Fecha_Caducidad)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Costo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Costo)
+        </dd>
+
+        <dt>
+            @Html.DisplayName("Empresa")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Empresa1.Nombre)
+        </dd>
+
+        <dt>
+            @Html.DisplayName("Estado de Cuenta")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.EstadodeCuenta.Id_Estado)
+        </dd>
+
+        <dt>
+            @Html.DisplayName("Medio Publicitario")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MedioPublicitario.Nombre)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Eliminar" class="btn btn-default" /> |
+            @Html.ActionLink("Volver a la lista", "Index")
+        </div>
+    }
+</div>

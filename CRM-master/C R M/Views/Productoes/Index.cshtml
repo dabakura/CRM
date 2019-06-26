@@ -1,0 +1,54 @@
+﻿@model IEnumerable<C_R_M.Models.Producto>
+
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Index</title>
+</head>
+<body>
+    <h2>Productos</h2>
+    <p>
+        @Html.ActionLink("Crear Nuevo", "Create")
+    </p>
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Codigo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Nombre)
+            </th>
+            <th>
+                @Html.DisplayName("Tipo")
+            </th>
+            <th></th>
+        </tr>
+        @foreach (var item in Model)
+        {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Codigo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Nombre)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Tipo_Producto)
+            </td>
+            <td>
+                @Html.ActionLink("Editar", "Edit", new { id = item.Id_Producto }) |
+                @Html.ActionLink("Detalles", "Details", new { id = item.Id_Producto }) |
+                @Html.ActionLink("Borrar", "Delete", new { id = item.Id_Producto })
+            </td>
+        </tr>
+        }
+    </table>
+</body>
+</html>

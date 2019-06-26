@@ -1,0 +1,35 @@
+﻿@model C_R_M.Models.EstadodeCuenta
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>EstadodeCuenta</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Id_Credito_Disponible)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Id_Credito_Disponible)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Empresa1.Nombre)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Empresa1.Nombre)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Editar", "Edit", new { id = Model.Id_Estado }) |
+    @Html.ActionLink("Volver a la lista", "Index")
+</p>

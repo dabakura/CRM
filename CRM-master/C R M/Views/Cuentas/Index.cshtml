@@ -1,0 +1,59 @@
+﻿@model IEnumerable<C_R_M.Models.Cuenta>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutVacio.cshtml";
+}
+
+<h2>Cuentas</h2>
+
+<p>
+    @Html.ActionLink("Crear nuevo", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayName("Servicio Empresa")
+        </th>
+        <th>
+            @Html.DisplayName("Fecha Pago")
+        </th>
+        <th>
+            @Html.DisplayName("Monto Abono")
+        </th>
+        <th>
+            @Html.DisplayName("Monto Pendiente")
+        </th>
+        <th>
+            @Html.DisplayName("Descripción")
+        </th>
+
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.ServicioEmpresa.Descripcion)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Fecha_Pago)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Monto_Abono)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Monto_Pendiente)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Descripcion)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id = item.Id_Cuenta }) |
+            @Html.ActionLink("Details", "Details", new { id = item.Id_Cuenta }) |
+            @Html.ActionLink("Delete", "Delete", new { id = item.Id_Cuenta })
+        </td>
+    </tr>
+}
+
+</table>

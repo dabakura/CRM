@@ -1,0 +1,52 @@
+﻿@model IEnumerable<C_R_M.Models.Marketing>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Marketing de Productos</h2>
+
+<p>
+    @Html.ActionLink("Crear Nuevo", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayName("URL")
+        </th>
+        <th>
+            @Html.DisplayName("Nombre Empresa") 
+        </th>
+        <th>
+            @Html.DisplayName("Producto Comprado")
+        </th>
+        <th>
+            @Html.DisplayName("Producto Sugerido")
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.URL)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Empresa1.Nombre)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Producto.Nombre)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Producto1.Nombre)
+        </td>
+        <td>
+            @Html.ActionLink("Editar", "Edit", new { id=item.Id_Marketing }) |
+            @Html.ActionLink("Detalles", "Details", new { id=item.Id_Marketing }) |
+            @Html.ActionLink("Borrar", "Delete", new { id=item.Id_Marketing })
+        </td>
+    </tr>
+}
+
+</table>
