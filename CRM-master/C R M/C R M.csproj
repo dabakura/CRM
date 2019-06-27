@@ -136,10 +136,12 @@
     <Compile Include="Controllers\CuentasController.cs" />
     <Compile Include="Controllers\EmpresasController.cs" />
     <Compile Include="Controllers\EstadodeCuentasController.cs" />
+    <Compile Include="Controllers\FrontUser.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\MarketingsController.cs" />
     <Compile Include="Controllers\MovimientoesController.cs" />
+    <Compile Include="Controllers\PermisoAttribute.cs" />
     <Compile Include="Controllers\ProductoesController.cs" />
     <Compile Include="Controllers\PublicidadsController.cs" />
     <Compile Include="Controllers\RecordatoriosController.cs" />
@@ -169,6 +171,7 @@
     <Compile Include="Models\Empresa.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\RolesPermisos.cs" />
     <Compile Include="Models\EstadodeCuenta.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>

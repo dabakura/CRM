@@ -20,7 +20,7 @@ namespace C_R_M.Controllers
             GetUser = null;
             Recuerdame = false;
             Modulos = new Modulo[] {
-                new Modulo { Titulo = "Empresas", Action = "Index", Controller = "Empresas", Tipo ="Normal", Icono = "fa fa-tabl" },
+                new Modulo { Titulo = "Empresas", Action = "Index", Controller = "Empresas", Tipo ="Normal", Icono = "fa fa-table" },
                 new Modulo { Titulo = "Marketing", Action = "Index", Controller = "Marketings", Tipo ="Normal", Icono = "fa fa-envelope" },
                 new Modulo { Titulo = "Productos", Action = "Index", Controller = "Productoes", Tipo ="Normal", Icono = "fa fa-th" },
                 new Modulo { Titulo = "Publicidad", Action = "Index", Controller = "Publicidads", Tipo ="Normal", Icono = "fa fa-archive" },
@@ -37,9 +37,15 @@ namespace C_R_M.Controllers
 
         public Modulo[] Get_Modulos(string tipo)
         {
-            return Modulos.Where(m => m.Tipo == tipo).ToArray();
+            return Modulos.Where(m => PermisoFilter(tipo, m)).ToArray();
         }
 
+        private bool PermisoFilter(string tipo, Modulo modulo)
+        {
+            if (modulo.Tipo == tipo)
+                return FrontUser.TienePermiso(modulo.Controller + modulo.Action, RolesPermisos.Permiso);
+            return false;
+        }
         public bool IniciarSesion(LoginModel login)
         {
             GetUser = db.Usuario.ToList().Find(u => u.Correo == login.Email && u.Contraseña == login.Password);
@@ -76,6 +82,6 @@ namespace C_R_M.Controllers
                 Password = GetUser.Contraseña,
                 RememberMe = true
             };
-        } 
+        }
     }
 }

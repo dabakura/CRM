@@ -33,5 +33,14 @@ namespace C_R_M.Controllers
             }
             return View();
         }
+
+        // GET: Logout
+        [HttpGet]
+        public ActionResult Logout()
+        {
+            AccountController.Account.CerrarSesion();
+            return RedirectToAction("Index");
+        }
+
     }
 }

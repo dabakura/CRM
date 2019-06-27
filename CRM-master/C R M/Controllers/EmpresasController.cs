@@ -10,10 +10,11 @@ using C_R_M.Models;
 
 namespace C_R_M.Controllers
 {
+    [PermisoAttribute]
     public class EmpresasController : Controller
     {
         private CRMEntities db = new CRMEntities();
-
+        
         // GET: Empresas
         public ActionResult Index()
         {
@@ -21,6 +22,7 @@ namespace C_R_M.Controllers
             return View(empresa.ToList());
         }
 
+        
         // GET: Empresas/Details/5
         public ActionResult Details(int? id)
         {
