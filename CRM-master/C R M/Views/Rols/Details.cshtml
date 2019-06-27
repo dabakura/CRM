@@ -1,25 +1,40 @@
-﻿@model C_R_M.Models.Rol
+﻿@using C_R_M.Controllers
+@model C_R_M.Models.Rol
 
 @{
     ViewBag.Title = "Mostrar";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Details</h2>
+<h2>Información del Rol</h2>
 
 <div>
-    <h4>Rol</h4>
     <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Nombre)
-        </dt>
+    <h4 class="font-weight-bold">El Rol @Model.Nombre tiene los Permisos</h4>
+    
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.PermisoRol.First().Modulo)
+            </th>
+            <th class="text-right" style="padding-right: 57px">
+                @Html.DisplayName("Permisos")
+            </th>
+        </tr>
 
-        <dd>
-            @Html.DisplayFor(model => model.Nombre)
-        </dd>
+        @foreach (var item in Model.PermisoRol)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Modulo)
+                </td>
+                <td class="text-right">
+                    @RolsController.TipoPermiso(item)
+                </td>
+            </tr>
+        }
 
-    </dl>
+    </table>
 </div>
 <p>
     @Html.ActionLink("Editar", "Edit", new { id = Model.Id }) |

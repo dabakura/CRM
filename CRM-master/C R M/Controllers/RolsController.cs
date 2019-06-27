@@ -71,6 +71,7 @@ namespace C_R_M.Controllers
             {
                 return HttpNotFound();
             }
+            ViewBag.Permisos = Permisos();
             return View(rol);
         }
 
@@ -87,6 +88,7 @@ namespace C_R_M.Controllers
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
+            ViewBag.Permisos = Permisos();
             return View(rol);
         }
 
@@ -116,6 +118,13 @@ namespace C_R_M.Controllers
             return RedirectToAction("Index");
         }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> Update(IEnumerable<AsigPermiso> permisos, int id)
+        {
+            return RedirectToAction("Index");
+        }
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)
@@ -123,6 +132,46 @@ namespace C_R_M.Controllers
                 db.Dispose();
             }
             base.Dispose(disposing);
+        }
+
+        public static String TipoPermiso(PermisoRol permisorol)
+        {
+            Permiso per = permisorol.Permiso;
+            String permiso = "";
+            if (per.Crear && per.Editar && per.Eliminar && per.Mostrar)
+                return "Todos los Permisos";
+            if (per.Crear)
+                permiso += "Crear ";
+            if (per.Editar)
+                permiso += "Editar ";
+            if (per.Mostrar)
+                permiso += "Mostrar ";
+            if (per.Crear)
+                permiso += "Eliminar ";
+            return permiso.Trim();
+        }
+
+        [AllowAnonymous]
+        private List<AsigPermiso> Permisos()
+        {
+            return new List<AsigPermiso> {
+                new AsigPermiso("Empresas",false,false,false,false),
+                new AsigPermiso("Empresas","Index",false),
+                new AsigPermiso("Marketings",false,false,false,false),
+                new AsigPermiso("Marketings","Index",false),
+                new AsigPermiso("Productoes",false,false,false,false),
+                new AsigPermiso("Productoes","Index",false),
+                new AsigPermiso("Publicidads",false,false,false,false),
+                new AsigPermiso("Publicidads","Index",false),
+                new AsigPermiso("Recordatorios",false,false,false,false),
+                new AsigPermiso("Recordatorios","Index",false),
+                new AsigPermiso("Rols",false,false,false,false),
+                new AsigPermiso("Rols","Index",false),
+                new AsigPermiso("Movimientoes",false,false,false,false),
+                new AsigPermiso("Movimientoes","Index",false),
+                new AsigPermiso("Usuarios",false,false,false,false),
+                new AsigPermiso("Usuarios","Index",false),
+            };
         }
     }
 }

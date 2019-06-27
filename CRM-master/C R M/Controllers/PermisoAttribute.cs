@@ -32,7 +32,7 @@ namespace C_R_M.Controllers
                         Permiso = RolesPermisos.Eliminar_Registro;
                         break;
                     default:
-                        Modulo = filterContext.ActionDescriptor.ControllerDescriptor.ControllerName + filterContext.ActionDescriptor.ActionName;
+                        Modulo = filterContext.ActionDescriptor.ControllerDescriptor.ControllerName + "-" + filterContext.ActionDescriptor.ActionName;
                         Permiso = RolesPermisos.Permiso;
                         break;
                 }
