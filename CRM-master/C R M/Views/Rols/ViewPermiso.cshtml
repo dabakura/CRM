@@ -1,69 +1,98 @@
 ﻿@model IEnumerable<C_R_M.Models.AsigPermiso>
 
-@using (Html.BeginForm("Update", "Rols"))
+@using (Html.BeginForm("Update", "Rols", FormMethod.Post, new { id="formpermisos"}))
 {
     @Html.AntiForgeryToken()
 
-    @Html.Hidden("id", (int)ViewData["id"])
-    <div class="form-horizontal">
-        <h4>Permisos</h4>
-        <hr />
-        @{
-            HashSet<String> modulos = new HashSet<string>((from per in Model orderby per.Modulo select per.Modulo).ToArray());
-            foreach (var modulo in modulos)
-            {
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <dl class="dl-horizontal" style="margin-bottom: 0">
-                            <dt style="text-align: left;" class="titulo">
-                                @modulo
-                            </dt>
+    @Html.Hidden("id", (int)ViewData["id"],new { id= "idrol" })
+<div class="form-horizontal">
+    <h4>Permisos</h4>
+    <hr />
+    @{
+        HashSet<String> modulos = new HashSet<string>((from per in Model orderby per.Modulo select per.Modulo).ToArray());
+        foreach (var modulo in modulos)
+        {
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <dl class="dl-horizontal" style="margin-bottom: 0">
+                        <dt style="text-align: left;" class="titulo">
+                            @modulo
+                        </dt>
 
-                            <dd class="text-right">
-                                <input htmlattributes="{ class = form-control, style = padding-right: 4px; }" type="checkbox" value="false" onchange="seleccion('@modulo',this.checked)">
-                            </dd>
-                        </dl>
-                    </div>
-                    <div class="panel-body">
-                        @foreach (var item in Model.Where(p => p.Modulo.Equals(modulo)))
-                        {
-                            if (item.Tipo.Equals("Metodo"))
-                            {
-                                @Html.LabelFor(modelItem => item.Accion, new { @class = "control-label", style = "padding-right: 4px; padding-left: 4px;" })
-                                @Html.CheckBoxFor(modelItem => item.Autorizado, new { @class = modulo, style = "padding-right: 4px;" });
-                            }
-                            else
-                            {
-                                @Html.Label("Crear", new { @class = "control-label", style = "padding-right: 4px; padding-left: 4px;" })
-                                @Html.CheckBoxFor(modelItem => item.Crear, new { @class = modulo, style = "padding-right: 4px;" });
-                                @Html.Label("Editar", new { @class = "control-label", style = "padding-right: 4px; padding-left: 4px;" })
-                                @Html.CheckBoxFor(modelItem => item.Editar, new { @class = modulo, style = "padding-right: 4px;" });
-                                @Html.Label("Mostrar", new { @class = "control-label ", style = "padding-right: 4px; padding-left: 4px;" })
-                                @Html.CheckBoxFor(modelItem => item.Mostrar, new { @class = modulo, style = "padding-right: 4px;" });
-                                @Html.Label("Eliminar", new { @class = "control-label ", style = "padding-right: 4px; padding-left: 4px;" })
-                                @Html.CheckBoxFor(modelItem => item.Eliminar, new { @class = modulo, style = "padding-right: 4px;" });
-                            }
-                        }
-                    </div>
+                        <dd class="text-right">
+                            <input htmlattributes="{ class = form-control, style = padding-right: 4px; }" type="checkbox" value="false" onchange="seleccion('@modulo',this.checked)">
+                        </dd>
+                    </dl>
                 </div>
-            }
-            <div class="form-group">
-                <div class="text-right" style="padding-right: 70px;">
-                    <input type="submit" value="Save" class="btn btn-success" />
+                <div class="panel-body">
+                    @foreach (var item in Model.Where(p => p.Modulo.Equals(modulo)))
+                    {
+                        if (item.Tipo.Equals("Metodo"))
+                        {
+                            @Html.CheckBoxFor(modelItem => item.Autorizado, new { @class = modulo, style = "padding-right: 4px;", title = item.Accion });
+                            @Html.Label(item.Accion, new { @class = "control-label", style = "padding-right: 15px; padding-left: 4px;" })
+                        }
+                        else
+                        {
+                            @Html.CheckBoxFor(modelItem => item.Crear, new { @class = modulo, style = "padding-right: 4px;", title = "Crear" });
+                            @Html.Label("Crear", new { @class = "control-label", style = "padding-right: 15px; padding-left: 4px;" })
+                            @Html.CheckBoxFor(modelItem => item.Editar, new { @class = modulo, style = "padding-right: 4px;", title = "Editar" });
+                            @Html.Label("Editar", new { @class = "control-label", style = "padding-right: 15px; padding-left: 4px;" })
+                            @Html.CheckBoxFor(modelItem => item.Mostrar, new { @class = modulo, style = "padding-right: 4px;", title = "Mostrar" });
+                            @Html.Label("Mostrar", new { @class = "control-label ", style = "padding-right: 15px; padding-left: 4px;" })
+                            @Html.CheckBoxFor(modelItem => item.Eliminar, new { @class = modulo, style = "padding-right: 4px;", title = "Eliminar" });
+                            @Html.Label("Eliminar", new { @class = "control-label ", style = "padding-right: 15px; padding-left: 4px;" })
+                        }
+                    }
                 </div>
             </div>
-            <script>
+        }
+        <div class="form-group">
+            <div class="text-right" style="padding-right: 70px;">
+                <input type="button" value="Actualizar Permisos" class="btn btn-success" onclick="ajaxsummit(event)" />
+            </div>
+        </div>
+
+        @section Scripts {
+            @Scripts.Render("~/bundles/jquery")
+        }
+        <script>
                 var titulos = document.getElementsByClassName("titulo");
                 var modulos = [];
-                for (var i = 0; i < titulos.length; i++) {
+                var idrol = document.getElementById("idrol").value;
+                for (let i = 0; i < titulos.length; i++) {
                     modulos[i] = titulos[i].innerText;
                 }
                 function seleccion(name, estado) {
-                    var listado = document.getElementsByClassName(name);
-                    for (var i = 0; i < listado.length; i++)
+                    let listado = document.getElementsByClassName(name);
+                    for (let i = 0; i < listado.length; i++)
                         listado[i].checked = estado;
                 }
-            </script>
-        }
-    </div>
+            function ajaxsummit(argument) {
+                let data = [];
+                modulos.forEach(name => {
+                    let listado = document.getElementsByClassName(name);
+                    for (let i = 0; i < listado.length; i++) {
+                        let info = { Tipo: '', Eliminar: false, Crear: false, Editar: false, Mostrar: false, Autorizado: false, Modulo: name, Accion: listado[i].title };
+                        if (listado[i].title != "Crear" && listado[i].title != "Editar" && listado[i].title != "Mostrar" && listado[i].title != "Eliminar") {
+                            info.Tipo = "Metodo";
+                            info.Autorizado = listado[i].checked;
+                        } else {
+                            info.Tipo = "Recurso";
+                            info.Crear = listado[i].checked;
+                            info.Editar = listado[i + 1].checked;
+                            info.Mostrar = listado[i + 2].checked;
+                            info.Eliminar = listado[i + 3].checked;
+                            i += 3;
+                        }
+                        data.push(info);
+                    }
+                });
+                let url = "@Url.Action("Update")";
+                data = { permisos: JSON.stringify(data), id: idrol };
+                $.post(url, data).done(function (data) { location.href = data; }).fail(function (error) { console.log(error); });
+            }
+        </script>
+    }
+</div>
 }

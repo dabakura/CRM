@@ -7476,6 +7476,7 @@
     <Content Include="Views\Rols\Edit.cshtml" />
     <Content Include="Views\Rols\Index.cshtml" />
     <Content Include="Views\Rols\ViewPermiso.cshtml" />
+    <Content Include="Views\Rols\CreatePermiso.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

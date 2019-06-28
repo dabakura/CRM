@@ -1,0 +1,15 @@
+﻿
+@{
+    ViewBag.Title = "CreatePermiso";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container">
+    <h2>Asignerle Permisos al Rol</h2>
+
+    @Html.Partial("ViewPermiso", (Object)ViewBag.Permisos, new ViewDataDictionary { { "id", (int)ViewBag.Id } })
+
+    <div>
+        @Html.ActionLink("Volver", "Index")
+    </div>
+</div>

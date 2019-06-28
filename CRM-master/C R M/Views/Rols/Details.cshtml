@@ -5,38 +5,46 @@
     ViewBag.Title = "Mostrar";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<div class="container">
+    <h2>Información del Rol</h2>
 
-<h2>Información del Rol</h2>
-
-<div>
-    <hr />
-    <h4 class="font-weight-bold">El Rol @Model.Nombre tiene los Permisos</h4>
-    
-    <table class="table">
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.PermisoRol.First().Modulo)
-            </th>
-            <th class="text-right" style="padding-right: 57px">
-                @Html.DisplayName("Permisos")
-            </th>
-        </tr>
-
-        @foreach (var item in Model.PermisoRol)
+    <div>
+        <hr />
+        @if (Model.PermisoRol.Count < 1)
         {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Modulo)
-                </td>
-                <td class="text-right">
-                    @RolsController.TipoPermiso(item)
-                </td>
-            </tr>
+            <h4 class="font-weight-bold">El Rol @Model.Nombre no tiene ningún Permiso</h4>
+        }
+        else
+        {
+            <h4 class="font-weight-bold">El Rol @Model.Nombre tiene los Permisos</h4>
         }
 
-    </table>
+        <table class="table">
+            <tr>
+                <th>
+                    @Html.DisplayName("Modulos")
+                </th>
+                <th class="text-right" style="padding-right: 57px">
+                    @Html.DisplayName("Permisos")
+                </th>
+            </tr>
+
+            @foreach (var item in Model.PermisoRol)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Modulo)
+                    </td>
+                    <td class="text-right">
+                        @RolsController.TipoPermiso(item)
+                    </td>
+                </tr>
+            }
+
+        </table>
+    </div>
+    <p>
+        @Html.ActionLink("Editar", "Edit", new { id = Model.Id }) |
+        @Html.ActionLink("Volver", "Index")
+    </p>
 </div>
-<p>
-    @Html.ActionLink("Editar", "Edit", new { id = Model.Id }) |
-    @Html.ActionLink("Volver", "Index")
-</p>

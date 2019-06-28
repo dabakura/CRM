@@ -5,6 +5,7 @@ using System.Web;
 
 namespace C_R_M.Models
 {
+    [Serializable]
     public class AsigPermiso
     {
 
@@ -52,6 +53,38 @@ namespace C_R_M.Models
             Eliminar = false;
             Mostrar = false;
         }
+
+        public AsigPermiso()
+        {
+        }
+
+        public AsigPermiso(string modulo, string accion, string tipo, bool autorizado, bool crear, bool editar, bool eliminar, bool mostrar)
+        {
+            Modulo = modulo;
+            Accion = accion;
+            Tipo = tipo;
+            Autorizado = autorizado;
+            Crear = crear;
+            Editar = editar;
+            Eliminar = eliminar;
+            Mostrar = mostrar;
+        }
+
+        public PermisoRol PermisoRol { get {
+                int id = 1;
+                if (Eliminar) id += 8;
+                if (Crear) id += 4;
+                if (Editar) id += 2;
+                if (Mostrar) id += 1;
+                string modulo = "";
+                if (!(String.IsNullOrEmpty(Accion) || (Accion == "Crear" || Accion == "Editar" || Accion == "Mostrar" || Accion == "Eliminar")))
+                {
+                    modulo = Modulo + "-" + Accion;
+                    id = (Autorizado) ? 16 : 1;
+                } else
+                    modulo = Modulo;
+                return new PermisoRol { Modulo = modulo, Id_Permiso = id};
+            } }
 
         public String Modulo { get; set; }
 

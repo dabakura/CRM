@@ -8,6 +8,9 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using C_R_M.Models;
+using Newtonsoft.Json.Linq;
+using Newtonsoft.Json;
+using System.Web.Script.Serialization;
 
 namespace C_R_M.Controllers
 {
@@ -47,13 +50,15 @@ namespace C_R_M.Controllers
         // más información vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "Id,Nombre")] Rol rol)
+        public async Task<ActionResult> Create([Bind(Include = "Nombre")] Rol rol)
         {
             if (ModelState.IsValid)
             {
                 db.Rol.Add(rol);
                 await db.SaveChangesAsync();
-                return RedirectToAction("Index");
+                ViewBag.Permisos = Permisos();
+                ViewBag.Id = rol.Id;
+                return View("CreatePermiso");
             }
 
             return View(rol);
@@ -71,7 +76,7 @@ namespace C_R_M.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.Permisos = Permisos();
+            ViewBag.Permisos = Permisos(db.PermisoRol.Where(p => p.Id_Rol == id).ToList());
             return View(rol);
         }
 
@@ -88,7 +93,7 @@ namespace C_R_M.Controllers
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
-            ViewBag.Permisos = Permisos();
+            ViewBag.Permisos = Permisos(db.PermisoRol.Where(p => p.Id_Rol == rol.Id).ToList());
             return View(rol);
         }
 
@@ -119,10 +124,22 @@ namespace C_R_M.Controllers
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Update(IEnumerable<AsigPermiso> permisos, int id)
+        public JsonResult Update(string permisos, int id)
         {
-            return RedirectToAction("Index");
+            try
+            {
+                List<AsigPermiso> list = new JavaScriptSerializer().Deserialize<List<AsigPermiso>>(permisos);
+                List<PermisoRol> listpermisos = new List<PermisoRol>();
+                list.ForEach(p => { PermisoRol per = p.PermisoRol; per.Id_Rol = id; listpermisos.Add(per); });
+                db.PermisoRol.RemoveRange(db.PermisoRol.Where(p => p.Id_Rol == id).ToList());
+                db.PermisoRol.AddRange(listpermisos);
+                db.SaveChanges();
+                return Json("/Rols/Index", JsonRequestBehavior.AllowGet);
+            }
+            catch
+            {
+                return Json("/Rols/Index", JsonRequestBehavior.AllowGet);
+            }
         }
 
         protected override void Dispose(bool disposing)
@@ -137,41 +154,47 @@ namespace C_R_M.Controllers
         public static String TipoPermiso(PermisoRol permisorol)
         {
             Permiso per = permisorol.Permiso;
-            String permiso = "";
+            String permiso = "Acciones permitidas: ";
             if (per.Crear && per.Editar && per.Eliminar && per.Mostrar)
-                return "Todos los Permisos";
+                return "Autorizado";
+            if (!per.Crear && !per.Editar && !per.Eliminar && !per.Mostrar)
+                return "No Autorizado";
             if (per.Crear)
                 permiso += "Crear ";
             if (per.Editar)
                 permiso += "Editar ";
             if (per.Mostrar)
                 permiso += "Mostrar ";
-            if (per.Crear)
+            if (per.Eliminar)
                 permiso += "Eliminar ";
             return permiso.Trim();
         }
 
         [AllowAnonymous]
-        private List<AsigPermiso> Permisos()
+        private List<AsigPermiso> Permisos(List<PermisoRol> permisos = null)
         {
-            return new List<AsigPermiso> {
-                new AsigPermiso("Empresas",false,false,false,false),
-                new AsigPermiso("Empresas","Index",false),
-                new AsigPermiso("Marketings",false,false,false,false),
-                new AsigPermiso("Marketings","Index",false),
-                new AsigPermiso("Productoes",false,false,false,false),
-                new AsigPermiso("Productoes","Index",false),
-                new AsigPermiso("Publicidads",false,false,false,false),
-                new AsigPermiso("Publicidads","Index",false),
-                new AsigPermiso("Recordatorios",false,false,false,false),
-                new AsigPermiso("Recordatorios","Index",false),
-                new AsigPermiso("Rols",false,false,false,false),
-                new AsigPermiso("Rols","Index",false),
-                new AsigPermiso("Movimientoes",false,false,false,false),
-                new AsigPermiso("Movimientoes","Index",false),
-                new AsigPermiso("Usuarios",false,false,false,false),
-                new AsigPermiso("Usuarios","Index",false),
-            };
+            if(permisos == null || permisos.Count < 1)
+                return new List<AsigPermiso> {
+                    new AsigPermiso("Empresas",false,false,false,false),
+                    new AsigPermiso("Empresas","Index",false),
+                    new AsigPermiso("Marketings",false,false,false,false),
+                    new AsigPermiso("Marketings","Index",false),
+                    new AsigPermiso("Productoes",false,false,false,false),
+                    new AsigPermiso("Productoes","Index",false),
+                    new AsigPermiso("Publicidads",false,false,false,false),
+                    new AsigPermiso("Publicidads","Index",false),
+                    new AsigPermiso("Recordatorios",false,false,false,false),
+                    new AsigPermiso("Recordatorios","Index",false),
+                    new AsigPermiso("Rols",false,false,false,false),
+                    new AsigPermiso("Rols","Index",false),
+                    new AsigPermiso("Movimientoes",false,false,false,false),
+                    new AsigPermiso("Movimientoes","Index",false),
+                    new AsigPermiso("Usuarios",false,false,false,false),
+                    new AsigPermiso("Usuarios","Index",false),
+                };
+            List<AsigPermiso> list = new List<AsigPermiso>();
+            permisos.ForEach(p => list.Add(new AsigPermiso(p)));
+            return list;
         }
     }
 }
