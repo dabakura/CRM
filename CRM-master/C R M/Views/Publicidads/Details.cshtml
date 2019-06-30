@@ -5,7 +5,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Details</h2>
+<h2>Detalle</h2>
 
 <div>
     <h4>Publicidad</h4>
@@ -40,15 +40,15 @@
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Empresa1.Nombre)
+            @Html.DisplayFor(model => model.Empresa.Nombre)
         </dd>
 
         <dt>
-            @Html.DisplayName("Estado de cuenta")
+            @Html.DisplayName("Credito Disponible")
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.EstadodeCuenta.Id_Estado)
+            @Html.DisplayFor(model => model.Empresa.EstadodeCuenta.Credito_Disponible)
         </dd>
 
         <dt>

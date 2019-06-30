@@ -69,11 +69,10 @@
         </EntityType>
         <EntityType Name="EstadodeCuenta">
           <Key>
-            <PropertyRef Name="Id_Estado" />
+            <PropertyRef Name="Id_Empresa" />
           </Key>
-          <Property Name="Id_Estado" Type="int" Nullable="false" />
-          <Property Name="Id_Credito_Disponible" Type="int" />
-          <Property Name="Empresa" Type="int" />
+          <Property Name="Id_Empresa" Type="int" Nullable="false" />
+          <Property Name="Credito_Disponible" Type="decimal" Precision="18" Scale="2" Nullable="false" />
         </EntityType>
         <EntityType Name="Marketing">
           <Key>
@@ -151,8 +150,7 @@
           </Key>
           <Property Name="Id_Publicidad" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Medio" Type="int" />
-          <Property Name="Empresa" Type="int" />
-          <Property Name="Credito_Disponible" Type="int" />
+          <Property Name="Id_empresa" Type="int" />
           <Property Name="Fecha_Inicio" Type="date" />
           <Property Name="Fecha_Caducidad" Type="date" />
           <Property Name="Costo" Type="float" />
@@ -331,15 +329,15 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_EstadodeCuenta_Empresa">
-          <End Role="Empresa" Type="Self.Empresa" Multiplicity="0..1" />
-          <End Role="EstadodeCuenta" Type="Self.EstadodeCuenta" Multiplicity="*" />
+        <Association Name="FK_EstadodeCuenta_Empresa1">
+          <End Role="Empresa" Type="Self.Empresa" Multiplicity="1" />
+          <End Role="EstadodeCuenta" Type="Self.EstadodeCuenta" Multiplicity="0..1" />
           <ReferentialConstraint>
             <Principal Role="Empresa">
               <PropertyRef Name="Id_Empresa" />
             </Principal>
             <Dependent Role="EstadodeCuenta">
-              <PropertyRef Name="Empresa" />
+              <PropertyRef Name="Id_Empresa" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -415,19 +413,7 @@
               <PropertyRef Name="Id_Empresa" />
             </Principal>
             <Dependent Role="Publicidad">
-              <PropertyRef Name="Empresa" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Publicidad_EstadodeCuenta">
-          <End Role="EstadodeCuenta" Type="Self.EstadodeCuenta" Multiplicity="0..1" />
-          <End Role="Publicidad" Type="Self.Publicidad" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="EstadodeCuenta">
-              <PropertyRef Name="Id_Estado" />
-            </Principal>
-            <Dependent Role="Publicidad">
-              <PropertyRef Name="Credito_Disponible" />
+              <PropertyRef Name="Id_empresa" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -607,7 +593,7 @@
             <End Role="Provincia" EntitySet="Provincia" />
             <End Role="Empresa" EntitySet="Empresa" />
           </AssociationSet>
-          <AssociationSet Name="FK_EstadodeCuenta_Empresa" Association="Self.FK_EstadodeCuenta_Empresa">
+          <AssociationSet Name="FK_EstadodeCuenta_Empresa1" Association="Self.FK_EstadodeCuenta_Empresa1">
             <End Role="Empresa" EntitySet="Empresa" />
             <End Role="EstadodeCuenta" EntitySet="EstadodeCuenta" />
           </AssociationSet>
@@ -633,10 +619,6 @@
           </AssociationSet>
           <AssociationSet Name="FK_Publicidad_Empresa" Association="Self.FK_Publicidad_Empresa">
             <End Role="Empresa" EntitySet="Empresa" />
-            <End Role="Publicidad" EntitySet="Publicidad" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Publicidad_EstadodeCuenta" Association="Self.FK_Publicidad_EstadodeCuenta">
-            <End Role="EstadodeCuenta" EntitySet="EstadodeCuenta" />
             <End Role="Publicidad" EntitySet="Publicidad" />
           </AssociationSet>
           <AssociationSet Name="FK_Publicidad_MedioPublicitario" Association="Self.FK_Publicidad_MedioPublicitario">
@@ -746,24 +728,14 @@
           <NavigationProperty Name="Contacto" Relationship="Self.FK_Contacto_Empresa" FromRole="Empresa" ToRole="Contacto" />
           <NavigationProperty Name="Distrito" Relationship="Self.FK_Empresa_Distrito" FromRole="Empresa" ToRole="Distrito" />
           <NavigationProperty Name="Provincia" Relationship="Self.FK_Empresa_Provincia" FromRole="Empresa" ToRole="Provincia" />
-          <NavigationProperty Name="EstadodeCuenta" Relationship="Self.FK_EstadodeCuenta_Empresa" FromRole="Empresa" ToRole="EstadodeCuenta" />
           <NavigationProperty Name="Marketing" Relationship="Self.FK_Marketing_Empresa" FromRole="Empresa" ToRole="Marketing" />
-          <NavigationProperty Name="Publicidad" Relationship="Self.FK_Publicidad_Empresa" FromRole="Empresa" ToRole="Publicidad" />
           <NavigationProperty Name="ServicioEmpresa" Relationship="Self.FK_ServicioEmpresa_Empresa" FromRole="Empresa" ToRole="ServicioEmpresa" />
           <Property Name="Tipo_Cedula" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="Pais1" Relationship="CRMModel.FK_Empresa_Pais" FromRole="Empresa" ToRole="Pais" />
           <NavigationProperty Name="Usuario" Relationship="CRMModel.FK_Usuario_Empresa" FromRole="Empresa" ToRole="Usuario" />
           <NavigationProperty Name="Recordatorio" Relationship="CRMModel.FK_Recordatorio_Empresa" FromRole="Empresa" ToRole="Recordatorio" />
-        </EntityType>
-        <EntityType Name="EstadodeCuenta">
-          <Key>
-            <PropertyRef Name="Id_Estado" />
-          </Key>
-          <Property Name="Id_Estado" Type="Int32" Nullable="false" />
-          <Property Name="Id_Credito_Disponible" Type="Int32" />
-          <Property Name="Empresa" Type="Int32" />
-          <NavigationProperty Name="Empresa1" Relationship="Self.FK_EstadodeCuenta_Empresa" FromRole="EstadodeCuenta" ToRole="Empresa" />
-          <NavigationProperty Name="Publicidad" Relationship="Self.FK_Publicidad_EstadodeCuenta" FromRole="EstadodeCuenta" ToRole="Publicidad" />
+          <NavigationProperty Name="Publicidad" Relationship="CRMModel.FK_Publicidad_Empresa" FromRole="Empresa" ToRole="Publicidad" />
+          <NavigationProperty Name="EstadodeCuenta" Relationship="CRMModel.FK_EstadodeCuenta_Empresa1" FromRole="Empresa" ToRole="EstadodeCuenta" />
         </EntityType>
         <EntityType Name="Marketing">
           <Key>
@@ -784,7 +756,7 @@
           </Key>
           <Property Name="Id_Medio_Publicitario" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Nombre" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="Publicidad" Relationship="Self.FK_Publicidad_MedioPublicitario" FromRole="MedioPublicitario" ToRole="Publicidad" />
+          <NavigationProperty Name="Publicidad" Relationship="CRMModel.FK_Publicidad_MedioPublicitario" FromRole="MedioPublicitario" ToRole="Publicidad" />
         </EntityType>
         <EntityType Name="Movimiento">
           <Key>
@@ -816,21 +788,6 @@
           <Property Name="Nombre" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="Canton" Relationship="Self.FK_Canton_Canton" FromRole="Provincia" ToRole="Canton" />
           <NavigationProperty Name="Empresa" Relationship="Self.FK_Empresa_Provincia" FromRole="Provincia" ToRole="Empresa" />
-        </EntityType>
-        <EntityType Name="Publicidad">
-          <Key>
-            <PropertyRef Name="Id_Publicidad" />
-          </Key>
-          <Property Name="Id_Publicidad" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Medio" Type="Int32" />
-          <Property Name="Empresa" Type="Int32" />
-          <Property Name="Credito_Disponible" Type="Int32" />
-          <Property Name="Fecha_Inicio" Type="DateTime" Precision="0" />
-          <Property Name="Fecha_Caducidad" Type="DateTime" Precision="0" />
-          <Property Name="Costo" Type="Double" />
-          <NavigationProperty Name="Empresa1" Relationship="Self.FK_Publicidad_Empresa" FromRole="Publicidad" ToRole="Empresa" />
-          <NavigationProperty Name="EstadodeCuenta" Relationship="Self.FK_Publicidad_EstadodeCuenta" FromRole="Publicidad" ToRole="EstadodeCuenta" />
-          <NavigationProperty Name="MedioPublicitario" Relationship="Self.FK_Publicidad_MedioPublicitario" FromRole="Publicidad" ToRole="MedioPublicitario" />
         </EntityType>
         <EntityType Name="ServicioEmpresa">
           <Key>
@@ -965,18 +922,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_EstadodeCuenta_Empresa">
-          <End Role="Empresa" Type="Self.Empresa" Multiplicity="0..1" />
-          <End Role="EstadodeCuenta" Type="Self.EstadodeCuenta" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Empresa">
-              <PropertyRef Name="Id_Empresa" />
-            </Principal>
-            <Dependent Role="EstadodeCuenta">
-              <PropertyRef Name="Empresa" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_Marketing_Empresa">
           <End Role="Empresa" Type="Self.Empresa" Multiplicity="1" />
           <End Role="Marketing" Type="Self.Marketing" Multiplicity="*" />
@@ -985,18 +930,6 @@
               <PropertyRef Name="Id_Empresa" />
             </Principal>
             <Dependent Role="Marketing">
-              <PropertyRef Name="Empresa" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Publicidad_Empresa">
-          <End Role="Empresa" Type="Self.Empresa" Multiplicity="0..1" />
-          <End Role="Publicidad" Type="Self.Publicidad" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Empresa">
-              <PropertyRef Name="Id_Empresa" />
-            </Principal>
-            <Dependent Role="Publicidad">
               <PropertyRef Name="Empresa" />
             </Dependent>
           </ReferentialConstraint>
@@ -1010,18 +943,6 @@
             </Principal>
             <Dependent Role="ServicioEmpresa">
               <PropertyRef Name="Empresa" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Publicidad_EstadodeCuenta">
-          <End Role="EstadodeCuenta" Type="Self.EstadodeCuenta" Multiplicity="0..1" />
-          <End Role="Publicidad" Type="Self.Publicidad" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="EstadodeCuenta">
-              <PropertyRef Name="Id_Estado" />
-            </Principal>
-            <Dependent Role="Publicidad">
-              <PropertyRef Name="Credito_Disponible" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1049,18 +970,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Publicidad_MedioPublicitario">
-          <End Role="MedioPublicitario" Type="Self.MedioPublicitario" Multiplicity="0..1" />
-          <End Role="Publicidad" Type="Self.Publicidad" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="MedioPublicitario">
-              <PropertyRef Name="Id_Medio_Publicitario" />
-            </Principal>
-            <Dependent Role="Publicidad">
-              <PropertyRef Name="Medio" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_ServicioEmpresa_Producto">
           <End Role="Producto" Type="Self.Producto" Multiplicity="1" />
           <End Role="ServicioEmpresa" Type="Self.ServicioEmpresa" Multiplicity="*" />
@@ -1080,13 +989,11 @@
           <EntitySet Name="Cuenta" EntityType="Self.Cuenta" />
           <EntitySet Name="Distrito" EntityType="Self.Distrito" />
           <EntitySet Name="Empresa" EntityType="Self.Empresa" />
-          <EntitySet Name="EstadodeCuenta" EntityType="Self.EstadodeCuenta" />
           <EntitySet Name="Marketing" EntityType="Self.Marketing" />
           <EntitySet Name="MedioPublicitario" EntityType="Self.MedioPublicitario" />
           <EntitySet Name="Movimiento" EntityType="Self.Movimiento" />
           <EntitySet Name="Producto" EntityType="Self.Producto" />
           <EntitySet Name="Provincia" EntityType="Self.Provincia" />
-          <EntitySet Name="Publicidad" EntityType="Self.Publicidad" />
           <EntitySet Name="ServicioEmpresa" EntityType="Self.ServicioEmpresa" />
           <EntitySet Name="Telefono" EntityType="Self.Telefono" />
           <AssociationSet Name="FK_Canton_Canton" Association="Self.FK_Canton_Canton">
@@ -1125,25 +1032,13 @@
             <End Role="Provincia" EntitySet="Provincia" />
             <End Role="Empresa" EntitySet="Empresa" />
           </AssociationSet>
-          <AssociationSet Name="FK_EstadodeCuenta_Empresa" Association="Self.FK_EstadodeCuenta_Empresa">
-            <End Role="Empresa" EntitySet="Empresa" />
-            <End Role="EstadodeCuenta" EntitySet="EstadodeCuenta" />
-          </AssociationSet>
           <AssociationSet Name="FK_Marketing_Empresa" Association="Self.FK_Marketing_Empresa">
             <End Role="Empresa" EntitySet="Empresa" />
             <End Role="Marketing" EntitySet="Marketing" />
           </AssociationSet>
-          <AssociationSet Name="FK_Publicidad_Empresa" Association="Self.FK_Publicidad_Empresa">
-            <End Role="Empresa" EntitySet="Empresa" />
-            <End Role="Publicidad" EntitySet="Publicidad" />
-          </AssociationSet>
           <AssociationSet Name="FK_ServicioEmpresa_Empresa" Association="Self.FK_ServicioEmpresa_Empresa">
             <End Role="Empresa" EntitySet="Empresa" />
             <End Role="ServicioEmpresa" EntitySet="ServicioEmpresa" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Publicidad_EstadodeCuenta" Association="Self.FK_Publicidad_EstadodeCuenta">
-            <End Role="EstadodeCuenta" EntitySet="EstadodeCuenta" />
-            <End Role="Publicidad" EntitySet="Publicidad" />
           </AssociationSet>
           <AssociationSet Name="FK_Marketing_Producto" Association="Self.FK_Marketing_Producto">
             <End Role="Producto" EntitySet="Producto" />
@@ -1152,10 +1047,6 @@
           <AssociationSet Name="FK_Marketing_Producto1" Association="Self.FK_Marketing_Producto1">
             <End Role="Producto" EntitySet="Producto" />
             <End Role="Marketing" EntitySet="Marketing" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Publicidad_MedioPublicitario" Association="Self.FK_Publicidad_MedioPublicitario">
-            <End Role="MedioPublicitario" EntitySet="MedioPublicitario" />
-            <End Role="Publicidad" EntitySet="Publicidad" />
           </AssociationSet>
           <AssociationSet Name="FK_ServicioEmpresa_Producto" Association="Self.FK_ServicioEmpresa_Producto">
             <End Role="Producto" EntitySet="Producto" />
@@ -1222,6 +1113,20 @@
           </FunctionImport>
           <FunctionImport Name="sp_upgraddiagrams" />
           <EntitySet Name="sysdiagrams" EntityType="CRMModel.sysdiagrams" />
+          <EntitySet Name="Publicidad" EntityType="CRMModel.Publicidad" />
+          <AssociationSet Name="FK_Publicidad_Empresa" Association="CRMModel.FK_Publicidad_Empresa">
+            <End Role="Empresa" EntitySet="Empresa" />
+            <End Role="Publicidad" EntitySet="Publicidad" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Publicidad_MedioPublicitario" Association="CRMModel.FK_Publicidad_MedioPublicitario">
+            <End Role="MedioPublicitario" EntitySet="MedioPublicitario" />
+            <End Role="Publicidad" EntitySet="Publicidad" />
+          </AssociationSet>
+          <EntitySet Name="EstadodeCuenta" EntityType="CRMModel.EstadodeCuenta" />
+          <AssociationSet Name="FK_EstadodeCuenta_Empresa1" Association="CRMModel.FK_EstadodeCuenta_Empresa1">
+            <End Role="Empresa" EntitySet="Empresa" />
+            <End Role="EstadodeCuenta" EntitySet="EstadodeCuenta" />
+          </AssociationSet>
           </EntityContainer>
         <EntityType Name="Pais">
           <Key>
@@ -1393,6 +1298,63 @@
           <Property Name="version" Type="Int32" />
           <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
         </EntityType>
+        <EntityType Name="Publicidad">
+          <Key>
+            <PropertyRef Name="Id_Publicidad" />
+          </Key>
+          <Property Name="Id_Publicidad" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Medio" Type="Int32" />
+          <Property Name="Id_empresa" Type="Int32" />
+          <Property Name="Fecha_Inicio" Type="DateTime" Precision="0" />
+          <Property Name="Fecha_Caducidad" Type="DateTime" Precision="0" />
+          <Property Name="Costo" Type="Double" />
+          <NavigationProperty Name="Empresa" Relationship="CRMModel.FK_Publicidad_Empresa" FromRole="Publicidad" ToRole="Empresa" />
+          <NavigationProperty Name="MedioPublicitario" Relationship="CRMModel.FK_Publicidad_MedioPublicitario" FromRole="Publicidad" ToRole="MedioPublicitario" />
+        </EntityType>
+        <Association Name="FK_Publicidad_Empresa">
+          <End Type="CRMModel.Empresa" Role="Empresa" Multiplicity="0..1" />
+          <End Type="CRMModel.Publicidad" Role="Publicidad" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Empresa">
+              <PropertyRef Name="Id_Empresa" />
+            </Principal>
+            <Dependent Role="Publicidad">
+              <PropertyRef Name="Id_empresa" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Publicidad_MedioPublicitario">
+          <End Type="CRMModel.MedioPublicitario" Role="MedioPublicitario" Multiplicity="0..1" />
+          <End Type="CRMModel.Publicidad" Role="Publicidad" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MedioPublicitario">
+              <PropertyRef Name="Id_Medio_Publicitario" />
+            </Principal>
+            <Dependent Role="Publicidad">
+              <PropertyRef Name="Medio" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="EstadodeCuenta">
+          <Key>
+            <PropertyRef Name="Id_Empresa" />
+          </Key>
+          <Property Name="Id_Empresa" Type="Int32" Nullable="false" />
+          <Property Name="Credito_Disponible" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <NavigationProperty Name="Empresa" Relationship="CRMModel.FK_EstadodeCuenta_Empresa1" FromRole="EstadodeCuenta" ToRole="Empresa" />
+        </EntityType>
+        <Association Name="FK_EstadodeCuenta_Empresa1">
+          <End Type="CRMModel.Empresa" Role="Empresa" Multiplicity="1" />
+          <End Type="CRMModel.EstadodeCuenta" Role="EstadodeCuenta" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Empresa">
+              <PropertyRef Name="Id_Empresa" />
+            </Principal>
+            <Dependent Role="EstadodeCuenta">
+              <PropertyRef Name="Id_Empresa" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1467,15 +1429,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="EstadodeCuenta">
-            <EntityTypeMapping TypeName="CRMModel.EstadodeCuenta">
-              <MappingFragment StoreEntitySet="EstadodeCuenta">
-                <ScalarProperty Name="Id_Estado" ColumnName="Id_Estado" />
-                <ScalarProperty Name="Id_Credito_Disponible" ColumnName="Id_Credito_Disponible" />
-                <ScalarProperty Name="Empresa" ColumnName="Empresa" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="Marketing">
             <EntityTypeMapping TypeName="CRMModel.Marketing">
               <MappingFragment StoreEntitySet="Marketing">
@@ -1521,19 +1474,6 @@
               <MappingFragment StoreEntitySet="Provincia">
                 <ScalarProperty Name="Id_Provincia" ColumnName="Id_Provincia" />
                 <ScalarProperty Name="Nombre" ColumnName="Nombre" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Publicidad">
-            <EntityTypeMapping TypeName="CRMModel.Publicidad">
-              <MappingFragment StoreEntitySet="Publicidad">
-                <ScalarProperty Name="Id_Publicidad" ColumnName="Id_Publicidad" />
-                <ScalarProperty Name="Medio" ColumnName="Medio" />
-                <ScalarProperty Name="Empresa" ColumnName="Empresa" />
-                <ScalarProperty Name="Credito_Disponible" ColumnName="Credito_Disponible" />
-                <ScalarProperty Name="Fecha_Inicio" ColumnName="Fecha_Inicio" />
-                <ScalarProperty Name="Fecha_Caducidad" ColumnName="Fecha_Caducidad" />
-                <ScalarProperty Name="Costo" ColumnName="Costo" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1658,6 +1598,26 @@
                 <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
                 <ScalarProperty Name="principal_id" ColumnName="principal_id" />
                 <ScalarProperty Name="name" ColumnName="name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Publicidad">
+            <EntityTypeMapping TypeName="CRMModel.Publicidad">
+              <MappingFragment StoreEntitySet="Publicidad">
+                <ScalarProperty Name="Costo" ColumnName="Costo" />
+                <ScalarProperty Name="Fecha_Caducidad" ColumnName="Fecha_Caducidad" />
+                <ScalarProperty Name="Fecha_Inicio" ColumnName="Fecha_Inicio" />
+                <ScalarProperty Name="Id_empresa" ColumnName="Id_empresa" />
+                <ScalarProperty Name="Medio" ColumnName="Medio" />
+                <ScalarProperty Name="Id_Publicidad" ColumnName="Id_Publicidad" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="EstadodeCuenta">
+            <EntityTypeMapping TypeName="CRMModel.EstadodeCuenta">
+              <MappingFragment StoreEntitySet="EstadodeCuenta">
+                <ScalarProperty Name="Credito_Disponible" ColumnName="Credito_Disponible" />
+                <ScalarProperty Name="Id_Empresa" ColumnName="Id_Empresa" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

@@ -29,7 +29,7 @@
         </th>
 
         <th>
-            @Html.DisplayName("Estado de Cuenta")
+            @Html.DisplayName("Credito Disponible")
         </th>
 
         <th></th>
@@ -38,7 +38,7 @@
 @foreach (var item in Model) {
     <tr>
         <td>
-            @Html.DisplayFor(modelItem => item.Empresa1.Nombre)
+            @Html.DisplayFor(modelItem => item.Empresa.Nombre)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.MedioPublicitario.Nombre)
@@ -54,7 +54,7 @@
         </td>
 
         <td>
-            @Html.DisplayFor(modelItem => item.EstadodeCuenta.Id_Estado)
+            @Html.DisplayFor(modelItem => item.Empresa.EstadodeCuenta.Credito_Disponible)
         </td>
         <td>
             @Html.ActionLink("Editar", "Edit", new { id = item.Id_Publicidad }) |

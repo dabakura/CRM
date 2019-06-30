@@ -5,27 +5,27 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Delete</h2>
+<h2>Borrar</h2>
 
-<h3>Are you sure you want to delete this?</h3>
+<h3>Estas seguro de eliminar este estado de cuenta?</h3>
 <div>
-    <h4>EstadodeCuenta</h4>
+    <h4>Estado de Cuenta</h4>
     <hr />
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.Id_Credito_Disponible)
+            @Html.DisplayNameFor(model => model.Credito_Disponible)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Id_Credito_Disponible)
+            @Html.DisplayFor(model => model.Credito_Disponible)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Empresa1.Nombre)
+            @Html.DisplayNameFor(model => model.Empresa.Nombre)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Empresa1.Nombre)
+            @Html.DisplayFor(model => model.Empresa.Nombre)
         </dd>
 
     </dl>

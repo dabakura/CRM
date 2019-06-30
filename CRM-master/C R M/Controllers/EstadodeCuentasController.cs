@@ -15,20 +15,10 @@ namespace C_R_M.Controllers
         private CRMEntities db = new CRMEntities();
 
         // GET: EstadodeCuentas
-        public ActionResult Index(int? id)
+        public ActionResult Index()
         {
-            
-            var estadodeCuenta = db.EstadodeCuenta.Include(e => e.Empresa1);
-            List<EstadodeCuenta> listEstado = estadodeCuenta.ToList();
-
-            foreach (var item in estadodeCuenta)
-            {
-                if (item.Empresa != id)
-                {
-                    listEstado.Remove(item);
-                }
-            }
-            return View(listEstado);
+            var estadodeCuenta = db.EstadodeCuenta.Include(e => e.Empresa);
+            return View(estadodeCuenta);
         }
 
         // GET: EstadodeCuentas/Details/5
@@ -38,7 +28,7 @@ namespace C_R_M.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            EstadodeCuenta estadodeCuenta = db.EstadodeCuenta.Find(id);
+            EstadodeCuenta estadodeCuenta = db.EstadodeCuenta.Include(e => e.Empresa).First(es=>es.Id_Empresa == id.Value);
             if (estadodeCuenta == null)
             {
                 return HttpNotFound();
@@ -58,7 +48,7 @@ namespace C_R_M.Controllers
         // más información vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id_Estado,Id_Credito_Disponible,Empresa")] EstadodeCuenta estadodeCuenta)
+        public ActionResult Create([Bind(Include = "Id_Empresa,Credito_Disponible")] EstadodeCuenta estadodeCuenta)
         {
             if (ModelState.IsValid)
             {
@@ -78,12 +68,11 @@ namespace C_R_M.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            EstadodeCuenta estadodeCuenta = db.EstadodeCuenta.Find(id);
+            EstadodeCuenta estadodeCuenta = db.EstadodeCuenta.Include(e => e.Empresa).First(es => es.Id_Empresa == id.Value);
             if (estadodeCuenta == null)
             {
                 return HttpNotFound();
             }
-            ViewBag.Empresa = new SelectList(db.Empresa, "Id_Empresa", "Nombre", estadodeCuenta.Empresa);
             return View(estadodeCuenta);
         }
 
@@ -92,7 +81,7 @@ namespace C_R_M.Controllers
         // más información vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id_Estado,Id_Credito_Disponible,Empresa")] EstadodeCuenta estadodeCuenta)
+        public ActionResult Edit([Bind(Include = "Id_Empresa,Credito_Disponible")] EstadodeCuenta estadodeCuenta)
         {
             if (ModelState.IsValid)
             {
@@ -100,7 +89,6 @@ namespace C_R_M.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.Empresa = new SelectList(db.Empresa, "Id_Empresa", "Nombre", estadodeCuenta.Empresa);
             return View(estadodeCuenta);
         }
 
@@ -111,7 +99,7 @@ namespace C_R_M.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            EstadodeCuenta estadodeCuenta = db.EstadodeCuenta.Find(id);
+            EstadodeCuenta estadodeCuenta = db.EstadodeCuenta.Include(e => e.Empresa).First(es => es.Id_Empresa == id.Value);
             if (estadodeCuenta == null)
             {
                 return HttpNotFound();

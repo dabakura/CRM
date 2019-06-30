@@ -14,7 +14,6 @@ namespace C_R_M.Models
 
 using System;
     using System.Collections.Generic;
-    using System.ComponentModel;
     using System.ComponentModel.DataAnnotations;
 
     public partial class Recordatorio
@@ -23,14 +22,13 @@ using System;
     public int Id_Recordatorio { get; set; }
 
     public string Tipo { get; set; }
-
-    [DataType(dataType: DataType.Date)]
+        [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public System.DateTime Fecha { get; set; }
-
-        [Range(0, 23, ErrorMessage = "Por favor ingrese una hora valida (0-23)")]
-        public Nullable<int> Hora { get; set; }
-        [Range(0, 59, ErrorMessage = "Por favor ingrese minutos validos (0-59)")]
+        [Range(0,23,ErrorMessage ="Ingrese una hora valida")]
+    public Nullable<int> Hora { get; set; }
+       
+        [Range(0, 59, ErrorMessage = "Ingrese minutos validos")]
         public Nullable<int> Minutos { get; set; }
 
     public string Abreviatura { get; set; }
@@ -38,9 +36,8 @@ using System;
     public string Detalle { get; set; }
 
     public Nullable<int> Id_empresa { get; set; }
-
-    [DataType(DataType.Text)]
-    public string Mensaje { get; set; }
+        [DataType(DataType.Text)]
+        public string Mensaje { get; set; }
 
 
 

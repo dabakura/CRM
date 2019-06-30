@@ -18,28 +18,13 @@ using System;
 public partial class EstadodeCuenta
 {
 
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-    public EstadodeCuenta()
-    {
+    public int Id_Empresa { get; set; }
 
-        this.Publicidad = new HashSet<Publicidad>();
-
-    }
-
-
-    public int Id_Estado { get; set; }
-
-    public Nullable<int> Id_Credito_Disponible { get; set; }
-
-    public Nullable<int> Empresa { get; set; }
+    public decimal Credito_Disponible { get; set; }
 
 
 
-    public virtual Empresa Empresa1 { get; set; }
-
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-
-    public virtual ICollection<Publicidad> Publicidad { get; set; }
+    public virtual Empresa Empresa { get; set; }
 
 }
 

@@ -24,17 +24,15 @@ public partial class Empresa
 
         this.Contacto = new HashSet<Contacto>();
 
-        this.EstadodeCuenta = new HashSet<EstadodeCuenta>();
-
         this.Marketing = new HashSet<Marketing>();
-
-        this.Publicidad = new HashSet<Publicidad>();
 
         this.ServicioEmpresa = new HashSet<ServicioEmpresa>();
 
         this.Usuario = new HashSet<Usuario>();
 
         this.Recordatorio = new HashSet<Recordatorio>();
+
+        this.Publicidad = new HashSet<Publicidad>();
 
     }
 
@@ -75,15 +73,7 @@ public partial class Empresa
 
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
 
-    public virtual ICollection<EstadodeCuenta> EstadodeCuenta { get; set; }
-
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-
     public virtual ICollection<Marketing> Marketing { get; set; }
-
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-
-    public virtual ICollection<Publicidad> Publicidad { get; set; }
 
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
 
@@ -98,6 +88,12 @@ public partial class Empresa
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
 
     public virtual ICollection<Recordatorio> Recordatorio { get; set; }
+
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+
+    public virtual ICollection<Publicidad> Publicidad { get; set; }
+
+    public virtual EstadodeCuenta EstadodeCuenta { get; set; }
 
 }
 

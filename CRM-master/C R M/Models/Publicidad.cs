@@ -14,29 +14,28 @@ namespace C_R_M.Models
 
 using System;
     using System.Collections.Generic;
-    
-public partial class Publicidad
+    using System.ComponentModel.DataAnnotations;
+
+    public partial class Publicidad
 {
 
     public int Id_Publicidad { get; set; }
 
     public Nullable<int> Medio { get; set; }
 
-    public Nullable<int> Empresa { get; set; }
-
-    public Nullable<int> Credito_Disponible { get; set; }
-
-    public Nullable<System.DateTime> Fecha_Inicio { get; set; }
-
-    public Nullable<System.DateTime> Fecha_Caducidad { get; set; }
+    public int Id_empresa { get; set; }
+        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
+        public Nullable<System.DateTime> Fecha_Inicio { get; set; }
+        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
+        public Nullable<System.DateTime> Fecha_Caducidad { get; set; }
 
     public Nullable<double> Costo { get; set; }
 
 
 
-    public virtual Empresa Empresa1 { get; set; }
-
-    public virtual EstadodeCuenta EstadodeCuenta { get; set; }
+    public virtual Empresa Empresa { get; set; }
 
     public virtual MedioPublicitario MedioPublicitario { get; set; }
 

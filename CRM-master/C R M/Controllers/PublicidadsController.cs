@@ -18,7 +18,7 @@ namespace C_R_M.Controllers
         // GET: Publicidads
         public async Task<ActionResult> Index()
         {
-            var publicidad = db.Publicidad.Include(p => p.Empresa1).Include(p => p.EstadodeCuenta).Include(p => p.MedioPublicitario);
+            var publicidad = db.Publicidad.Include(p => p.Empresa).Include(p => p.Empresa.EstadodeCuenta).Include(p => p.MedioPublicitario);
             return View(await publicidad.ToListAsync());
         }
 
@@ -29,7 +29,7 @@ namespace C_R_M.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Publicidad publicidad = await db.Publicidad.FindAsync(id);
+            Publicidad publicidad = await db.Publicidad.Include(p => p.Empresa).Include(p => p.Empresa.EstadodeCuenta).Include(p => p.MedioPublicitario).FirstAsync(p => p.Id_Publicidad == id.Value);
             if (publicidad == null)
             {
                 return HttpNotFound();
@@ -41,7 +41,6 @@ namespace C_R_M.Controllers
         public ActionResult Create()
         {
             ViewBag.Empresa = new SelectList(db.Empresa, "Id_Empresa", "Nombre");
-            ViewBag.Credito_Disponible = new SelectList(db.EstadodeCuenta, "Id_Estado", "Id_Estado");
             ViewBag.Medio = new SelectList(db.MedioPublicitario, "Id_Medio_Publicitario", "Nombre");
             return View();
         }
@@ -51,17 +50,31 @@ namespace C_R_M.Controllers
         // más información vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "Id_Publicidad,Medio,Empresa,Credito_Disponible,Fecha_Inicio,Fecha_Caducidad,Costo")] Publicidad publicidad)
+        public async Task<ActionResult> Create([Bind(Include = "Id_Publicidad,Medio,Id_empresa,Fecha_Inicio,Fecha_Caducidad,Costo")] Publicidad publicidad)
         {
             if (ModelState.IsValid)
             {
                 db.Publicidad.Add(publicidad);
+                EstadodeCuenta est = null;
+                try
+                {
+                    est = await db.EstadodeCuenta.FirstAsync(es => es.Id_Empresa == publicidad.Id_empresa);
+                }
+                catch 
+                {
+                    est = null;
+                }
+                
+                if (est == null)
+                    db.EstadodeCuenta.Add(new EstadodeCuenta { Id_Empresa = publicidad.Id_empresa, Credito_Disponible = ((decimal)((publicidad.Costo != null) ? (0 - publicidad.Costo.Value) : 0)) });
+                else
+                {
+                    est.Credito_Disponible -= (decimal)((publicidad.Costo != null) ? (publicidad.Costo.Value) : 0);
+                }
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
-
             ViewBag.Empresa = new SelectList(db.Empresa, "Id_Empresa", "Nombre", publicidad.Empresa);
-            ViewBag.Credito_Disponible = new SelectList(db.EstadodeCuenta, "Id_Estado", "Id_Estado", publicidad.Credito_Disponible);
             ViewBag.Medio = new SelectList(db.MedioPublicitario, "Id_Medio_Publicitario", "Nombre", publicidad.Medio);
             return View(publicidad);
         }
@@ -78,8 +91,6 @@ namespace C_R_M.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.Empresa = new SelectList(db.Empresa, "Id_Empresa", "Nombre", publicidad.Empresa);
-            ViewBag.Credito_Disponible = new SelectList(db.EstadodeCuenta, "Id_Estado", "Id_Estado", publicidad.Credito_Disponible);
             ViewBag.Medio = new SelectList(db.MedioPublicitario, "Id_Medio_Publicitario", "Nombre", publicidad.Medio);
             return View(publicidad);
         }
@@ -89,16 +100,22 @@ namespace C_R_M.Controllers
         // más información vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "Id_Publicidad,Medio,Empresa,Credito_Disponible,Fecha_Inicio,Fecha_Caducidad,Costo")] Publicidad publicidad)
+        public async Task<ActionResult> Edit([Bind(Include = "Id_Publicidad,Medio,Id_empresa,Fecha_Inicio,Fecha_Caducidad,Costo")] Publicidad publicidad)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(publicidad).State = EntityState.Modified;
+                Publicidad publicidadtem = await db.Publicidad.FindAsync(publicidad.Id_Publicidad);
+                EstadodeCuenta est = await db.EstadodeCuenta.FirstAsync(es => es.Id_Empresa == publicidad.Id_empresa);
+                if (publicidadtem.Costo != null)
+                    est.Credito_Disponible += (decimal)publicidadtem.Costo;
+                est.Credito_Disponible -= (decimal)((publicidad.Costo != null) ? (publicidad.Costo.Value) : 0);
+                publicidadtem.Costo = publicidad.Costo;
+                publicidadtem.Medio = publicidad.Medio;
+                publicidadtem.Fecha_Caducidad = publicidad.Fecha_Caducidad;
+                publicidadtem.Fecha_Inicio = publicidad.Fecha_Inicio;
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
-            ViewBag.Empresa = new SelectList(db.Empresa, "Id_Empresa", "Nombre", publicidad.Empresa);
-            ViewBag.Credito_Disponible = new SelectList(db.EstadodeCuenta, "Id_Estado", "Id_Estado", publicidad.Credito_Disponible);
             ViewBag.Medio = new SelectList(db.MedioPublicitario, "Id_Medio_Publicitario", "Nombre", publicidad.Medio);
             return View(publicidad);
         }
@@ -110,7 +127,7 @@ namespace C_R_M.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Publicidad publicidad = await db.Publicidad.FindAsync(id);
+            Publicidad publicidad = await db.Publicidad.Include(p => p.Empresa).Include(p => p.Empresa.EstadodeCuenta).Include(p => p.MedioPublicitario).FirstAsync(p => p.Id_Publicidad == id.Value);
             if (publicidad == null)
             {
                 return HttpNotFound();
@@ -124,6 +141,9 @@ namespace C_R_M.Controllers
         public async Task<ActionResult> DeleteConfirmed(int id)
         {
             Publicidad publicidad = await db.Publicidad.FindAsync(id);
+            EstadodeCuenta est = await db.EstadodeCuenta.FirstAsync(es => es.Id_Empresa == publicidad.Id_empresa);
+            if (publicidad.Costo != null)
+                est.Credito_Disponible += (decimal)publicidad.Costo;
             db.Publicidad.Remove(publicidad);
             await db.SaveChangesAsync();
             return RedirectToAction("Index");

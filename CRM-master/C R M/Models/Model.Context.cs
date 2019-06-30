@@ -47,8 +47,6 @@ public partial class CRMEntities : DbContext
 
     public virtual DbSet<Empresa> Empresa { get; set; }
 
-    public virtual DbSet<EstadodeCuenta> EstadodeCuenta { get; set; }
-
     public virtual DbSet<Marketing> Marketing { get; set; }
 
     public virtual DbSet<MedioPublicitario> MedioPublicitario { get; set; }
@@ -58,8 +56,6 @@ public partial class CRMEntities : DbContext
     public virtual DbSet<Producto> Producto { get; set; }
 
     public virtual DbSet<Provincia> Provincia { get; set; }
-
-    public virtual DbSet<Publicidad> Publicidad { get; set; }
 
     public virtual DbSet<ServicioEmpresa> ServicioEmpresa { get; set; }
 
@@ -78,6 +74,10 @@ public partial class CRMEntities : DbContext
     public virtual DbSet<Recordatorio> Recordatorio { get; set; }
 
     public virtual DbSet<sysdiagrams> sysdiagrams { get; set; }
+
+    public virtual DbSet<Publicidad> Publicidad { get; set; }
+
+    public virtual DbSet<EstadodeCuenta> EstadodeCuenta { get; set; }
 
 
     public virtual int sp_alterdiagram(string diagramname, Nullable<int> owner_id, Nullable<int> version, byte[] definition)
