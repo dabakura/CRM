@@ -185,11 +185,14 @@ namespace C_R_M.Controllers
                     new AsigPermiso("Publicidads","Index",false),
                     new AsigPermiso("Recordatorios",false,false,false,false),
                     new AsigPermiso("Recordatorios","Index",false),
+                    new AsigPermiso("Recordatorios","RecordatoriosDia",false),
                     new AsigPermiso("Rols",false,false,false,false),
                     new AsigPermiso("Rols","Index",false),
                     new AsigPermiso("Movimientoes",false,false,false,false),
                     new AsigPermiso("Movimientoes","Index",false),
                     new AsigPermiso("Usuarios",false,false,false,false),
+                    new AsigPermiso("Usuarios","Index",false),
+                    new AsigPermiso("EstadodeCuentas",false,false,false,false),
                     new AsigPermiso("Usuarios","Index",false),
                 };
             List<AsigPermiso> list = new List<AsigPermiso>();

@@ -30,11 +30,11 @@ public partial class Empresa
 
         this.Publicidad = new HashSet<Publicidad>();
 
-        this.Recordatorio = new HashSet<Recordatorio>();
-
         this.ServicioEmpresa = new HashSet<ServicioEmpresa>();
 
         this.Usuario = new HashSet<Usuario>();
+
+        this.Recordatorio = new HashSet<Recordatorio>();
 
     }
 
@@ -87,10 +87,6 @@ public partial class Empresa
 
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
 
-    public virtual ICollection<Recordatorio> Recordatorio { get; set; }
-
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-
     public virtual ICollection<ServicioEmpresa> ServicioEmpresa { get; set; }
 
     public virtual Pais Pais1 { get; set; }
@@ -98,6 +94,10 @@ public partial class Empresa
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
 
     public virtual ICollection<Usuario> Usuario { get; set; }
+
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+
+    public virtual ICollection<Recordatorio> Recordatorio { get; set; }
 
 }
 

@@ -15,11 +15,9 @@
         <EntityTypeShape EntityType="CRMModel.Marketing" Width="1.5" PointX="9.75" PointY="7.125" IsExpanded="true" />
         <EntityTypeShape EntityType="CRMModel.MedioPublicitario" Width="1.5" PointX="9.75" PointY="18.25" IsExpanded="true" />
         <EntityTypeShape EntityType="CRMModel.Movimiento" Width="1.5" PointX="17.5" PointY="11.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="CRMModel.Producto" Width="1.5" PointX="6.625" PointY="7.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="CRMModel.Producto" Width="1.5" PointX="12" PointY="6.375" IsExpanded="true" />
         <EntityTypeShape EntityType="CRMModel.Provincia" Width="1.5" PointX="0.75" PointY="12.625" IsExpanded="true" />
         <EntityTypeShape EntityType="CRMModel.Publicidad" Width="1.5" PointX="12" PointY="15.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="CRMModel.Recordar" Width="1.5" PointX="12.5" PointY="6.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="CRMModel.Recordatorio" Width="1.5" PointX="14.75" PointY="11.875" IsExpanded="true" />
         <EntityTypeShape EntityType="CRMModel.ServicioEmpresa" Width="1.5" PointX="14.75" PointY="7.875" IsExpanded="true" />
         <EntityTypeShape EntityType="CRMModel.Telefono" Width="1.5" PointX="12" PointY="12.5" IsExpanded="true" />
         <AssociationConnector Association="CRMModel.FK_Canton_Canton" ManuallyRouted="false" />
@@ -34,14 +32,12 @@
         <AssociationConnector Association="CRMModel.FK_EstadodeCuenta_Empresa" ManuallyRouted="false" />
         <AssociationConnector Association="CRMModel.FK_Marketing_Empresa" ManuallyRouted="false" />
         <AssociationConnector Association="CRMModel.FK_Publicidad_Empresa" ManuallyRouted="false" />
-        <AssociationConnector Association="CRMModel.FK_Recordatorio_Empresa" ManuallyRouted="false" />
         <AssociationConnector Association="CRMModel.FK_ServicioEmpresa_Empresa" ManuallyRouted="false" />
         <AssociationConnector Association="CRMModel.FK_Publicidad_EstadodeCuenta" ManuallyRouted="false" />
         <AssociationConnector Association="CRMModel.FK_Marketing_Producto" ManuallyRouted="false" />
         <AssociationConnector Association="CRMModel.FK_Marketing_Producto1" ManuallyRouted="false" />
         <AssociationConnector Association="CRMModel.FK_Publicidad_MedioPublicitario" ManuallyRouted="false" />
         <AssociationConnector Association="CRMModel.FK_ServicioEmpresa_Producto" ManuallyRouted="false" />
-        <AssociationConnector Association="CRMModel.FK_Recordatorio_Recordar" ManuallyRouted="false" />
         <EntityTypeShape EntityType="CRMModel.Pais" Width="1.5" PointX="4" PointY="7.875" />
         <AssociationConnector Association="CRMModel.FK_Empresa_Pais" />
         <EntityTypeShape EntityType="CRMModel.Permiso" Width="1.5" PointX="12.5" PointY="22.5" />
@@ -52,6 +48,9 @@
         <AssociationConnector Association="CRMModel.FK_PermisoRol_Permiso" />
         <AssociationConnector Association="CRMModel.FK_PermisoRol_Rol" />
         <AssociationConnector Association="CRMModel.FK_Usuario_Rol" />
+        <EntityTypeShape EntityType="CRMModel.Recordatorio" Width="1.5" PointX="9.375" PointY="20.625" />
+        <AssociationConnector Association="CRMModel.FK_Recordatorio_Empresa" />
+        <EntityTypeShape EntityType="CRMModel.sysdiagrams" Width="1.5" PointX="0.75" PointY="0.75" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

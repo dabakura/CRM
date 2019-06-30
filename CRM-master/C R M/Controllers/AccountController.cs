@@ -25,6 +25,7 @@ namespace C_R_M.Controllers
                 new Modulo { Titulo = "Productos", Action = "Index", Controller = "Productoes", Tipo ="Normal", Icono = "fa fa-th" },
                 new Modulo { Titulo = "Publicidad", Action = "Index", Controller = "Publicidads", Tipo ="Normal", Icono = "fa fa-archive" },
                 new Modulo { Titulo = "Recordatorios", Action = "Index", Controller = "Recordatorios", Tipo ="Normal", Icono = "fa fa-calendar" },
+                new Modulo { Titulo = "Estado de Cuenta", Action = "Index", Controller = "EstadodeCuentas", Tipo ="Normal", Icono = "fa fa-th" },
                 new Modulo { Titulo = "Roles y Permisos", Action = "Index", Controller = "Rols", Tipo ="Normal", Icono = "fa fa-th" },
                 new Modulo { Titulo = "Movimientos", Action = "Index", Controller = "Movimientoes", Tipo ="Proceso", Icono = "fa fa-circle-o" },
                 new Modulo { Titulo = "Usuarios", Action = "Index", Controller = "Usuarios", Tipo ="Proceso", Icono = "fa fa-circle-o" },

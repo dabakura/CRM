@@ -18,7 +18,7 @@ namespace C_R_M.Controllers
         // GET: Recordatorios
         public async Task<ActionResult> Index()
         {
-            var recordatorio = db.Recordatorio.Include(r => r.Empresa1).Include(r => r.Recordar);
+            var recordatorio = db.Recordatorio.Include(r => r.Empresa);
             return View(await recordatorio.ToListAsync());
         }
 
@@ -29,7 +29,7 @@ namespace C_R_M.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Recordatorio recordatorio = await db.Recordatorio.FindAsync(id);
+            Recordatorio recordatorio = await db.Recordatorio.Include(r => r.Empresa).FirstAsync(r=>r.Id_Recordatorio == id.Value);
             if (recordatorio == null)
             {
                 return HttpNotFound();
@@ -41,7 +41,6 @@ namespace C_R_M.Controllers
         public ActionResult Create()
         {
             ViewBag.Empresa = new SelectList(db.Empresa, "Id_Empresa", "Nombre");
-            ViewBag.Id_Recordar = new SelectList(db.Recordar, "Id_Recordar", "Descripción");
             return View();
         }
 
@@ -50,7 +49,7 @@ namespace C_R_M.Controllers
         // más información vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "Id_Recordatorio,Tipo,Fecha,Hora,Minutos,Abreviatura,Detalle,Empresa,Id_Recordar")] Recordatorio recordatorio)
+        public async Task<ActionResult> Create([Bind(Include = "Id_Recordatorio,Tipo,Fecha,Hora,Minutos,Abreviatura,Detalle,Id_empresa,Mensaje")] Recordatorio recordatorio)
         {
             if (ModelState.IsValid)
             {
@@ -60,7 +59,6 @@ namespace C_R_M.Controllers
             }
 
             ViewBag.Empresa = new SelectList(db.Empresa, "Id_Empresa", "Nombre", recordatorio.Empresa);
-            ViewBag.Id_Recordar = new SelectList(db.Recordar, "Id_Recordar", "Descripción", recordatorio.Id_Recordar);
             return View(recordatorio);
         }
 
@@ -77,7 +75,6 @@ namespace C_R_M.Controllers
                 return HttpNotFound();
             }
             ViewBag.Empresa = new SelectList(db.Empresa, "Id_Empresa", "Nombre", recordatorio.Empresa);
-            ViewBag.Id_Recordar = new SelectList(db.Recordar, "Id_Recordar", "Descripción", recordatorio.Id_Recordar);
             return View(recordatorio);
         }
 
@@ -86,7 +83,7 @@ namespace C_R_M.Controllers
         // más información vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "Id_Recordatorio,Tipo,Fecha,Hora,Minutos,Abreviatura,Detalle,Empresa,Id_Recordar")] Recordatorio recordatorio)
+        public async Task<ActionResult> Edit([Bind(Include = "Id_Recordatorio,Tipo,Fecha,Hora,Minutos,Abreviatura,Detalle,Id_empresa,Mensaje")] Recordatorio recordatorio)
         {
             if (ModelState.IsValid)
             {
@@ -95,7 +92,6 @@ namespace C_R_M.Controllers
                 return RedirectToAction("Index");
             }
             ViewBag.Empresa = new SelectList(db.Empresa, "Id_Empresa", "Nombre", recordatorio.Empresa);
-            ViewBag.Id_Recordar = new SelectList(db.Recordar, "Id_Recordar", "Descripción", recordatorio.Id_Recordar);
             return View(recordatorio);
         }
 
@@ -123,6 +119,19 @@ namespace C_R_M.Controllers
             db.Recordatorio.Remove(recordatorio);
             await db.SaveChangesAsync();
             return RedirectToAction("Index");
+        }
+
+        public async Task<ActionResult> RecordatoriosDia()
+        {
+            var recordatorio = await db.Recordatorio.Include(r => r.Empresa).ToListAsync();
+            return View(recordatorio.FindAll(r => r.Fecha.Date == DateTime.Now.Date));
+        }
+
+        public static int RecordatoriosCount()
+        {
+            CRMEntities db = new CRMEntities();
+            var recordatorio = db.Recordatorio.ToList();
+            return recordatorio.FindAll(r => r.Fecha.Date == DateTime.Now.Date).Count;
         }
 
         protected override void Dispose(bool disposing)
