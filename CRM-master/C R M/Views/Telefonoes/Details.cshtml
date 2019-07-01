@@ -3,6 +3,7 @@
 @{
     ViewBag.Title = "Details";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    int contacto = (int)ViewBag.Contacto;
 }
 
 <h2>Details</h2>
@@ -31,5 +32,5 @@
 </div>
 <p>
     @Html.ActionLink("Editar", "Edit", new { id = Model.Id_Telefono }) |
-    @Html.ActionLink("Volver a la lista", "Index")
+    @Html.ActionLink("Volver a la lista", "Index", new { id = contacto })
 </p>

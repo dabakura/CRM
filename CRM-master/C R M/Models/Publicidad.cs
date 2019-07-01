@@ -24,6 +24,7 @@ using System;
     public Nullable<int> Medio { get; set; }
 
     public int Id_empresa { get; set; }
+
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public Nullable<System.DateTime> Fecha_Inicio { get; set; }
@@ -31,7 +32,7 @@ using System;
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public Nullable<System.DateTime> Fecha_Caducidad { get; set; }
 
-    public Nullable<double> Costo { get; set; }
+        public Nullable<double> Costo { get; set; }
 
 
 

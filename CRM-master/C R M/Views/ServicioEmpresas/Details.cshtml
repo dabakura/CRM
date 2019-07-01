@@ -1,14 +1,14 @@
 ﻿@model C_R_M.Models.ServicioEmpresa
-
+@using C_R_M.Models
 @{
-    ViewBag.Title = "Details";
+    ViewBag.Title = "Detalle de Servicio";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Details</h2>
+<h2>Detalles</h2>
 
 <div>
-    <h4>Servicio Empresa</h4>
+    <h4>Servicio</h4>
     <hr />
     <dl class="dl-horizontal">
         <dt>
@@ -20,7 +20,7 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Fecha_Creacion) 
+            @Html.DisplayNameFor(model => model.Fecha_Creacion)
         </dt>
 
         <dd>
@@ -52,15 +52,15 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Empresa1.Nombre)
+            @Html.DisplayName("Empresa")
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Empresa1.Nombre)
+            @Html.DisplayFor(model => model.Empresa.Nombre)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Producto.Nombre)
+            @Html.DisplayName("Producto")
         </dt>
 
         <dd>
@@ -70,6 +70,7 @@
     </dl>
 </div>
 <p>
+    @Html.ActionLink("Ver cuentas", "Index", "Cuentas", new { id = Model.Id_Servicio_Empresa, tipo = TipoConsulta.ActorizadaCuenta }, null) |
     @Html.ActionLink("Editar", "Edit", new { id = Model.Id_Servicio_Empresa }) |
-    @Html.ActionLink("Volver a la lista", "Index")
+    @Html.ActionLink("Volver", "Index")
 </p>

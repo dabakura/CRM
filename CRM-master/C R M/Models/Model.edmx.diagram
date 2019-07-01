@@ -8,7 +8,6 @@
         <EntityTypeShape EntityType="CRMModel.Canton" Width="1.5" PointX="3" PointY="12.375" IsExpanded="true" />
         <EntityTypeShape EntityType="CRMModel.Contacto" Width="1.5" PointX="9.75" PointY="10.75" IsExpanded="true" />
         <EntityTypeShape EntityType="CRMModel.Correo" Width="1.5" PointX="12" PointY="9.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="CRMModel.Cuenta" Width="1.5" PointX="17" PointY="8.25" IsExpanded="true" />
         <EntityTypeShape EntityType="CRMModel.Distrito" Width="1.5" PointX="5.25" PointY="12.5" IsExpanded="true" />
         <EntityTypeShape EntityType="CRMModel.Empresa" Width="1.5" PointX="7.5" PointY="11" IsExpanded="true" />
         <EntityTypeShape EntityType="CRMModel.Marketing" Width="1.5" PointX="9.75" PointY="7.125" IsExpanded="true" />
@@ -16,7 +15,6 @@
         <EntityTypeShape EntityType="CRMModel.Movimiento" Width="1.5" PointX="17.5" PointY="11.875" IsExpanded="true" />
         <EntityTypeShape EntityType="CRMModel.Producto" Width="1.5" PointX="12" PointY="6.375" IsExpanded="true" />
         <EntityTypeShape EntityType="CRMModel.Provincia" Width="1.5" PointX="0.75" PointY="12.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="CRMModel.ServicioEmpresa" Width="1.5" PointX="14.75" PointY="7.875" IsExpanded="true" />
         <EntityTypeShape EntityType="CRMModel.Telefono" Width="1.5" PointX="12" PointY="12.5" IsExpanded="true" />
         <AssociationConnector Association="CRMModel.FK_Canton_Canton" ManuallyRouted="false" />
         <AssociationConnector Association="CRMModel.FK_Distrito_Canton" ManuallyRouted="false" />
@@ -24,14 +22,11 @@
         <AssociationConnector Association="CRMModel.FK_Contacto_Empresa" ManuallyRouted="false" />
         <AssociationConnector Association="CRMModel.FK_Correo_Contacto" ManuallyRouted="false" />
         <AssociationConnector Association="CRMModel.FK_Telefono_Contacto" ManuallyRouted="false" />
-        <AssociationConnector Association="CRMModel.FK_Cuenta_ServicioEmpresa" ManuallyRouted="false" />
         <AssociationConnector Association="CRMModel.FK_Empresa_Distrito" ManuallyRouted="false" />
         <AssociationConnector Association="CRMModel.FK_Empresa_Provincia" ManuallyRouted="false" />
         <AssociationConnector Association="CRMModel.FK_Marketing_Empresa" ManuallyRouted="false" />
-        <AssociationConnector Association="CRMModel.FK_ServicioEmpresa_Empresa" ManuallyRouted="false" />
         <AssociationConnector Association="CRMModel.FK_Marketing_Producto" ManuallyRouted="false" />
         <AssociationConnector Association="CRMModel.FK_Marketing_Producto1" ManuallyRouted="false" />
-        <AssociationConnector Association="CRMModel.FK_ServicioEmpresa_Producto" ManuallyRouted="false" />
         <EntityTypeShape EntityType="CRMModel.Pais" Width="1.5" PointX="4" PointY="7.875" />
         <AssociationConnector Association="CRMModel.FK_Empresa_Pais" />
         <EntityTypeShape EntityType="CRMModel.Permiso" Width="1.5" PointX="12.5" PointY="22.5" />
@@ -45,11 +40,16 @@
         <EntityTypeShape EntityType="CRMModel.Recordatorio" Width="1.5" PointX="9.375" PointY="20.625" />
         <AssociationConnector Association="CRMModel.FK_Recordatorio_Empresa" />
         <EntityTypeShape EntityType="CRMModel.sysdiagrams" Width="1.5" PointX="0.75" PointY="0.75" />
+        <EntityTypeShape EntityType="CRMModel.EstadodeCuenta" Width="1.5" PointX="9.75" PointY="14.875" />
+        <AssociationConnector Association="CRMModel.FK_EstadodeCuenta_Empresa1" />
+        <EntityTypeShape EntityType="CRMModel.ServicioEmpresa" Width="1.5" PointX="14.25" PointY="9.75" />
+        <AssociationConnector Association="CRMModel.FK_ServicioEmpresa_Empresa" />
+        <AssociationConnector Association="CRMModel.FK_ServicioEmpresa_Producto" />
         <EntityTypeShape EntityType="CRMModel.Publicidad" Width="1.5" PointX="12" PointY="15.125" />
         <AssociationConnector Association="CRMModel.FK_Publicidad_Empresa" />
         <AssociationConnector Association="CRMModel.FK_Publicidad_MedioPublicitario" />
-        <EntityTypeShape EntityType="CRMModel.EstadodeCuenta" Width="1.5" PointX="9.75" PointY="14.875" />
-        <AssociationConnector Association="CRMModel.FK_EstadodeCuenta_Empresa1" />
+        <EntityTypeShape EntityType="CRMModel.Cuenta" Width="1.5" PointX="16.5" PointY="8.125" />
+        <AssociationConnector Association="CRMModel.FK_Cuenta_ServicioEmpresa" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -15,18 +15,20 @@ namespace C_R_M.Controllers
         private CRMEntities db = new CRMEntities();
 
         // GET: Contactoes
-        public ActionResult Index(int? id)
+        public ActionResult Index()
         {
+            int? id = AccountController.Account.GetUser.Empresa;
             var contacto = db.Contacto.Include(c => c.Empresa1);
             List<Contacto> listContactos = contacto.ToList();
-
-            foreach (var item in contacto)
-            {
-                if (item.Empresa != id )
+            if (id != null)
+                foreach (var item in contacto)
                 {
-                    listContactos.Remove(item);
+                    if (item.Empresa != id)
+                    {
+                        listContactos.Remove(item);
+                    }
                 }
-            }
+            else return RedirectToAction("Index","Home",null);
             return View(listContactos);
         }
 
@@ -48,7 +50,10 @@ namespace C_R_M.Controllers
         // GET: Contactoes/Create
         public ActionResult Create()
         {
-            ViewBag.Empresa = new SelectList(db.Empresa, "Id_Empresa", "Nombre");
+            int? id = AccountController.Account.GetUser.Empresa;
+            if (id != null)
+                ViewBag.Empresa = new SelectList(db.Empresa.Where(e => e.Id_Empresa == id.Value).ToList(), "Id_Empresa", "Nombre");
+            else return RedirectToAction("Index", "Home", null);
             return View();
         }
 
@@ -63,10 +68,12 @@ namespace C_R_M.Controllers
             {
                 db.Contacto.Add(contacto);
                 db.SaveChanges();
-                return RedirectToAction("index","Empresas",new {id = 1});
+                return RedirectToAction("Index");
             }
-
-            ViewBag.Empresa = new SelectList(db.Empresa, "Id_Empresa", "Nombre", contacto.Empresa);
+            int? id = AccountController.Account.GetUser.Empresa;
+            if (id != null)
+                ViewBag.Empresa = new SelectList(db.Empresa.Where(e => e.Id_Empresa == id.Value).ToList(), "Id_Empresa", "Nombre");
+            else return RedirectToAction("Index", "Home", null);
             return View(contacto);
         }
 
@@ -82,7 +89,8 @@ namespace C_R_M.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.Empresa = new SelectList(db.Empresa, "Id_Empresa", "Nombre", contacto.Empresa);
+            int? idem = AccountController.Account.GetUser.Empresa;
+                ViewBag.Empresa = new SelectList(db.Empresa.Where(e => e.Id_Empresa == idem.Value).ToList(), "Id_Empresa", "Nombre");
             return View(contacto);
         }
 
@@ -97,9 +105,10 @@ namespace C_R_M.Controllers
             {
                 db.Entry(contacto).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Edit", "Empresas", new { id = 1 });
+                return RedirectToAction("Index");
             }
-            ViewBag.Empresa = new SelectList(db.Empresa, "Id_Empresa", "Nombre", contacto.Empresa);
+            int? idem = AccountController.Account.GetUser.Empresa;
+            ViewBag.Empresa = new SelectList(db.Empresa.Where(e => e.Id_Empresa == idem.Value).ToList(), "Id_Empresa", "Nombre");
             return View(contacto);
         }
 

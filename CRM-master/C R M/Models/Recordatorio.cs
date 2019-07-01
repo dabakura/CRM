@@ -22,26 +22,27 @@ using System;
     public int Id_Recordatorio { get; set; }
 
     public string Tipo { get; set; }
+
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public System.DateTime Fecha { get; set; }
-        [Range(0,23,ErrorMessage ="Ingrese una hora valida")]
-    public Nullable<int> Hora { get; set; }
-       
+        [Range(0, 23, ErrorMessage = "Ingrese una hora valida")]
+        public Nullable<int> Hora { get; set; }
+
         [Range(0, 59, ErrorMessage = "Ingrese minutos validos")]
         public Nullable<int> Minutos { get; set; }
 
-    public string Abreviatura { get; set; }
+        public string Abreviatura { get; set; }
 
-    public string Detalle { get; set; }
+        public string Detalle { get; set; }
 
-    public Nullable<int> Id_empresa { get; set; }
+        public Nullable<int> Id_empresa { get; set; }
         [DataType(DataType.Text)]
         public string Mensaje { get; set; }
 
 
 
-    public virtual Empresa Empresa { get; set; }
+        public virtual Empresa Empresa { get; set; }
 
 }
 

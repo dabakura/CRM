@@ -21,6 +21,9 @@ namespace C_R_M.Controllers
             Recuerdame = false;
             Modulos = new Modulo[] {
                 new Modulo { Titulo = "Empresas", Action = "Index", Controller = "Empresas", Tipo ="Normal", Icono = "fa fa-table" },
+                new Modulo { Titulo = "Servicios Vendidos", Action = "Index", Controller = "ServicioEmpresas", Tipo ="Normal", Icono = "fa fa-table" },
+                new Modulo { Titulo = "Servicios Acquiridos", Action = "Index", Controller = "ServiciosContratados", Tipo ="Normal", Icono = "fa fa-table" },
+                new Modulo { Titulo = "Contactos", Action = "Index", Controller = "Contactoes", Tipo ="Normal", Icono = "fa fa-table" },
                 new Modulo { Titulo = "Marketing", Action = "Index", Controller = "Marketings", Tipo ="Normal", Icono = "fa fa-envelope" },
                 new Modulo { Titulo = "Productos", Action = "Index", Controller = "Productoes", Tipo ="Normal", Icono = "fa fa-th" },
                 new Modulo { Titulo = "Publicidad", Action = "Index", Controller = "Publicidads", Tipo ="Normal", Icono = "fa fa-archive" },

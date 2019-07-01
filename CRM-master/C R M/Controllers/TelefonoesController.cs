@@ -18,6 +18,7 @@ namespace C_R_M.Controllers
         public ActionResult Index(int? id)
         {
             var telefono = db.Telefono.Include(t => t.Contacto1);
+            ViewBag.Contacto = id.Value;
             return View(telefono.ToList().Where(x => x.Contacto==id));
         }
 
@@ -33,6 +34,7 @@ namespace C_R_M.Controllers
             {
                 return HttpNotFound();
             }
+            ViewBag.Contacto = id.Value;
             return View(telefono);
         }
 

@@ -1,20 +1,18 @@
 ﻿@model IEnumerable<C_R_M.Models.Cuenta>
 
 @{
-    ViewBag.Title = "Index";
-    Layout = "~/Views/Shared/_LayoutVacio.cshtml";
+    ViewBag.Title = "Lista de Cuentas";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    int id_servicio = ViewBag.Servicio;
 }
 
 <h2>Cuentas</h2>
 
 <p>
-    @Html.ActionLink("Crear nuevo", "Create")
+    @Html.ActionLink("Crear nuevo", "Create",new { id= id_servicio })
 </p>
 <table class="table">
     <tr>
-        <th>
-            @Html.DisplayName("Servicio Empresa")
-        </th>
         <th>
             @Html.DisplayName("Fecha Pago")
         </th>
@@ -25,7 +23,10 @@
             @Html.DisplayName("Monto Pendiente")
         </th>
         <th>
-            @Html.DisplayName("Descripción")
+            @Html.DisplayName("Descripcion")
+        </th>
+        <th>
+            @Html.DisplayName("Producto")
         </th>
 
         <th></th>
@@ -33,9 +34,6 @@
 
 @foreach (var item in Model) {
     <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.ServicioEmpresa.Descripcion)
-        </td>
         <td>
             @Html.DisplayFor(modelItem => item.Fecha_Pago)
         </td>
@@ -49,11 +47,20 @@
             @Html.DisplayFor(modelItem => item.Descripcion)
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id = item.Id_Cuenta }) |
-            @Html.ActionLink("Details", "Details", new { id = item.Id_Cuenta }) |
-            @Html.ActionLink("Delete", "Delete", new { id = item.Id_Cuenta })
+            @Html.DisplayFor(modelItem => item.ServicioEmpresa.Producto.Nombre)
+        </td>
+        <td>
+            @Html.ActionLink("Detalle", "Details", new { id = item.Id_Cuenta, tipo = ViewBag.Tipo }) 
+            @if ((string)ViewBag.Volver == "ServicioEmpresas")
+            {
+                string se = " | ";@se @Html.ActionLink("Editar", "Edit", new { id = item.Id_Cuenta }); @se
+                @Html.ActionLink("Borrar", "Delete", new { id = item.Id_Cuenta });
+            }
         </td>
     </tr>
 }
 
 </table>
+<p>
+    @Html.ActionLink("Volver", "Index", (string)ViewBag.Volver,null, null)
+</p>

@@ -177,6 +177,8 @@ namespace C_R_M.Controllers
                 return new List<AsigPermiso> {
                     new AsigPermiso("Empresas",false,false,false,false),
                     new AsigPermiso("Empresas","Index",false),
+                    new AsigPermiso("Contactoes",false,false,false,false),
+                    new AsigPermiso("Contactoes","Index",false),
                     new AsigPermiso("Marketings",false,false,false,false),
                     new AsigPermiso("Marketings","Index",false),
                     new AsigPermiso("Productoes",false,false,false,false),
@@ -194,6 +196,10 @@ namespace C_R_M.Controllers
                     new AsigPermiso("Usuarios","Index",false),
                     new AsigPermiso("EstadodeCuentas",false,false,false,false),
                     new AsigPermiso("Usuarios","Index",false),
+                    new AsigPermiso("ServiciosContratados","Index",false),
+                    new AsigPermiso("ServiciosContratados","Details",false),
+                    new AsigPermiso("ServicioEmpresas","Index",false),
+                    new AsigPermiso("ServicioEmpresas",false,false,false,false),
                 };
             List<AsigPermiso> list = new List<AsigPermiso>();
             permisos.ForEach(p => list.Add(new AsigPermiso(p)));

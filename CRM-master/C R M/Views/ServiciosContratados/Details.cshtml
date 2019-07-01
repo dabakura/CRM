@@ -1,15 +1,14 @@
 ﻿@model C_R_M.Models.ServicioEmpresa
-
+@using C_R_M.Models
 @{
-    ViewBag.Title = "Eliminar Servicio";
+    ViewBag.Title = "Details";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Borrar</h2>
+<h2>Detalle</h2>
 
-<h3>Estas seguro de eliminar este servicio?</h3>
 <div>
-    <h4>Servicio</h4>
+    <h4>Servicio Contratado</h4>
     <hr />
     <dl class="dl-horizontal">
         <dt>
@@ -53,7 +52,7 @@
         </dd>
 
         <dt>
-            @Html.DisplayName("Empresa")
+            @Html.DisplayNameFor(model => model.Empresa.Nombre)
         </dt>
 
         <dd>
@@ -61,7 +60,7 @@
         </dd>
 
         <dt>
-            @Html.DisplayName("Producto")
+            @Html.DisplayNameFor(model => model.Producto.Nombre)
         </dt>
 
         <dd>
@@ -69,13 +68,8 @@
         </dd>
 
     </dl>
-
-    @using (Html.BeginForm()) {
-        @Html.AntiForgeryToken()
-
-        <div class="form-actions no-color">
-            <input type="submit" value="Borrar" class="btn btn-success" /> |
-            @Html.ActionLink("volver", "Index")
-        </div>
-    }
 </div>
+<p>
+    @Html.ActionLink("Ver cuentas", "Index", "Cuentas", new { id = Model.Id_Servicio_Empresa, tipo = TipoConsulta.InternaCuenta }, null) |
+    @Html.ActionLink("Volver", "Index")
+</p>

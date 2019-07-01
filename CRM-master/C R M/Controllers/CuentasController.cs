@@ -15,14 +15,17 @@ namespace C_R_M.Controllers
         private CRMEntities db = new CRMEntities();
 
         // GET: Cuentas
-        public ActionResult Index()
+        public ActionResult Index(int id,TipoConsulta tipo)
         {
-            var cuenta = db.Cuenta.Include(c => c.ServicioEmpresa);
+            var cuenta = db.Cuenta.Include(c => c.ServicioEmpresa).Include(s => s.ServicioEmpresa.Producto).Where(c=>c.Servicio_Empresa == id);
+            ViewBag.Servicio = id;
+            ViewBag.Tipo = tipo;
+            ViewBag.Volver = (tipo == TipoConsulta.InternaCuenta) ? "ServiciosContratados" : "ServicioEmpresas";
             return View(cuenta.ToList());
         }
 
         // GET: Cuentas/Details/5
-        public ActionResult Details(int? id)
+        public ActionResult Details(int? id, TipoConsulta tipo)
         {
             if (id == null)
             {
@@ -33,13 +36,15 @@ namespace C_R_M.Controllers
             {
                 return HttpNotFound();
             }
+            ViewBag.Tipo = tipo;
             return View(cuenta);
         }
 
         // GET: Cuentas/Create
-        public ActionResult Create()
+        public ActionResult Create(int id)
         {
-            ViewBag.Servicio_Empresa = new SelectList(db.ServicioEmpresa, "Id_Servicio_Empresa", "Descripcion");
+            ViewBag.Servicio = id;
+            ViewBag.Servicio_Empresa = new SelectList(db.ServicioEmpresa.Include( s=>s.Producto).Where(s=>s.Id_Servicio_Empresa == id).ToList(), "Id_Servicio_Empresa", "Producto.Nombre");
             return View();
         }
 
@@ -48,16 +53,16 @@ namespace C_R_M.Controllers
         // más información vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id_Cuenta,Servicio_Empresa,Fecha_Pago,Monto_Abono,Monto_Pendiente,Descripcion")] Cuenta cuenta)
+        public ActionResult Create([Bind(Include = "Servicio_Empresa,Fecha_Pago,Monto_Abono,Monto_Pendiente,Descripcion")] Cuenta cuenta)
         {
             if (ModelState.IsValid)
             {
                 db.Cuenta.Add(cuenta);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", new { id = cuenta.Servicio_Empresa, tipo = TipoConsulta.ActorizadaCuenta});
             }
 
-            ViewBag.Servicio_Empresa = new SelectList(db.ServicioEmpresa, "Id_Servicio_Empresa", "Descripcion", cuenta.Servicio_Empresa);
+            ViewBag.Servicio_Empresa = new SelectList(db.ServicioEmpresa.Where(s => s.Id_Servicio_Empresa == cuenta.Servicio_Empresa).ToList(), "Id_Servicio_Empresa", "Descripcion");
             return View(cuenta);
         }
 
@@ -73,7 +78,6 @@ namespace C_R_M.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.Servicio_Empresa = new SelectList(db.ServicioEmpresa, "Id_Servicio_Empresa", "Descripcion", cuenta.Servicio_Empresa);
             return View(cuenta);
         }
 
@@ -88,9 +92,8 @@ namespace C_R_M.Controllers
             {
                 db.Entry(cuenta).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", new { id = cuenta.Servicio_Empresa, tipo = TipoConsulta.ActorizadaCuenta });
             }
-            ViewBag.Servicio_Empresa = new SelectList(db.ServicioEmpresa, "Id_Servicio_Empresa", "Descripcion", cuenta.Servicio_Empresa);
             return View(cuenta);
         }
 
@@ -117,7 +120,7 @@ namespace C_R_M.Controllers
             Cuenta cuenta = db.Cuenta.Find(id);
             db.Cuenta.Remove(cuenta);
             db.SaveChanges();
-            return RedirectToAction("Index");
+            return RedirectToAction("Index", new { id = cuenta.Servicio_Empresa, tipo = TipoConsulta.ActorizadaCuenta });
         }
 
         protected override void Dispose(bool disposing)

@@ -36,7 +36,7 @@
           <Key>
             <PropertyRef Name="Id_Cuenta" />
           </Key>
-          <Property Name="Id_Cuenta" Type="int" Nullable="false" />
+          <Property Name="Id_Cuenta" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Servicio_Empresa" Type="int" Nullable="false" />
           <Property Name="Fecha_Pago" Type="date" Nullable="false" />
           <Property Name="Monto_Abono" Type="float" Nullable="false" />
@@ -150,7 +150,7 @@
           </Key>
           <Property Name="Id_Publicidad" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Medio" Type="int" />
-          <Property Name="Id_empresa" Type="int" />
+          <Property Name="Id_empresa" Type="int" Nullable="false" />
           <Property Name="Fecha_Inicio" Type="date" />
           <Property Name="Fecha_Caducidad" Type="date" />
           <Property Name="Costo" Type="float" />
@@ -186,7 +186,7 @@
           <Property Name="Fecha_Creacion" Type="date" Nullable="false" />
           <Property Name="Primer_Pago" Type="date" />
           <Property Name="Renovacion" Type="date" Nullable="false" />
-          <Property Name="Empresa" Type="int" Nullable="false" />
+          <Property Name="Id_Empresa" Type="int" Nullable="false" />
           <Property Name="Precio" Type="float" Nullable="false" />
         </EntityType>
         <EntityType Name="sysdiagrams">
@@ -406,7 +406,9 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Publicidad_Empresa">
-          <End Role="Empresa" Type="Self.Empresa" Multiplicity="0..1" />
+          <End Role="Empresa" Type="Self.Empresa" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="Publicidad" Type="Self.Publicidad" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Empresa">
@@ -449,7 +451,7 @@
               <PropertyRef Name="Id_Empresa" />
             </Principal>
             <Dependent Role="ServicioEmpresa">
-              <PropertyRef Name="Empresa" />
+              <PropertyRef Name="Id_Empresa" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -688,18 +690,6 @@
           <Property Name="Contacto" Type="Int32" />
           <NavigationProperty Name="Contacto1" Relationship="Self.FK_Correo_Contacto" FromRole="Correo" ToRole="Contacto" />
         </EntityType>
-        <EntityType Name="Cuenta">
-          <Key>
-            <PropertyRef Name="Id_Cuenta" />
-          </Key>
-          <Property Name="Id_Cuenta" Type="Int32" Nullable="false" />
-          <Property Name="Servicio_Empresa" Type="Int32" Nullable="false" />
-          <Property Name="Fecha_Pago" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="Monto_Abono" Type="Double" Nullable="false" />
-          <Property Name="Monto_Pendiente" Type="Double" />
-          <Property Name="Descripcion" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="ServicioEmpresa" Relationship="Self.FK_Cuenta_ServicioEmpresa" FromRole="Cuenta" ToRole="ServicioEmpresa" />
-        </EntityType>
         <EntityType Name="Distrito">
           <Key>
             <PropertyRef Name="Id_Distrito" />
@@ -729,13 +719,13 @@
           <NavigationProperty Name="Distrito" Relationship="Self.FK_Empresa_Distrito" FromRole="Empresa" ToRole="Distrito" />
           <NavigationProperty Name="Provincia" Relationship="Self.FK_Empresa_Provincia" FromRole="Empresa" ToRole="Provincia" />
           <NavigationProperty Name="Marketing" Relationship="Self.FK_Marketing_Empresa" FromRole="Empresa" ToRole="Marketing" />
-          <NavigationProperty Name="ServicioEmpresa" Relationship="Self.FK_ServicioEmpresa_Empresa" FromRole="Empresa" ToRole="ServicioEmpresa" />
           <Property Name="Tipo_Cedula" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="Pais1" Relationship="CRMModel.FK_Empresa_Pais" FromRole="Empresa" ToRole="Pais" />
           <NavigationProperty Name="Usuario" Relationship="CRMModel.FK_Usuario_Empresa" FromRole="Empresa" ToRole="Usuario" />
           <NavigationProperty Name="Recordatorio" Relationship="CRMModel.FK_Recordatorio_Empresa" FromRole="Empresa" ToRole="Recordatorio" />
-          <NavigationProperty Name="Publicidad" Relationship="CRMModel.FK_Publicidad_Empresa" FromRole="Empresa" ToRole="Publicidad" />
           <NavigationProperty Name="EstadodeCuenta" Relationship="CRMModel.FK_EstadodeCuenta_Empresa1" FromRole="Empresa" ToRole="EstadodeCuenta" />
+          <NavigationProperty Name="ServicioEmpresa" Relationship="CRMModel.FK_ServicioEmpresa_Empresa" FromRole="Empresa" ToRole="ServicioEmpresa" />
+          <NavigationProperty Name="Publicidad" Relationship="CRMModel.FK_Publicidad_Empresa" FromRole="Empresa" ToRole="Publicidad" />
         </EntityType>
         <EntityType Name="Marketing">
           <Key>
@@ -778,7 +768,7 @@
           <Property Name="Tipo_Producto" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <NavigationProperty Name="Marketing" Relationship="Self.FK_Marketing_Producto" FromRole="Producto" ToRole="Marketing" />
           <NavigationProperty Name="Marketing1" Relationship="Self.FK_Marketing_Producto1" FromRole="Producto" ToRole="Marketing" />
-          <NavigationProperty Name="ServicioEmpresa" Relationship="Self.FK_ServicioEmpresa_Producto" FromRole="Producto" ToRole="ServicioEmpresa" />
+          <NavigationProperty Name="ServicioEmpresa" Relationship="CRMModel.FK_ServicioEmpresa_Producto" FromRole="Producto" ToRole="ServicioEmpresa" />
         </EntityType>
         <EntityType Name="Provincia">
           <Key>
@@ -788,22 +778,6 @@
           <Property Name="Nombre" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="Canton" Relationship="Self.FK_Canton_Canton" FromRole="Provincia" ToRole="Canton" />
           <NavigationProperty Name="Empresa" Relationship="Self.FK_Empresa_Provincia" FromRole="Provincia" ToRole="Empresa" />
-        </EntityType>
-        <EntityType Name="ServicioEmpresa">
-          <Key>
-            <PropertyRef Name="Id_Servicio_Empresa" />
-          </Key>
-          <Property Name="Id_Servicio_Empresa" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Id_Producto" Type="Int32" Nullable="false" />
-          <Property Name="Descripcion" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="Fecha_Creacion" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="Primer_Pago" Type="DateTime" Precision="0" />
-          <Property Name="Renovacion" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="Empresa" Type="Int32" Nullable="false" />
-          <Property Name="Precio" Type="Double" Nullable="false" />
-          <NavigationProperty Name="Cuenta" Relationship="Self.FK_Cuenta_ServicioEmpresa" FromRole="ServicioEmpresa" ToRole="Cuenta" />
-          <NavigationProperty Name="Empresa1" Relationship="Self.FK_ServicioEmpresa_Empresa" FromRole="ServicioEmpresa" ToRole="Empresa" />
-          <NavigationProperty Name="Producto" Relationship="Self.FK_ServicioEmpresa_Producto" FromRole="ServicioEmpresa" ToRole="Producto" />
         </EntityType>
         <EntityType Name="Telefono">
           <Key>
@@ -886,18 +860,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Cuenta_ServicioEmpresa">
-          <End Role="ServicioEmpresa" Type="Self.ServicioEmpresa" Multiplicity="1" />
-          <End Role="Cuenta" Type="Self.Cuenta" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="ServicioEmpresa">
-              <PropertyRef Name="Id_Servicio_Empresa" />
-            </Principal>
-            <Dependent Role="Cuenta">
-              <PropertyRef Name="Servicio_Empresa" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_Empresa_Distrito">
           <End Role="Distrito" Type="Self.Distrito" Multiplicity="0..1" />
           <End Role="Empresa" Type="Self.Empresa" Multiplicity="*" />
@@ -934,18 +896,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_ServicioEmpresa_Empresa">
-          <End Role="Empresa" Type="Self.Empresa" Multiplicity="1" />
-          <End Role="ServicioEmpresa" Type="Self.ServicioEmpresa" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Empresa">
-              <PropertyRef Name="Id_Empresa" />
-            </Principal>
-            <Dependent Role="ServicioEmpresa">
-              <PropertyRef Name="Empresa" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_Marketing_Producto">
           <End Role="Producto" Type="Self.Producto" Multiplicity="1" />
           <End Role="Marketing" Type="Self.Marketing" Multiplicity="*" />
@@ -970,23 +920,10 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_ServicioEmpresa_Producto">
-          <End Role="Producto" Type="Self.Producto" Multiplicity="1" />
-          <End Role="ServicioEmpresa" Type="Self.ServicioEmpresa" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Producto">
-              <PropertyRef Name="Id_Producto" />
-            </Principal>
-            <Dependent Role="ServicioEmpresa">
-              <PropertyRef Name="Id_Producto" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityContainer Name="CRMEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Canton" EntityType="Self.Canton" />
           <EntitySet Name="Contacto" EntityType="Self.Contacto" />
           <EntitySet Name="Correo" EntityType="Self.Correo" />
-          <EntitySet Name="Cuenta" EntityType="Self.Cuenta" />
           <EntitySet Name="Distrito" EntityType="Self.Distrito" />
           <EntitySet Name="Empresa" EntityType="Self.Empresa" />
           <EntitySet Name="Marketing" EntityType="Self.Marketing" />
@@ -994,7 +931,6 @@
           <EntitySet Name="Movimiento" EntityType="Self.Movimiento" />
           <EntitySet Name="Producto" EntityType="Self.Producto" />
           <EntitySet Name="Provincia" EntityType="Self.Provincia" />
-          <EntitySet Name="ServicioEmpresa" EntityType="Self.ServicioEmpresa" />
           <EntitySet Name="Telefono" EntityType="Self.Telefono" />
           <AssociationSet Name="FK_Canton_Canton" Association="Self.FK_Canton_Canton">
             <End Role="Provincia" EntitySet="Provincia" />
@@ -1020,10 +956,6 @@
             <End Role="Contacto" EntitySet="Contacto" />
             <End Role="Telefono" EntitySet="Telefono" />
           </AssociationSet>
-          <AssociationSet Name="FK_Cuenta_ServicioEmpresa" Association="Self.FK_Cuenta_ServicioEmpresa">
-            <End Role="ServicioEmpresa" EntitySet="ServicioEmpresa" />
-            <End Role="Cuenta" EntitySet="Cuenta" />
-          </AssociationSet>
           <AssociationSet Name="FK_Empresa_Distrito" Association="Self.FK_Empresa_Distrito">
             <End Role="Distrito" EntitySet="Distrito" />
             <End Role="Empresa" EntitySet="Empresa" />
@@ -1036,10 +968,6 @@
             <End Role="Empresa" EntitySet="Empresa" />
             <End Role="Marketing" EntitySet="Marketing" />
           </AssociationSet>
-          <AssociationSet Name="FK_ServicioEmpresa_Empresa" Association="Self.FK_ServicioEmpresa_Empresa">
-            <End Role="Empresa" EntitySet="Empresa" />
-            <End Role="ServicioEmpresa" EntitySet="ServicioEmpresa" />
-          </AssociationSet>
           <AssociationSet Name="FK_Marketing_Producto" Association="Self.FK_Marketing_Producto">
             <End Role="Producto" EntitySet="Producto" />
             <End Role="Marketing" EntitySet="Marketing" />
@@ -1047,10 +975,6 @@
           <AssociationSet Name="FK_Marketing_Producto1" Association="Self.FK_Marketing_Producto1">
             <End Role="Producto" EntitySet="Producto" />
             <End Role="Marketing" EntitySet="Marketing" />
-          </AssociationSet>
-          <AssociationSet Name="FK_ServicioEmpresa_Producto" Association="Self.FK_ServicioEmpresa_Producto">
-            <End Role="Producto" EntitySet="Producto" />
-            <End Role="ServicioEmpresa" EntitySet="ServicioEmpresa" />
           </AssociationSet>
           <EntitySet Name="Pais" EntityType="CRMModel.Pais" />
           <AssociationSet Name="FK_Empresa_Pais" Association="CRMModel.FK_Empresa_Pais">
@@ -1113,6 +1037,20 @@
           </FunctionImport>
           <FunctionImport Name="sp_upgraddiagrams" />
           <EntitySet Name="sysdiagrams" EntityType="CRMModel.sysdiagrams" />
+          <EntitySet Name="EstadodeCuenta" EntityType="CRMModel.EstadodeCuenta" />
+          <AssociationSet Name="FK_EstadodeCuenta_Empresa1" Association="CRMModel.FK_EstadodeCuenta_Empresa1">
+            <End Role="Empresa" EntitySet="Empresa" />
+            <End Role="EstadodeCuenta" EntitySet="EstadodeCuenta" />
+          </AssociationSet>
+          <EntitySet Name="ServicioEmpresa" EntityType="CRMModel.ServicioEmpresa" />
+          <AssociationSet Name="FK_ServicioEmpresa_Empresa" Association="CRMModel.FK_ServicioEmpresa_Empresa">
+            <End Role="Empresa" EntitySet="Empresa" />
+            <End Role="ServicioEmpresa" EntitySet="ServicioEmpresa" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ServicioEmpresa_Producto" Association="CRMModel.FK_ServicioEmpresa_Producto">
+            <End Role="Producto" EntitySet="Producto" />
+            <End Role="ServicioEmpresa" EntitySet="ServicioEmpresa" />
+          </AssociationSet>
           <EntitySet Name="Publicidad" EntityType="CRMModel.Publicidad" />
           <AssociationSet Name="FK_Publicidad_Empresa" Association="CRMModel.FK_Publicidad_Empresa">
             <End Role="Empresa" EntitySet="Empresa" />
@@ -1122,10 +1060,10 @@
             <End Role="MedioPublicitario" EntitySet="MedioPublicitario" />
             <End Role="Publicidad" EntitySet="Publicidad" />
           </AssociationSet>
-          <EntitySet Name="EstadodeCuenta" EntityType="CRMModel.EstadodeCuenta" />
-          <AssociationSet Name="FK_EstadodeCuenta_Empresa1" Association="CRMModel.FK_EstadodeCuenta_Empresa1">
-            <End Role="Empresa" EntitySet="Empresa" />
-            <End Role="EstadodeCuenta" EntitySet="EstadodeCuenta" />
+          <EntitySet Name="Cuenta" EntityType="CRMModel.Cuenta" />
+          <AssociationSet Name="FK_Cuenta_ServicioEmpresa" Association="CRMModel.FK_Cuenta_ServicioEmpresa">
+            <End Role="ServicioEmpresa" EntitySet="ServicioEmpresa" />
+            <End Role="Cuenta" EntitySet="Cuenta" />
           </AssociationSet>
           </EntityContainer>
         <EntityType Name="Pais">
@@ -1298,13 +1236,73 @@
           <Property Name="version" Type="Int32" />
           <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
         </EntityType>
+        <EntityType Name="EstadodeCuenta">
+          <Key>
+            <PropertyRef Name="Id_Empresa" />
+          </Key>
+          <Property Name="Id_Empresa" Type="Int32" Nullable="false" />
+          <Property Name="Credito_Disponible" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <NavigationProperty Name="Empresa" Relationship="CRMModel.FK_EstadodeCuenta_Empresa1" FromRole="EstadodeCuenta" ToRole="Empresa" />
+        </EntityType>
+        <Association Name="FK_EstadodeCuenta_Empresa1">
+          <End Type="CRMModel.Empresa" Role="Empresa" Multiplicity="1" />
+          <End Type="CRMModel.EstadodeCuenta" Role="EstadodeCuenta" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Empresa">
+              <PropertyRef Name="Id_Empresa" />
+            </Principal>
+            <Dependent Role="EstadodeCuenta">
+              <PropertyRef Name="Id_Empresa" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="ServicioEmpresa">
+          <Key>
+            <PropertyRef Name="Id_Servicio_Empresa" />
+          </Key>
+          <Property Name="Id_Servicio_Empresa" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Id_Producto" Type="Int32" Nullable="false" />
+          <Property Name="Descripcion" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Fecha_Creacion" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Primer_Pago" Type="DateTime" Precision="0" />
+          <Property Name="Renovacion" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Id_Empresa" Type="Int32" Nullable="false" />
+          <Property Name="Precio" Type="Double" Nullable="false" />
+          <NavigationProperty Name="Empresa" Relationship="CRMModel.FK_ServicioEmpresa_Empresa" FromRole="ServicioEmpresa" ToRole="Empresa" />
+          <NavigationProperty Name="Producto" Relationship="CRMModel.FK_ServicioEmpresa_Producto" FromRole="ServicioEmpresa" ToRole="Producto" />
+          <NavigationProperty Name="Cuenta" Relationship="CRMModel.FK_Cuenta_ServicioEmpresa" FromRole="ServicioEmpresa" ToRole="Cuenta" />
+        </EntityType>
+        <Association Name="FK_ServicioEmpresa_Empresa">
+          <End Type="CRMModel.Empresa" Role="Empresa" Multiplicity="1" />
+          <End Type="CRMModel.ServicioEmpresa" Role="ServicioEmpresa" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Empresa">
+              <PropertyRef Name="Id_Empresa" />
+            </Principal>
+            <Dependent Role="ServicioEmpresa">
+              <PropertyRef Name="Id_Empresa" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ServicioEmpresa_Producto">
+          <End Type="CRMModel.Producto" Role="Producto" Multiplicity="1" />
+          <End Type="CRMModel.ServicioEmpresa" Role="ServicioEmpresa" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Producto">
+              <PropertyRef Name="Id_Producto" />
+            </Principal>
+            <Dependent Role="ServicioEmpresa">
+              <PropertyRef Name="Id_Producto" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityType Name="Publicidad">
           <Key>
             <PropertyRef Name="Id_Publicidad" />
           </Key>
           <Property Name="Id_Publicidad" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Medio" Type="Int32" />
-          <Property Name="Id_empresa" Type="Int32" />
+          <Property Name="Id_empresa" Type="Int32" Nullable="false" />
           <Property Name="Fecha_Inicio" Type="DateTime" Precision="0" />
           <Property Name="Fecha_Caducidad" Type="DateTime" Precision="0" />
           <Property Name="Costo" Type="Double" />
@@ -1312,7 +1310,9 @@
           <NavigationProperty Name="MedioPublicitario" Relationship="CRMModel.FK_Publicidad_MedioPublicitario" FromRole="Publicidad" ToRole="MedioPublicitario" />
         </EntityType>
         <Association Name="FK_Publicidad_Empresa">
-          <End Type="CRMModel.Empresa" Role="Empresa" Multiplicity="0..1" />
+          <End Type="CRMModel.Empresa" Role="Empresa" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Type="CRMModel.Publicidad" Role="Publicidad" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Empresa">
@@ -1335,23 +1335,27 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="EstadodeCuenta">
+        <EntityType Name="Cuenta">
           <Key>
-            <PropertyRef Name="Id_Empresa" />
+            <PropertyRef Name="Id_Cuenta" />
           </Key>
-          <Property Name="Id_Empresa" Type="Int32" Nullable="false" />
-          <Property Name="Credito_Disponible" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
-          <NavigationProperty Name="Empresa" Relationship="CRMModel.FK_EstadodeCuenta_Empresa1" FromRole="EstadodeCuenta" ToRole="Empresa" />
+          <Property Name="Id_Cuenta" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Servicio_Empresa" Type="Int32" Nullable="false" />
+          <Property Name="Fecha_Pago" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Monto_Abono" Type="Double" Nullable="false" />
+          <Property Name="Monto_Pendiente" Type="Double" />
+          <Property Name="Descripcion" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="ServicioEmpresa" Relationship="CRMModel.FK_Cuenta_ServicioEmpresa" FromRole="Cuenta" ToRole="ServicioEmpresa" />
         </EntityType>
-        <Association Name="FK_EstadodeCuenta_Empresa1">
-          <End Type="CRMModel.Empresa" Role="Empresa" Multiplicity="1" />
-          <End Type="CRMModel.EstadodeCuenta" Role="EstadodeCuenta" Multiplicity="0..1" />
+        <Association Name="FK_Cuenta_ServicioEmpresa">
+          <End Type="CRMModel.ServicioEmpresa" Role="ServicioEmpresa" Multiplicity="1" />
+          <End Type="CRMModel.Cuenta" Role="Cuenta" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="Empresa">
-              <PropertyRef Name="Id_Empresa" />
+            <Principal Role="ServicioEmpresa">
+              <PropertyRef Name="Id_Servicio_Empresa" />
             </Principal>
-            <Dependent Role="EstadodeCuenta">
-              <PropertyRef Name="Id_Empresa" />
+            <Dependent Role="Cuenta">
+              <PropertyRef Name="Servicio_Empresa" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1388,18 +1392,6 @@
                 <ScalarProperty Name="Id_Correo" ColumnName="Id_Correo" />
                 <ScalarProperty Name="Correo1" ColumnName="Correo" />
                 <ScalarProperty Name="Contacto" ColumnName="Contacto" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Cuenta">
-            <EntityTypeMapping TypeName="CRMModel.Cuenta">
-              <MappingFragment StoreEntitySet="Cuenta">
-                <ScalarProperty Name="Id_Cuenta" ColumnName="Id_Cuenta" />
-                <ScalarProperty Name="Servicio_Empresa" ColumnName="Servicio_Empresa" />
-                <ScalarProperty Name="Fecha_Pago" ColumnName="Fecha_Pago" />
-                <ScalarProperty Name="Monto_Abono" ColumnName="Monto_Abono" />
-                <ScalarProperty Name="Monto_Pendiente" ColumnName="Monto_Pendiente" />
-                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1474,20 +1466,6 @@
               <MappingFragment StoreEntitySet="Provincia">
                 <ScalarProperty Name="Id_Provincia" ColumnName="Id_Provincia" />
                 <ScalarProperty Name="Nombre" ColumnName="Nombre" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="ServicioEmpresa">
-            <EntityTypeMapping TypeName="CRMModel.ServicioEmpresa">
-              <MappingFragment StoreEntitySet="ServicioEmpresa">
-                <ScalarProperty Name="Id_Servicio_Empresa" ColumnName="Id_Servicio_Empresa" />
-                <ScalarProperty Name="Id_Producto" ColumnName="Id_Producto" />
-                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
-                <ScalarProperty Name="Fecha_Creacion" ColumnName="Fecha_Creacion" />
-                <ScalarProperty Name="Primer_Pago" ColumnName="Primer_Pago" />
-                <ScalarProperty Name="Renovacion" ColumnName="Renovacion" />
-                <ScalarProperty Name="Empresa" ColumnName="Empresa" />
-                <ScalarProperty Name="Precio" ColumnName="Precio" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1601,6 +1579,28 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="EstadodeCuenta">
+            <EntityTypeMapping TypeName="CRMModel.EstadodeCuenta">
+              <MappingFragment StoreEntitySet="EstadodeCuenta">
+                <ScalarProperty Name="Credito_Disponible" ColumnName="Credito_Disponible" />
+                <ScalarProperty Name="Id_Empresa" ColumnName="Id_Empresa" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ServicioEmpresa">
+            <EntityTypeMapping TypeName="CRMModel.ServicioEmpresa">
+              <MappingFragment StoreEntitySet="ServicioEmpresa">
+                <ScalarProperty Name="Precio" ColumnName="Precio" />
+                <ScalarProperty Name="Id_Empresa" ColumnName="Id_Empresa" />
+                <ScalarProperty Name="Renovacion" ColumnName="Renovacion" />
+                <ScalarProperty Name="Primer_Pago" ColumnName="Primer_Pago" />
+                <ScalarProperty Name="Fecha_Creacion" ColumnName="Fecha_Creacion" />
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+                <ScalarProperty Name="Id_Producto" ColumnName="Id_Producto" />
+                <ScalarProperty Name="Id_Servicio_Empresa" ColumnName="Id_Servicio_Empresa" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="Publicidad">
             <EntityTypeMapping TypeName="CRMModel.Publicidad">
               <MappingFragment StoreEntitySet="Publicidad">
@@ -1613,11 +1613,15 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="EstadodeCuenta">
-            <EntityTypeMapping TypeName="CRMModel.EstadodeCuenta">
-              <MappingFragment StoreEntitySet="EstadodeCuenta">
-                <ScalarProperty Name="Credito_Disponible" ColumnName="Credito_Disponible" />
-                <ScalarProperty Name="Id_Empresa" ColumnName="Id_Empresa" />
+          <EntitySetMapping Name="Cuenta">
+            <EntityTypeMapping TypeName="CRMModel.Cuenta">
+              <MappingFragment StoreEntitySet="Cuenta">
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+                <ScalarProperty Name="Monto_Pendiente" ColumnName="Monto_Pendiente" />
+                <ScalarProperty Name="Monto_Abono" ColumnName="Monto_Abono" />
+                <ScalarProperty Name="Fecha_Pago" ColumnName="Fecha_Pago" />
+                <ScalarProperty Name="Servicio_Empresa" ColumnName="Servicio_Empresa" />
+                <ScalarProperty Name="Id_Cuenta" ColumnName="Id_Cuenta" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

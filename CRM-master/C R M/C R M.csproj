@@ -147,12 +147,8 @@
     <Compile Include="Controllers\RecordatoriosController.cs" />
     <Compile Include="Controllers\RolsController.cs" />
     <Compile Include="Controllers\ServicioEmpresasController.cs" />
+    <Compile Include="Controllers\ServiciosContratadosController.cs" />
     <Compile Include="Controllers\TelefonoesController.cs" />
-    <Compile Include="Controllers\UsuariosController.cs" />
-    <Compile Include="Global.asax.cs">
-      <DependentUpon>Global.asax</DependentUpon>
-    </Compile>
-    <Compile Include="Models\AsigPermiso.cs" />
     <Compile Include="Models\Canton.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
@@ -171,33 +167,20 @@
     <Compile Include="Models\Empresa.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\RolesPermisos.cs" />
     <Compile Include="Models\EstadodeCuenta.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\LoginModel.cs" />
     <Compile Include="Models\Marketing.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\MedioPublicitario.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\Model.Context.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Model.Context.tt</DependentUpon>
-    </Compile>
     <Compile Include="Models\Model.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\Model.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Model.edmx</DependentUpon>
-    </Compile>
-    <Compile Include="Models\Modulo.cs" />
     <Compile Include="Models\Movimiento.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
@@ -240,6 +223,25 @@
     <Compile Include="Models\Telefono.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\TipoConsulta.cs" />
+    <Compile Include="Controllers\UsuariosController.cs" />
+    <Compile Include="Global.asax.cs">
+      <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="Models\AsigPermiso.cs" />
+    <Compile Include="Models\RolesPermisos.cs" />
+    <Compile Include="Models\LoginModel.cs" />
+    <Compile Include="Models\Model.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Model.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Model.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Model.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Modulo.cs" />
     <Compile Include="Models\Usuario.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
@@ -7398,11 +7400,6 @@
     <Content Include="Views\Usuarios\Details.cshtml" />
     <Content Include="Views\Usuarios\Edit.cshtml" />
     <Content Include="Views\Usuarios\Index.cshtml" />
-    <Content Include="Views\ServicioEmpresas\Create.cshtml" />
-    <Content Include="Views\ServicioEmpresas\Delete.cshtml" />
-    <Content Include="Views\ServicioEmpresas\Details.cshtml" />
-    <Content Include="Views\ServicioEmpresas\Edit.cshtml" />
-    <Content Include="Views\ServicioEmpresas\Index.cshtml" />
     <Content Include="Views\Productoes\Create.cshtml" />
     <Content Include="Views\Productoes\Delete.cshtml" />
     <Content Include="Views\Productoes\Details.cshtml" />
@@ -7478,6 +7475,13 @@
     <Content Include="Views\Rols\ViewPermiso.cshtml" />
     <Content Include="Views\Rols\CreatePermiso.cshtml" />
     <Content Include="Views\Recordatorios\RecordatoriosDia.cshtml" />
+    <Content Include="Views\ServiciosContratados\Details.cshtml" />
+    <Content Include="Views\ServiciosContratados\Index.cshtml" />
+    <Content Include="Views\ServicioEmpresas\Create.cshtml" />
+    <Content Include="Views\ServicioEmpresas\Delete.cshtml" />
+    <Content Include="Views\ServicioEmpresas\Details.cshtml" />
+    <Content Include="Views\ServicioEmpresas\Edit.cshtml" />
+    <Content Include="Views\ServicioEmpresas\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

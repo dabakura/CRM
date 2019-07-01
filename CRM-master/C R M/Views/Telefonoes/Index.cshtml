@@ -3,7 +3,7 @@
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
-    int contacto = Model.FirstOrDefault().Contacto1.Id_Contacto;
+    int contacto = (int)ViewBag.Contacto;
 }
 
 <h2>Telefonos</h2>
@@ -40,4 +40,4 @@
     }
 
 </table>
-@Html.ActionLink("Volver a la lista", "../Contactoes/Index",new { id = @contacto } )
+@Html.ActionLink("Volver a la lista", "../Contactoes/Index",new { id = contacto } )

@@ -1,12 +1,16 @@
 ﻿@model C_R_M.Models.Contacto
-
 @{
     ViewBag.Title = "Details";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    int Contacto = Model.Id_Contacto;
 }
-
-<h2>Details</h2>
-
+<h2>Ver correos y o Telefonos</h2>
+<p>
+    @Html.ActionLink("Telefonos", "../Telefonoes/Index", new { id = @Contacto })
+</p>
+<p>
+    @Html.ActionLink("Correos", "../Correos/Index", new { id = @Contacto })
+</p>
 <div>
     <h4>Contacto</h4>
     <hr />
@@ -14,43 +18,33 @@
         <dt>
             @Html.DisplayNameFor(model => model.Nombre)
         </dt>
-
         <dd>
             @Html.DisplayFor(model => model.Nombre)
         </dd>
-
         <dt>
             @Html.DisplayNameFor(model => model.Apellido1)
         </dt>
-
         <dd>
             @Html.DisplayFor(model => model.Apellido1)
         </dd>
-
         <dt>
             @Html.DisplayNameFor(model => model.Apellido2)
         </dt>
-
         <dd>
             @Html.DisplayFor(model => model.Apellido2)
         </dd>
-
         <dt>
             @Html.DisplayNameFor(model => model.Puesto)
         </dt>
-
         <dd>
             @Html.DisplayFor(model => model.Puesto)
         </dd>
-
         <dt>
             @Html.DisplayNameFor(model => model.Empresa1.Nombre)
         </dt>
-
         <dd>
             @Html.DisplayFor(model => model.Empresa1.Nombre)
         </dd>
-
     </dl>
 </div>
 <p>

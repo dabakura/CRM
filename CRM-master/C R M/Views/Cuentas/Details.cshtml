@@ -1,7 +1,7 @@
 ﻿@model C_R_M.Models.Cuenta
 
 @{
-    ViewBag.Title = "Details";
+    ViewBag.Title = "Detalle de cuenta";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -44,16 +44,15 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.ServicioEmpresa.Descripcion)
+            @Html.DisplayNameFor(model => model.ServicioEmpresa.Producto.Nombre)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.ServicioEmpresa.Descripcion)
+            @Html.DisplayFor(model => model.ServicioEmpresa.Producto.Nombre)
         </dd>
 
     </dl>
 </div>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.Id_Cuenta }) |
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("Volver", "Index", new { id = Model.Servicio_Empresa, tipo= ViewBag.Tipo })
 </p>

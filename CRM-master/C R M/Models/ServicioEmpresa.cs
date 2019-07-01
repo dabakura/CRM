@@ -14,8 +14,9 @@ namespace C_R_M.Models
 
 using System;
     using System.Collections.Generic;
-    
-public partial class ServicioEmpresa
+    using System.ComponentModel.DataAnnotations;
+
+    public partial class ServicioEmpresa
 {
 
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -33,25 +34,29 @@ public partial class ServicioEmpresa
 
     public string Descripcion { get; set; }
 
-    public System.DateTime Fecha_Creacion { get; set; }
+        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
+        public System.DateTime Fecha_Creacion { get; set; }
+        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
+        public Nullable<System.DateTime> Primer_Pago { get; set; }
+        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
+        public System.DateTime Renovacion { get; set; }
 
-    public Nullable<System.DateTime> Primer_Pago { get; set; }
-
-    public System.DateTime Renovacion { get; set; }
-
-    public int Empresa { get; set; }
+        public int Id_Empresa { get; set; }
 
     public double Precio { get; set; }
 
 
 
+    public virtual Empresa Empresa { get; set; }
+
+    public virtual Producto Producto { get; set; }
+
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
 
     public virtual ICollection<Cuenta> Cuenta { get; set; }
-
-    public virtual Empresa Empresa1 { get; set; }
-
-    public virtual Producto Producto { get; set; }
 
 }
 
