@@ -74,10 +74,10 @@
                 </div>
             </div>
             <div class="form-group">
-                @Html.LabelFor(model => model.Pais1, "País", htmlAttributes: new { @class = "control-label col-md-2" })
+                @Html.LabelFor(model => model.Id_Pais, "País", htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
-                    @Html.DropDownList("Pais", null, htmlAttributes: new { @class = "form-control" })
-                    @Html.ValidationMessageFor(model => model.Pais, "", new { @class = "text-danger" })
+                    @Html.DropDownList("Id_Pais", null, htmlAttributes: new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.Id_Pais, "", new { @class = "text-danger" })
                 </div>
             </div>
             <div class="form-group">
@@ -126,7 +126,7 @@
             @Html.ActionLink("Volver a la lista", "Index")
         </div>
     </div>
-    <div id="menu1" class="tab-pane fade">
+    @*<div id="menu1" class="tab-pane fade">
         @Html.Action("index", "Contactoes", "")
     </div>
     <div id="menu2" class="tab-pane fade">
@@ -134,7 +134,7 @@
     </div>
     <div id="menu3" class="tab-pane fade">
         @Html.Action("index", "Cuentas", "")
-    </div>
+    </div>*@
 </div>
 
 

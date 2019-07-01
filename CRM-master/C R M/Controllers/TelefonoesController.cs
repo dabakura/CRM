@@ -17,9 +17,9 @@ namespace C_R_M.Controllers
         // GET: Telefonoes
         public ActionResult Index(int? id)
         {
-            var telefono = db.Telefono.Include(t => t.Contacto1);
+            var telefono = db.Telefono.Include(t => t.Contacto);
             ViewBag.Contacto = id.Value;
-            return View(telefono.ToList().Where(x => x.Contacto==id));
+            return View(telefono.ToList().Where(x => x.Id_Telefono==id));
         }
 
         // GET: Telefonoes/Details/5
@@ -50,7 +50,7 @@ namespace C_R_M.Controllers
         // más información vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id_Telefono,Telefono1,Contacto")] Telefono telefono)
+        public ActionResult Create([Bind(Include = "Codigo,N_Telefonico")] Telefono telefono)
         {
             if (ModelState.IsValid)
             {
@@ -58,8 +58,7 @@ namespace C_R_M.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index",new {id=telefono.Contacto});
             }
-
-            ViewBag.Contacto = new SelectList(db.Contacto, "Id_Contacto", "Nombre", telefono.Contacto);
+            
             return View(telefono);
         }
 
@@ -75,7 +74,6 @@ namespace C_R_M.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.Contacto = new SelectList(db.Contacto, "Id_Contacto", "Nombre", telefono.Contacto);
             return View(telefono);
         }
 
@@ -84,7 +82,7 @@ namespace C_R_M.Controllers
         // más información vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id_Telefono,Telefono1,Contacto")] Telefono telefono)
+        public ActionResult Edit([Bind(Include = "Id_Telefono,Codigo,N_Telefonico")] Telefono telefono)
         {
             if (ModelState.IsValid)
             {
@@ -117,10 +115,9 @@ namespace C_R_M.Controllers
         public ActionResult DeleteConfirmed(int id)
         {
             Telefono telefono = db.Telefono.Find(id);
-            var idex = telefono.Contacto.Value;
             db.Telefono.Remove(telefono);
             db.SaveChanges();
-            return RedirectToAction("Index", new { id = idex });
+            return RedirectToAction("Index");
         }
 
         protected override void Dispose(bool disposing)

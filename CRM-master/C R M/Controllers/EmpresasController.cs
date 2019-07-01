@@ -18,7 +18,7 @@ namespace C_R_M.Controllers
         // GET: Empresas
         public ActionResult Index()
         {
-            var empresa = db.Empresa.Include(e => e.Canton).Include(e => e.Distrito).Include(e => e.Provincia).Include(e => e.Pais1);
+            var empresa = db.Empresa.Include(e => e.Canton).Include(e => e.Distrito).Include(e => e.Provincia).Include(e => e.Pais);
             return View(empresa.ToList());
         }
 
@@ -53,7 +53,7 @@ namespace C_R_M.Controllers
         // más información vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id_Empresa,Nombre,Correo,Tipo_Cedula,Cedula,Pais,Id_Provincia,Id_Canton,Id_Distrito,Otras_Señas,Codigo_Postal")] Empresa empresa)
+        public ActionResult Create([Bind(Include = "Id_Empresa,Nombre,Correo,Tipo_Cedula,Cedula,Id_Pais,Id_Provincia,Id_Canton,Id_Distrito,Otras_Señas,Codigo_Postal")] Empresa empresa)
         {
             if (ModelState.IsValid)
             {
@@ -65,7 +65,7 @@ namespace C_R_M.Controllers
             ViewBag.Id_Canton = new SelectList(db.Canton, "Id_Canton", "Nombre", empresa.Id_Canton);
             ViewBag.Id_Distrito = new SelectList(db.Distrito, "Id_Distrito", "Nombre", empresa.Id_Distrito);
             ViewBag.Id_Provincia = new SelectList(db.Provincia, "Id_Provincia", "Nombre", empresa.Id_Provincia);
-            ViewBag.Pais = new SelectList(db.Pais, "Id_Pais", "Nombre",empresa.Pais);
+            ViewBag.Pais = new SelectList(db.Pais, "Id_Pais", "Nombre",empresa.Id_Pais);
             return View(empresa);
         }
 
@@ -84,7 +84,7 @@ namespace C_R_M.Controllers
             ViewBag.Id_Canton = new SelectList(db.Canton, "Id_Canton", "Nombre", empresa.Id_Canton);
             ViewBag.Id_Distrito = new SelectList(db.Distrito, "Id_Distrito", "Nombre", empresa.Id_Distrito);
             ViewBag.Id_Provincia = new SelectList(db.Provincia, "Id_Provincia", "Nombre", empresa.Id_Provincia);
-            ViewBag.Pais = new SelectList(db.Pais, "Id_Pais", "Nombre", empresa.Pais);
+            ViewBag.Pais = new SelectList(db.Pais, "Id_Pais", "Nombre", empresa.Id_Pais);
             return View(empresa);
         }
 
@@ -93,7 +93,7 @@ namespace C_R_M.Controllers
         // más información vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id_Empresa,Nombre,Correo,Tipo_Cedula,Cedula,Pais,Id_Provincia,Id_Canton,Id_Distrito,Otras_Señas,Codigo_Postal")] Empresa empresa)
+        public ActionResult Edit([Bind(Include = "Id_Empresa,Nombre,Correo,Tipo_Cedula,Cedula,Id_Pais,Id_Provincia,Id_Canton,Id_Distrito,Otras_Señas,Codigo_Postal")] Empresa empresa)
         {
             if (ModelState.IsValid)
             {
@@ -104,7 +104,7 @@ namespace C_R_M.Controllers
             ViewBag.Id_Canton = new SelectList(db.Canton, "Id_Canton", "Nombre", empresa.Id_Canton);
             ViewBag.Id_Distrito = new SelectList(db.Distrito, "Id_Distrito", "Nombre", empresa.Id_Distrito);
             ViewBag.Id_Provincia = new SelectList(db.Provincia, "Id_Provincia", "Nombre", empresa.Id_Provincia);
-            ViewBag.Pais = new SelectList(db.Pais, "Id_Pais", "Nombre", empresa.Pais);
+            ViewBag.Pais = new SelectList(db.Pais, "Id_Pais", "Nombre", empresa.Id_Pais);
             return View(empresa);
         }
 

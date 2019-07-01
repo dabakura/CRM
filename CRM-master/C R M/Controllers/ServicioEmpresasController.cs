@@ -94,7 +94,7 @@ namespace C_R_M.Controllers
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
-            ViewBag.Empresa = new SelectList(db.Empresa, "Id_Empresa", "Nombre", servicioEmpresa.Empresa);
+            ViewBag.Empresa = new SelectList(db.Empresa, "Id_Empresa", "Nombre", servicioEmpresa.Id_Empresa);
             ViewBag.Producto = new SelectList(db.Producto, "Id_Producto", "Nombre", servicioEmpresa.Id_Producto);
             return View(servicioEmpresa);
         }

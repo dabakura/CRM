@@ -17,8 +17,8 @@ namespace C_R_M.Controllers
         // GET: Correos
         public ActionResult Index(int? id)
         {
-            var correo = db.Correo.Include(c => c.Contacto1);
-            return View(correo.ToList().Where(x=>x.Contacto==id));
+            var correo = db.Correo.Include(c => c.Contacto);
+            return View(correo.ToList().Where(x=>x.Id_Correo==id));
         }
 
         // GET: Correos/Details/5

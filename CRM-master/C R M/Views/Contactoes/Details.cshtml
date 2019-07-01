@@ -1,53 +1,103 @@
 ﻿@model C_R_M.Models.Contacto
+@using C_R_M.Models
 @{
-    ViewBag.Title = "Details";
+    ViewBag.Title = "Contacto";
     Layout = "~/Views/Shared/_Layout.cshtml";
-    int Contacto = Model.Id_Contacto;
 }
-<h2>Ver correos y o Telefonos</h2>
-<p>
-    @Html.ActionLink("Telefonos", "../Telefonoes/Index", new { id = @Contacto })
-</p>
-<p>
-    @Html.ActionLink("Correos", "../Correos/Index", new { id = @Contacto })
-</p>
-<div>
-    <h4>Contacto</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Nombre)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Nombre)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Apellido1)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Apellido1)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Apellido2)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Apellido2)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Puesto)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Puesto)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Empresa1.Nombre)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Empresa1.Nombre)
-        </dd>
-    </dl>
+<h2>Detalle del Contacto</h2>
+
+<div class="container">
+    <div class=" row">
+
+        <h4>Contacto</h4>
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.Nombre)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Nombre)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.Apellido1)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Apellido1)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.Apellido2)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Apellido2)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.Puesto)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Puesto)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.Empresa.Nombre)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Empresa.Nombre)
+            </dd>
+        </dl>
+    </div>
+    <div class=" row">
+        <hr />
+        @if (Model.Telefono.Count > 0)
+        {
+
+            <h4>Telefonos</h4>
+            <div class="col-6">
+                <table class="table">
+                    <tr style="background-color:darkseagreen">
+                        <th>
+                            @Html.DisplayName("Codigo")
+                        </th>
+                        <th>
+                            @Html.DisplayName("Telefono")
+                        </th>
+                    </tr>
+                    @foreach (var item in Model.Telefono)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Codigo)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.N_Telefonico)
+                            </td>
+                        </tr>
+                    }
+                </table>
+            </div>
+        }
+        @if (Model.Correo.Count > 0)
+        {
+            <h4>Correos</h4>
+            <div class="col-6">
+                <table class="table">
+                    <tr style="background-color:darkseagreen">
+                        <th>
+                            @Html.DisplayName("Correo")
+                        </th>
+                    </tr>
+                    @foreach (var item in Model.Correo)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Direccion)
+                            </td>
+                        </tr>
+                    }
+                </table>
+            </div>
+        }
+    </div>
 </div>
-<p>
-    @Html.ActionLink("Editar", "Edit", new { id = Model.Id_Contacto }) |
-    @Html.ActionLink("Volver a la lista", "Index")
-</p>
+    <p>
+        @Html.ActionLink("Editar", "Edit", new { id = Model.Id_Contacto }) |
+        @Html.ActionLink("Volver a la lista", "Index")
+    </p>

@@ -8,71 +8,120 @@
 
 <h2>Editar</h2>
 
+<div class="container">
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
 
-@using (Html.BeginForm())
-{
-    @Html.AntiForgeryToken()
+        <div class="form-horizontal">
+            <h4>Contacto</h4>
+            <p>
+                @Html.ActionLink("Telefonos", "../Telefonoes/Index", new { id = @Contacto })
+            </p>
+            <p>
+                @Html.ActionLink("Correos", "../Correos/Index", new { id = @Contacto })
+            </p>
+            <hr />
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            @Html.HiddenFor(model => model.Id_Contacto)
 
-<div class="form-horizontal">
-    <h4>Contacto</h4>
-    <p>
-        @Html.ActionLink("Telefonos", "../Telefonoes/Index", new { id = @Contacto })
-    </p>
-    <p>
-        @Html.ActionLink("Correos", "../Correos/Index", new { id = @Contacto })
-    </p>
-    <hr />
-    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-    @Html.HiddenFor(model => model.Id_Contacto)
+            <div class="form-group">
+                @Html.LabelFor(model => model.Nombre, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Nombre, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Nombre, "", new { @class = "text-danger" })
+                </div>
+            </div>
 
-    <div class="form-group">
-        @Html.LabelFor(model => model.Nombre, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.Nombre, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.Nombre, "", new { @class = "text-danger" })
+            <div class="form-group">
+                @Html.LabelFor(model => model.Apellido1, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Apellido1, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Apellido1, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Apellido2, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Apellido2, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Apellido2, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Puesto, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Puesto, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Puesto, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Id_Empresa, "Empresa", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DropDownList("Id_Empresa", (SelectList)ViewBag.Empresa, htmlAttributes: new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.Id_Empresa, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <table class="table col-xs-offset-1" style="max-width: max-content;">
+                @for (int i = 0; i < Model.Correo.Count; i++)
+                {
+                    @Html.Hidden("Correo[" + i + "].Id_Correo", Model.Correo.ToArray()[i].Id_Correo)
+                    <tr>
+                        <th>
+                            @Html.LabelFor(model => model.Correo.ToArray()[i].Direccion, (i + 1) + "-Correo", htmlAttributes: new { @class = "control-label col-2" })
+                        </th>
+                        <th>
+                            @Html.EditorFor(model => model.Correo.ToArray()[i].Direccion, null, "Correo[" + i + "].Direccion", new { htmlAttributes = new { @class = "form-control", placeholder = "ejemplo@gmail.com" } })
+                        </th>
+                        <th>
+                            <input type="button" class="fa fa-recycle" onclick="" />
+                        </th>
+                    </tr>
+                }
+            </table>
+            <table class="table col-xs-offset-1" style="max-width: max-content;">
+
+                @for (int i = 0; i < Model.Telefono.Count; i++)
+                {
+                    @Html.Hidden("Telefono[" + i + "].Id_Telefono", Model.Telefono.ToArray()[i].Id_Telefono)
+                    <tr>
+                        <th>
+                            @Html.LabelFor(model => model.Telefono.ToArray()[i].Codigo, (i + 1) + "-Telefono", htmlAttributes: new { @class = "control-label col-2 " + "Telefono[" + i + "]" })
+                        </th>
+                        <th>
+                            @Html.EditorFor(model => model.Telefono.ToArray()[i].Codigo, null, "Telefono[" + i + "].Codigo", new { htmlAttributes = new { @class = "form-control " + "Telefono[" + i + "]", placeholder = "Codigo (506)" } })
+                        </th>
+                        <th>
+                            @Html.EditorFor(model => model.Telefono.ToArray()[i].N_Telefonico, null, "Telefono[" + i + "].N_Telefonico", new { htmlAttributes = new { @class = "form-control " + "Telefono[" + i + "]", placeholder = "Nº Telefonico" } })
+                        </th>
+                        @{ string text = "Telefono[" + i + "]";}
+                        <th>
+
+                            <input type="button" class="fa fa-recycle @text" onclick="borrar('@text');" />
+                        </th>
+                    </tr>
+                }
+
+            </table>
+            <script>
+                function borrar(clase) {
+                    for (var i = 0; i < document.getElementsByClassName(clase).length; i++) {
+                        var item = document.getElementsByClassName(clase)[i];
+                        item.style.display = "none";
+                        item.value = null;
+                    }
+                }
+            </script>
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Actualizar" class="btn btn-default" />
+                </div>
+            </div>
         </div>
-    </div>
-
-    <div class="form-group">
-        @Html.LabelFor(model => model.Apellido1, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.Apellido1, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.Apellido1, "", new { @class = "text-danger" })
-        </div>
-    </div>
-
-    <div class="form-group">
-        @Html.LabelFor(model => model.Apellido2, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.Apellido2, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.Apellido2, "", new { @class = "text-danger" })
-        </div>
-    </div>
-
-    <div class="form-group">
-        @Html.LabelFor(model => model.Puesto, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.Puesto, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.Puesto, "", new { @class = "text-danger" })
-        </div>
-    </div>
-
-    <div class="form-group">
-        @Html.LabelFor(model => model.Empresa, "Empresa", htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.DropDownList("Empresa", (SelectList)ViewBag.Empresa, htmlAttributes: new { @class = "form-control" })
-            @Html.ValidationMessageFor(model => model.Empresa, "", new { @class = "text-danger" })
-        </div>
-    </div>
-
-    <div class="form-group">
-        <div class="col-md-offset-2 col-md-10">
-            <input type="submit" value="Actualizar" class="btn btn-default" />
-        </div>
-    </div>
+    }
 </div>
-}
-
 <div>
     @Html.ActionLink("Volver a la lista", "Index")
 </div>

@@ -58,7 +58,7 @@ namespace C_R_M.Controllers
                 return RedirectToAction("Index");
             }
 
-            ViewBag.Empresa = new SelectList(db.Empresa, "Id_Empresa", "Nombre", recordatorio.Empresa);
+            ViewBag.Empresa = new SelectList(db.Empresa, "Id_Empresa", "Nombre", recordatorio.Id_empresa);
             return View(recordatorio);
         }
 
@@ -74,7 +74,7 @@ namespace C_R_M.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.Empresa = new SelectList(db.Empresa, "Id_Empresa", "Nombre", recordatorio.Empresa);
+            ViewBag.Empresa = new SelectList(db.Empresa, "Id_Empresa", "Nombre", recordatorio.Id_empresa);
             return View(recordatorio);
         }
 
@@ -91,7 +91,7 @@ namespace C_R_M.Controllers
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
-            ViewBag.Empresa = new SelectList(db.Empresa, "Id_Empresa", "Nombre", recordatorio.Empresa);
+            ViewBag.Empresa = new SelectList(db.Empresa, "Id_Empresa", "Nombre", recordatorio.Id_empresa);
             return View(recordatorio);
         }
 

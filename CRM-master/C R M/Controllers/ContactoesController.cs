@@ -17,18 +17,29 @@ namespace C_R_M.Controllers
         // GET: Contactoes
         public ActionResult Index()
         {
-            int? id = AccountController.Account.GetUser.Empresa;
-            var contacto = db.Contacto.Include(c => c.Empresa1);
+            int? id = AccountController.Account.GetUser.Id_Empresa;
+            var contacto = db.Contacto.Include(c => c.Empresa);
             List<Contacto> listContactos = contacto.ToList();
+            List<SelectList> listCorreos = new List<SelectList>();
+            List<SelectList> listTelefonos = new List<SelectList>();
             if (id != null)
+            {
                 foreach (var item in contacto)
                 {
-                    if (item.Empresa != id)
+                    if (item.Id_Empresa != id)
                     {
                         listContactos.Remove(item);
                     }
+                    else
+                    {
+                        listCorreos.Add(new SelectList(item.Correo, "Id_Correo", "Direccion"));
+                        listTelefonos.Add(new SelectList(item.Telefono, "Id_Telefono", "N_Telefonico"));
+                    }
                 }
-            else return RedirectToAction("Index","Home",null);
+                ViewBag.Telefonos = listTelefonos.ToArray();
+                ViewBag.Correos = listCorreos.ToArray();
+            }
+            else return RedirectToAction("Index", "Home", null);
             return View(listContactos);
         }
 
@@ -39,7 +50,7 @@ namespace C_R_M.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Contacto contacto = db.Contacto.Find(id);
+            Contacto contacto = db.Contacto.Include(c => c.Correo).Include(c => c.Telefono).First(c => c.Id_Contacto == id.Value);
             if (contacto == null)
             {
                 return HttpNotFound();
@@ -50,11 +61,24 @@ namespace C_R_M.Controllers
         // GET: Contactoes/Create
         public ActionResult Create()
         {
-            int? id = AccountController.Account.GetUser.Empresa;
+            int? id = AccountController.Account.GetUser.Id_Empresa;
             if (id != null)
                 ViewBag.Empresa = new SelectList(db.Empresa.Where(e => e.Id_Empresa == id.Value).ToList(), "Id_Empresa", "Nombre");
             else return RedirectToAction("Index", "Home", null);
-            return View();
+
+            Contacto cont = new Contacto
+            {
+                Correo = new List<Correo> {
+                new Correo { Direccion="",Id_Correo=0},
+                new Correo { Direccion = "", Id_Correo = 0 }
+            },
+                Telefono = new List<Telefono>
+            {
+                new Telefono { Codigo="",Id_Telefono=0,},
+                new Telefono { Codigo = "", Id_Telefono = 0,}
+            },Apellido1 = "", Apellido2="",Nombre="",Puesto=""
+            };
+            return View(cont);
         }
 
         // POST: Contactoes/Create
@@ -62,15 +86,22 @@ namespace C_R_M.Controllers
         // más información vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id_Contacto,Nombre,Apellido1,Apellido2,Puesto,Empresa")] Contacto contacto)
+        public ActionResult Create([Bind(Include = "Id_Contacto,Nombre,Apellido1,Apellido2,Puesto,Id_Empresa,Correo,Telefono")]Contacto contacto)
         {
             if (ModelState.IsValid)
             {
+                for (int i = 0; i < contacto.Correo.Count; i++)
+                    if (String.IsNullOrEmpty(contacto.Correo.ElementAt(i).Direccion)) contacto.Correo.Remove(contacto.Correo.ElementAt(i));
+                for (int i = 0; i < contacto.Telefono.Count; i++)
+                {
+                    if (0 == contacto.Telefono.ElementAt(i).N_Telefonico) contacto.Telefono.Remove(contacto.Telefono.ElementAt(i));
+                    if (String.IsNullOrEmpty(contacto.Telefono.ElementAt(i).Codigo)) contacto.Telefono.ElementAt(i).Codigo = "(506)";
+                }
                 db.Contacto.Add(contacto);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            int? id = AccountController.Account.GetUser.Empresa;
+            int? id = AccountController.Account.GetUser.Id_Empresa;
             if (id != null)
                 ViewBag.Empresa = new SelectList(db.Empresa.Where(e => e.Id_Empresa == id.Value).ToList(), "Id_Empresa", "Nombre");
             else return RedirectToAction("Index", "Home", null);
@@ -84,13 +115,13 @@ namespace C_R_M.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Contacto contacto = db.Contacto.Find(id);
+            Contacto contacto = db.Contacto.Include(c => c.Correo).Include(c => c.Telefono).First(c => c.Id_Contacto == id.Value);
             if (contacto == null)
             {
                 return HttpNotFound();
             }
-            int? idem = AccountController.Account.GetUser.Empresa;
-                ViewBag.Empresa = new SelectList(db.Empresa.Where(e => e.Id_Empresa == idem.Value).ToList(), "Id_Empresa", "Nombre");
+            int? idem = AccountController.Account.GetUser.Id_Empresa;
+            ViewBag.Empresa = new SelectList(db.Empresa.Where(e => e.Id_Empresa == idem.Value).ToList(), "Id_Empresa", "Nombre");
             return View(contacto);
         }
 
@@ -99,15 +130,22 @@ namespace C_R_M.Controllers
         // más información vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id_Contacto,Nombre,Apellido1,Apellido2,Puesto,Empresa")] Contacto contacto)
+        public ActionResult Edit([Bind(Include = "Id_Contacto,Nombre,Apellido1,Apellido2,Puesto,Id_Empresa,Correo,Telefono")] Contacto contacto)
         {
+            for (int i = 0; i < contacto.Correo.Count; i++)
+                if (String.IsNullOrEmpty(contacto.Correo.ElementAt(i).Direccion)) contacto.Correo.Remove(contacto.Correo.ElementAt(i));
+            for (int i = 0; i < contacto.Telefono.Count; i++)
+            {
+                if (0 == contacto.Telefono.ElementAt(i).N_Telefonico) contacto.Telefono.Remove(contacto.Telefono.ElementAt(i));
+                if (String.IsNullOrEmpty(contacto.Telefono.ElementAt(i).Codigo)) contacto.Telefono.ElementAt(i).Codigo = "(506)";
+            }
             if (ModelState.IsValid)
             {
                 db.Entry(contacto).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            int? idem = AccountController.Account.GetUser.Empresa;
+            int? idem = AccountController.Account.GetUser.Id_Empresa;
             ViewBag.Empresa = new SelectList(db.Empresa.Where(e => e.Id_Empresa == idem.Value).ToList(), "Id_Empresa", "Nombre");
             return View(contacto);
         }

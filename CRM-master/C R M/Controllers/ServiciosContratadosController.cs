@@ -18,7 +18,7 @@ namespace C_R_M.Controllers
         // GET: ServiciosContratados
         public async Task<ActionResult> Index()
         {
-            int? id = AccountController.Account.GetUser.Empresa;
+            int? id = AccountController.Account.GetUser.Id_Empresa;
             List<ServicioEmpresa> servicios = new List<ServicioEmpresa>();
             if (id != null)
                 servicios = await db.ServicioEmpresa.Include(s => s.Empresa).Include(s => s.Producto).Where(s=>s.Id_Empresa == id.Value).ToListAsync();

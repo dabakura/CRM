@@ -18,7 +18,7 @@ namespace C_R_M.Controllers
         // GET: Usuarios
         public async Task<ActionResult> Index()
         {
-            var usuario = db.Usuario.Include(u => u.Empresa1).Include(u => u.Rol);
+            var usuario = db.Usuario.Include(u => u.Empresa).Include(u => u.Rol);
             return View(await usuario.ToListAsync());
         }
 
@@ -50,7 +50,7 @@ namespace C_R_M.Controllers
         // más información vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "Id_Usuario,Nombre,Apellido1,Apellido2,Correo,Contraseña,Fecha_Creacion,Empresa,Rol")] Usuario usuario)
+        public async Task<ActionResult> Create([Bind(Include = "Id_Usuario,Nombre,Apellido1,Apellido2,Correo,Contraseña,Fecha_Creacion,Id_Empresa,Id_Rol")] Usuario usuario)
         {
             if (ModelState.IsValid)
             {
@@ -60,8 +60,8 @@ namespace C_R_M.Controllers
                 return RedirectToAction("Index");
             }
 
-            ViewBag.Empresa = new SelectList(db.Empresa, "Id_Empresa", "Nombre", usuario.Empresa);
-            ViewBag.Rol = new SelectList(db.Rol, "Id", "Nombre", usuario.Rol);
+            ViewBag.Empresa = new SelectList(db.Empresa, "Id_Empresa", "Nombre", usuario.Id_Empresa);
+            ViewBag.Rol = new SelectList(db.Rol, "Id", "Nombre", usuario.Id_Rol);
             return View(usuario);
         }
 
@@ -77,8 +77,8 @@ namespace C_R_M.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.Empresa = new SelectList(db.Empresa, "Id_Empresa", "Nombre", usuario.Empresa);
-            ViewBag.Rol = new SelectList(db.Rol, "Id", "Nombre", usuario.Rol);
+            ViewBag.Empresa = new SelectList(db.Empresa, "Id_Empresa", "Nombre", usuario.Id_Empresa);
+            ViewBag.Rol = new SelectList(db.Rol, "Id", "Nombre", usuario.Id_Rol);
             return View(usuario);
         }
 
@@ -87,7 +87,7 @@ namespace C_R_M.Controllers
         // más información vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "Id_Usuario,Nombre,Apellido1,Apellido2,Correo,Contraseña,Fecha_Creacion,Empresa,Rol")] Usuario usuario)
+        public async Task<ActionResult> Edit([Bind(Include = "Id_Usuario,Nombre,Apellido1,Apellido2,Correo,Contraseña,Fecha_Creacion,Id_Empresa,Id_Rol")] Usuario usuario)
         {
             if (ModelState.IsValid)
             {
@@ -96,8 +96,8 @@ namespace C_R_M.Controllers
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
-            ViewBag.Empresa = new SelectList(db.Empresa, "Id_Empresa", "Nombre", usuario.Empresa);
-            ViewBag.Rol = new SelectList(db.Rol, "Id", "Nombre", usuario.Rol);
+            ViewBag.Empresa = new SelectList(db.Empresa, "Id_Empresa", "Nombre", usuario.Id_Empresa);
+            ViewBag.Rol = new SelectList(db.Rol, "Id", "Nombre", usuario.Id_Rol);
             return View(usuario);
         }
 
@@ -138,7 +138,7 @@ namespace C_R_M.Controllers
 
         public bool Logeo(string email,string contraseña)
         {
-             var usuario = db.Usuario.Include(u => u.Empresa1).Include(u => u.Rol);
+             var usuario = db.Usuario.Include(u => u.Empresa).Include(u => u.Rol);
             var resultado = usuario.Where(x => x.Correo == email && x.Contraseña == contraseña).FirstOrDefault();
             if (resultado != null)
             {

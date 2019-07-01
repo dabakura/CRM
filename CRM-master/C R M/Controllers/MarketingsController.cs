@@ -18,7 +18,7 @@ namespace C_R_M.Controllers
         // GET: Marketings
         public async Task<ActionResult> Index()
         {
-            var marketing = db.Marketing.Include(m => m.Empresa1).Include(m => m.Producto).Include(m => m.Producto1);
+            var marketing = db.Marketing.Include(m => m.Empresa).Include(m => m.Producto).Include(m => m.Producto1);
             return View(await marketing.ToListAsync());
         }
 
@@ -51,7 +51,7 @@ namespace C_R_M.Controllers
         // más información vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "Id_Marketing,Id_Producto,Empresa,Sugerencia_Producto,URL")] Marketing marketing)
+        public async Task<ActionResult> Create([Bind(Include = "Id_Marketing,Id_Producto,Id_Empresa,Sugerencia_Producto,URL")] Marketing marketing)
         {
             if (ModelState.IsValid)
             {
@@ -60,7 +60,7 @@ namespace C_R_M.Controllers
                 return RedirectToAction("Index");
             }
 
-            ViewBag.Empresa = new SelectList(db.Empresa, "Id_Empresa", "Nombre", marketing.Empresa);
+            ViewBag.Empresa = new SelectList(db.Empresa, "Id_Empresa", "Nombre", marketing.Id_Empresa);
             ViewBag.Id_Producto = new SelectList(db.Producto, "Id_Producto", "Nombre", marketing.Id_Producto);
             ViewBag.Sugerencia_Producto = new SelectList(db.Producto, "Id_Producto", "Nombre", marketing.Sugerencia_Producto);
             return View(marketing);
@@ -78,7 +78,7 @@ namespace C_R_M.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.Empresa = new SelectList(db.Empresa, "Id_Empresa", "Nombre", marketing.Empresa);
+            ViewBag.Empresa = new SelectList(db.Empresa, "Id_Empresa", "Nombre", marketing.Id_Empresa);
             ViewBag.Id_Producto = new SelectList(db.Producto, "Id_Producto", "Nombre", marketing.Id_Producto);
             ViewBag.Sugerencia_Producto = new SelectList(db.Producto, "Id_Producto", "Nombre", marketing.Sugerencia_Producto);
             return View(marketing);
@@ -89,7 +89,7 @@ namespace C_R_M.Controllers
         // más información vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "Id_Marketing,Id_Producto,Empresa,Sugerencia_Producto,URL")] Marketing marketing)
+        public async Task<ActionResult> Edit([Bind(Include = "Id_Marketing,Id_Producto,Id_Empresa,Sugerencia_Producto,URL")] Marketing marketing)
         {
             if (ModelState.IsValid)
             {
@@ -97,7 +97,7 @@ namespace C_R_M.Controllers
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
-            ViewBag.Empresa = new SelectList(db.Empresa, "Id_Empresa", "Nombre", marketing.Empresa);
+            ViewBag.Empresa = new SelectList(db.Empresa, "Id_Empresa", "Nombre", marketing.Id_Empresa);
             ViewBag.Id_Producto = new SelectList(db.Producto, "Id_Producto", "Nombre", marketing.Id_Producto);
             ViewBag.Sugerencia_Producto = new SelectList(db.Producto, "Id_Producto", "Nombre", marketing.Sugerencia_Producto);
             return View(marketing);

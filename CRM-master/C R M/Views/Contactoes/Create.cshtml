@@ -4,14 +4,13 @@
     ViewBag.Title = "Create";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<div class="container">
+    <h2>Crear</h2>
 
-<h2>Crear</h2>
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
 
-
-@using (Html.BeginForm()) 
-{
-    @Html.AntiForgeryToken()
-    
     <div class="form-horizontal">
         <h4>Contacto</h4>
         <hr />
@@ -21,10 +20,9 @@
             <div class="col-md-10">
                 @Html.EditorFor(model => model.Nombre, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.Nombre, "", new { @class = "text-danger" })
-                
+
             </div>
         </div>
-
         <div class="form-group">
             @Html.LabelFor(model => model.Apellido1, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
@@ -32,7 +30,6 @@
                 @Html.ValidationMessageFor(model => model.Apellido1, "", new { @class = "text-danger" })
             </div>
         </div>
-
         <div class="form-group">
             @Html.LabelFor(model => model.Apellido2, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
@@ -40,7 +37,6 @@
                 @Html.ValidationMessageFor(model => model.Apellido2, "", new { @class = "text-danger" })
             </div>
         </div>
-
         <div class="form-group">
             @Html.LabelFor(model => model.Puesto, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
@@ -48,27 +44,53 @@
                 @Html.ValidationMessageFor(model => model.Puesto, "", new { @class = "text-danger" })
             </div>
         </div>
-
         <div class="form-group">
-            @Html.LabelFor(model => model.Empresa, "Empresa", htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.Id_Empresa, "Empresa", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.DropDownList("Empresa", (SelectList)ViewBag.Empresa, htmlAttributes: new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.Empresa, "", new { @class = "text-danger" })
+                @Html.DropDownList("Id_Empresa", (SelectList)ViewBag.Empresa, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Id_Empresa, "", new { @class = "text-danger" })
             </div>
         </div>
 
+        <div class="form-group">
+            @for (int i = 0; i < 2; i++)
+            {
+                @Html.LabelFor(model => model.Correo.ToArray()[i].Direccion, (i + 1) + "-Correo", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-4">
+                    @Html.EditorFor(model => model.Correo.ToArray()[i].Direccion, null, "Correo[" + i + "].Direccion", new { htmlAttributes = new { @class = "form-control", placeholder = "ejemplo@gmail.com" } })
+                </div>
+            }
+        </div>
+        <table class="table col-xs-offset-1" style="max-width: max-content;">
+
+            @for (int i = 0; i < 2; i++)
+            {
+                <tr>
+                    <th>
+                        @Html.LabelFor(model => model.Telefono.ToArray()[i].Codigo, (i + 1) + "-Telefono", htmlAttributes: new { @class = "control-label col-2" })
+                    </th>
+                    <th>
+                        @Html.EditorFor(model => model.Telefono.ToArray()[i].Codigo, null, "Telefono[" + i + "].Codigo", new { htmlAttributes = new { @class = "form-control", placeholder = "Codigo (506)" } })
+                    </th>
+                    <th>
+                        @Html.EditorFor(model => model.Telefono.ToArray()[i].N_Telefonico, null, "Telefono[" + i + "].N_Telefonico", new { htmlAttributes = new { @class = "form-control", placeholder = "Nº Telefonico" } })
+                    </th>
+                </tr>
+            }
+
+        </table>
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
                 <input type="submit" value="Guardar" class="btn btn-default" />
             </div>
         </div>
     </div>
-}
+    }
+    </div>
 
-<div>
-    @Html.ActionLink("Volver a la lista", "Index")
-</div>
-
-@section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
-}
+    <div>
+        @Html.ActionLink("Volver a la lista", "Index")
+    </div>
+    @section Scripts {
+        @Scripts.Render("~/bundles/jqueryval")
+    }
