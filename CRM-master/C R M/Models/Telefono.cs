@@ -22,7 +22,7 @@ namespace C_R_M.Models
     
         public int Id_Telefono { get; set; }
         public string Codigo { get; set; }
-        public int N_Telefonico { get; set; }
+        public Nullable<int> N_Telefonico { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Contacto> Contacto { get; set; }

@@ -15,13 +15,6 @@
 
         <div class="form-horizontal">
             <h4>Contacto</h4>
-            <p>
-                @Html.ActionLink("Telefonos", "../Telefonoes/Index", new { id = @Contacto })
-            </p>
-            <p>
-                @Html.ActionLink("Correos", "../Correos/Index", new { id = @Contacto })
-            </p>
-            <hr />
             @Html.ValidationSummary(true, "", new { @class = "text-danger" })
             @Html.HiddenFor(model => model.Id_Contacto)
 
@@ -64,56 +57,76 @@
                     @Html.ValidationMessageFor(model => model.Id_Empresa, "", new { @class = "text-danger" })
                 </div>
             </div>
-            <table class="table col-xs-offset-1" style="max-width: max-content;">
-                @for (int i = 0; i < Model.Correo.Count; i++)
-                {
-                    @Html.Hidden("Correo[" + i + "].Id_Correo", Model.Correo.ToArray()[i].Id_Correo)
-                    <tr>
-                        <th>
-                            @Html.LabelFor(model => model.Correo.ToArray()[i].Direccion, (i + 1) + "-Correo", htmlAttributes: new { @class = "control-label col-2" })
-                        </th>
-                        <th>
-                            @Html.EditorFor(model => model.Correo.ToArray()[i].Direccion, null, "Correo[" + i + "].Direccion", new { htmlAttributes = new { @class = "form-control", placeholder = "ejemplo@gmail.com" } })
-                        </th>
-                        <th>
-                            <input type="button" class="fa fa-recycle" onclick="" />
-                        </th>
-                    </tr>
-                }
-            </table>
-            <table class="table col-xs-offset-1" style="max-width: max-content;">
+            <div class="panel panel-default col-10 col-md-offset-1">
+                <div class="panel-heading">
+                    <dl class="dl-horizontal" style="margin-bottom: 0">
+                        <dt style="text-align: left;" class="h4">
+                            Correos
+                        </dt>
 
-                @for (int i = 0; i < Model.Telefono.Count; i++)
-                {
-                    @Html.Hidden("Telefono[" + i + "].Id_Telefono", Model.Telefono.ToArray()[i].Id_Telefono)
-                    <tr>
-                        <th>
-                            @Html.LabelFor(model => model.Telefono.ToArray()[i].Codigo, (i + 1) + "-Telefono", htmlAttributes: new { @class = "control-label col-2 " + "Telefono[" + i + "]" })
-                        </th>
-                        <th>
-                            @Html.EditorFor(model => model.Telefono.ToArray()[i].Codigo, null, "Telefono[" + i + "].Codigo", new { htmlAttributes = new { @class = "form-control " + "Telefono[" + i + "]", placeholder = "Codigo (506)" } })
-                        </th>
-                        <th>
-                            @Html.EditorFor(model => model.Telefono.ToArray()[i].N_Telefonico, null, "Telefono[" + i + "].N_Telefonico", new { htmlAttributes = new { @class = "form-control " + "Telefono[" + i + "]", placeholder = "Nº Telefonico" } })
-                        </th>
-                        @{ string text = "Telefono[" + i + "]";}
-                        <th>
+                        <dd class="text-right">
+                            <i class="fa fa-plus-square btn btn-success fa-lg" onclick="agregarCorreo();" style="margin-top: 7px;"></i>
+                        </dd>
+                    </dl>
+                </div>
+                <div class="panel-body" id="correos">
+                    <div id="correo0" class="col-12">
+                        @for (int i = 0; i < Model.Correo.Count; i++)
+                        {
+                            <div class="col-md-2">
+                                <label class="control-label" for="">@(i + 1)-Correo</label>
+                            </div>
+                            string ide = "Correo_" + i + "__Direccion";
+                            string namee = "Correo[" + i + "].Direccion";
+                            string valuee = Model.Correo.ToArray()[i].Direccion;
+                            <div class="col-md-6">
+                                <input class="form-control text-box single-line" id="@ide" name="@namee" placeholder="ejemplo@gmail.com" type="text" value="@valuee">
+                            </div>
+                            <div class="col-md-3">
+                                <label class="control-label" for="" style="height:45px;"></label>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-default col-10 col-md-offset-1">
+                <div class="panel-heading">
+                    <dl class="dl-horizontal" style="margin-bottom: 0">
+                        <dt style="text-align: left;" class="h4">
+                            Telefonos
+                        </dt>
 
-                            <input type="button" class="fa fa-recycle @text" onclick="borrar('@text');" />
-                        </th>
-                    </tr>
-                }
-
-            </table>
-            <script>
-                function borrar(clase) {
-                    for (var i = 0; i < document.getElementsByClassName(clase).length; i++) {
-                        var item = document.getElementsByClassName(clase)[i];
-                        item.style.display = "none";
-                        item.value = null;
-                    }
-                }
-            </script>
+                        <dd class="text-right">
+                            <i class="fa fa-plus-square btn btn-success fa-lg" onclick="agregarTelefono();" style="margin-top: 7px;"></i>
+                        </dd>
+                    </dl>
+                </div>
+                <div class="panel-body" id="telefonos">
+                    <div id="telefono0" class="col-12">
+                        @for (int i = 0; i < Model.Telefono.Count; i++)
+                        {
+                            <div class="col-md-2">
+                                <label class="control-label" for="">@(i + 1)-Telefono</label>
+                            </div>
+                            string idr = "Telefono_" + i + "__Codigo";
+                            string namer = "Telefono[" + i + "].Codigo";
+                            string valuer = Model.Telefono.ToArray()[i].Codigo;
+                            string idt = "Telefono_" + i + "__N_Telefonico";
+                            string namet = "Telefono[" + i + "].N_Telefonico";
+                            string valuet = Model.Telefono.ToArray()[i].N_Telefonico.ToString();
+                            <div class="col-md-3">
+                                <input class="form-control text-box single-line" id="@idr" name="@namer" placeholder="Codigo (506)" type="text" value="@valuer">
+                            </div>
+                            <div class="col-md-3">
+                                <input class="form-control text-box single-line" id="@idt" name="@namet" placeholder="Nº Telefonico" type="number" value="@valuet">
+                            </div>
+                            <div class="col-md-3">
+                                <label class="control-label" for="" style="height:45px;"></label>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
             <div class="form-group">
                 <div class="col-md-offset-2 col-md-10">
                     <input type="submit" value="Actualizar" class="btn btn-default" />
@@ -129,3 +142,43 @@
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
 }
+
+<script>
+    var indexcorreo = @Model.Correo.Count;
+    var indextelefono = @Model.Telefono.Count;
+    function agregarCorreo() {
+        $('#correos').append(`
+            <div id="correo`+ indexcorreo + `" class="col-12">
+                <div class="col-md-2">
+                    <label class="control-label" for="">`+ (indexcorreo + 1) + `-Correo</label>
+                </div>
+                <div class="col-md-6">
+                    <input class="form-control text-box single-line" id="Correo_`+ indexcorreo + `__Direccion" name="Correo[` + indexcorreo + `].Direccion" placeholder="ejemplo@gmail.com" type="text" value="">
+                </div>
+                <div class="col-md-3">
+                    <label class="control-label" for="" style="height:45px;"></label>
+                </div>
+            </div>
+        `);
+        indexcorreo++;
+    }
+    function agregarTelefono() {
+        $('#telefonos').append(`
+            <div id="telefono`+ indextelefono + `" class="col-12">
+                <div class="col-md-2">
+                    <label class="control-label" for="">`+ (indextelefono + 1) + `-Telefono</label>
+                </div>
+                <div class="col-md-3">
+                    <input class="form-control text-box single-line" id="Telefono_`+ indextelefono + `__Codigo" name="Telefono[` + indextelefono + `].Codigo" placeholder="Codigo (506)" type="text" value="">
+                </div>
+                <div class="col-md-3">
+                    <input class="form-control text-box single-line"  id="Telefono_`+ indextelefono + `__N_Telefonico" name="Telefono[` + indextelefono + `].N_Telefonico" placeholder="Nº Telefonico" type="number" value="">
+                </div>
+                <div class="col-md-3">
+                    <label class="control-label" for="" style="height:45px;"></label>
+                </div>
+            </div>
+        `);
+        indextelefono++;
+    }
+</script>

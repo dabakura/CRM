@@ -45,7 +45,7 @@
             <PropertyRef Name="Id_Correo" />
           </Key>
           <Property Name="Id_Correo" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Direccion" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="Direccion" Type="varchar" MaxLength="100" />
         </EntityType>
         <EntityType Name="Cuenta">
           <Key>
@@ -219,8 +219,8 @@
             <PropertyRef Name="Id_Telefono" />
           </Key>
           <Property Name="Id_Telefono" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Codigo" Type="varchar" MaxLength="8" Nullable="false" />
-          <Property Name="N_Telefonico" Type="int" Nullable="false" />
+          <Property Name="Codigo" Type="varchar" MaxLength="8" />
+          <Property Name="N_Telefonico" Type="int" />
         </EntityType>
         <EntityType Name="Usuario">
           <Key>
@@ -1383,7 +1383,7 @@
             <PropertyRef Name="Id_Correo" />
           </Key>
           <Property Name="Id_Correo" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Direccion" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Direccion" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="Contacto" Relationship="CRMModel.Contacto_Correo" FromRole="Correo" ToRole="Contacto" />
         </EntityType>
         <EntityType Name="Telefono">
@@ -1391,8 +1391,8 @@
             <PropertyRef Name="Id_Telefono" />
           </Key>
           <Property Name="Id_Telefono" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Codigo" Type="String" Nullable="false" MaxLength="8" FixedLength="false" Unicode="false" />
-          <Property Name="N_Telefonico" Type="Int32" Nullable="false" />
+          <Property Name="Codigo" Type="String" MaxLength="8" FixedLength="false" Unicode="false" />
+          <Property Name="N_Telefonico" Type="Int32" />
           <NavigationProperty Name="Contacto" Relationship="CRMModel.Contacto_Telefono" FromRole="Telefono" ToRole="Contacto" />
         </EntityType>
         <Association Name="Contacto_Correo">

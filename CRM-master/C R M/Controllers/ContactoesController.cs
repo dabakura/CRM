@@ -65,20 +65,7 @@ namespace C_R_M.Controllers
             if (id != null)
                 ViewBag.Empresa = new SelectList(db.Empresa.Where(e => e.Id_Empresa == id.Value).ToList(), "Id_Empresa", "Nombre");
             else return RedirectToAction("Index", "Home", null);
-
-            Contacto cont = new Contacto
-            {
-                Correo = new List<Correo> {
-                new Correo { Direccion="",Id_Correo=0},
-                new Correo { Direccion = "", Id_Correo = 0 }
-            },
-                Telefono = new List<Telefono>
-            {
-                new Telefono { Codigo="",Id_Telefono=0,},
-                new Telefono { Codigo = "", Id_Telefono = 0,}
-            },Apellido1 = "", Apellido2="",Nombre="",Puesto=""
-            };
-            return View(cont);
+            return View();
         }
 
         // POST: Contactoes/Create
@@ -88,15 +75,15 @@ namespace C_R_M.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "Id_Contacto,Nombre,Apellido1,Apellido2,Puesto,Id_Empresa,Correo,Telefono")]Contacto contacto)
         {
+            for (int i = 0; i < contacto.Correo.Count; i++)
+                if (String.IsNullOrEmpty(contacto.Correo.ElementAt(i).Direccion)) contacto.Correo.Remove(contacto.Correo.ElementAt(i));
+            for (int i = 0; i < contacto.Telefono.Count; i++)
+            {
+                if (String.IsNullOrEmpty(contacto.Telefono.ElementAt(i).Codigo)) contacto.Telefono.ElementAt(i).Codigo = "(506)";
+                if (0 == contacto.Telefono.ElementAt(i).N_Telefonico) contacto.Telefono.Remove(contacto.Telefono.ElementAt(i));
+            }
             if (ModelState.IsValid)
             {
-                for (int i = 0; i < contacto.Correo.Count; i++)
-                    if (String.IsNullOrEmpty(contacto.Correo.ElementAt(i).Direccion)) contacto.Correo.Remove(contacto.Correo.ElementAt(i));
-                for (int i = 0; i < contacto.Telefono.Count; i++)
-                {
-                    if (0 == contacto.Telefono.ElementAt(i).N_Telefonico) contacto.Telefono.Remove(contacto.Telefono.ElementAt(i));
-                    if (String.IsNullOrEmpty(contacto.Telefono.ElementAt(i).Codigo)) contacto.Telefono.ElementAt(i).Codigo = "(506)";
-                }
                 db.Contacto.Add(contacto);
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -133,15 +120,29 @@ namespace C_R_M.Controllers
         public ActionResult Edit([Bind(Include = "Id_Contacto,Nombre,Apellido1,Apellido2,Puesto,Id_Empresa,Correo,Telefono")] Contacto contacto)
         {
             for (int i = 0; i < contacto.Correo.Count; i++)
+            {
+                contacto.Correo.ElementAt(i).Contacto = null;
+                contacto.Correo.ElementAt(i).Id_Correo = 0;
                 if (String.IsNullOrEmpty(contacto.Correo.ElementAt(i).Direccion)) contacto.Correo.Remove(contacto.Correo.ElementAt(i));
+            }
             for (int i = 0; i < contacto.Telefono.Count; i++)
             {
-                if (0 == contacto.Telefono.ElementAt(i).N_Telefonico) contacto.Telefono.Remove(contacto.Telefono.ElementAt(i));
+                contacto.Telefono.ElementAt(i).Contacto = null;
+                contacto.Telefono.ElementAt(i).Id_Telefono = 0;
                 if (String.IsNullOrEmpty(contacto.Telefono.ElementAt(i).Codigo)) contacto.Telefono.ElementAt(i).Codigo = "(506)";
+                if (0 == contacto.Telefono.ElementAt(i).N_Telefonico) contacto.Telefono.Remove(contacto.Telefono.ElementAt(i));
             }
             if (ModelState.IsValid)
             {
-                db.Entry(contacto).State = EntityState.Modified;
+                Contacto contact = db.Contacto.Find(contacto.Id_Contacto);
+                contact.Nombre = contacto.Nombre;
+                contact.Apellido1 = contacto.Apellido1;
+                contact.Apellido2 = contacto.Apellido2;
+                contact.Puesto = contacto.Puesto;
+                contact.Correo.Clear();
+                contact.Correo = contacto.Correo;
+                contact.Telefono.Clear();
+                contact.Telefono = contacto.Telefono;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
