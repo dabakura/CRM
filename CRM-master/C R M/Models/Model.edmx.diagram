@@ -46,8 +46,8 @@
         <AssociationConnector Association="CRMModel.FK_PermisoRol_Rol" />
         <AssociationConnector Association="CRMModel.FK_ServicioEmpresa_Producto" />
         <AssociationConnector Association="CRMModel.FK_Usuario_Rol" />
-        <EntityTypeShape EntityType="CRMModel.Correo" Width="1.5" PointX="12" PointY="23.5" />
-        <EntityTypeShape EntityType="CRMModel.Telefono" Width="1.5" PointX="12" PointY="25.875" />
+        <EntityTypeShape EntityType="CRMModel.Correo" Width="1.5" PointX="12" PointY="26.125" />
+        <EntityTypeShape EntityType="CRMModel.Telefono" Width="1.5" PointX="12" PointY="23.5" />
         <AssociationConnector Association="CRMModel.Contacto_Correo" />
         <AssociationConnector Association="CRMModel.Contacto_Telefono" />
         </Diagram>
