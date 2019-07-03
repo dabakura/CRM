@@ -26,15 +26,10 @@ namespace C_R_M.Controllers
             {
                 foreach (var item in contacto)
                 {
-                    if (item.Id_Empresa != id)
-                    {
-                        listContactos.Remove(item);
-                    }
-                    else
-                    {
+                    
                         listCorreos.Add(new SelectList(item.Correo, "Id_Correo", "Direccion"));
                         listTelefonos.Add(new SelectList(item.Telefono, "Id_Telefono", "N_Telefonico"));
-                    }
+                  
                 }
                 ViewBag.Telefonos = listTelefonos.ToArray();
                 ViewBag.Correos = listCorreos.ToArray();
@@ -63,7 +58,7 @@ namespace C_R_M.Controllers
         {
             int? id = AccountController.Account.GetUser.Id_Empresa;
             if (id != null)
-                ViewBag.Empresa = new SelectList(db.Empresa.Where(e => e.Id_Empresa == id.Value).ToList(), "Id_Empresa", "Nombre");
+                ViewBag.Empresa = new SelectList(db.Empresa.ToList(), "Id_Empresa", "Nombre");
             else return RedirectToAction("Index", "Home", null);
             return View();
         }
@@ -90,7 +85,7 @@ namespace C_R_M.Controllers
             }
             int? id = AccountController.Account.GetUser.Id_Empresa;
             if (id != null)
-                ViewBag.Empresa = new SelectList(db.Empresa.Where(e => e.Id_Empresa == id.Value).ToList(), "Id_Empresa", "Nombre");
+                ViewBag.Empresa = new SelectList(db.Empresa.ToList(), "Id_Empresa", "Nombre");
             else return RedirectToAction("Index", "Home", null);
             return View(contacto);
         }
@@ -108,7 +103,7 @@ namespace C_R_M.Controllers
                 return HttpNotFound();
             }
             int? idem = AccountController.Account.GetUser.Id_Empresa;
-            ViewBag.Empresa = new SelectList(db.Empresa.Where(e => e.Id_Empresa == idem.Value).ToList(), "Id_Empresa", "Nombre");
+            ViewBag.Empresa = new SelectList(db.Empresa.ToList(), "Id_Empresa", "Nombre");
             return View(contacto);
         }
 
@@ -138,6 +133,7 @@ namespace C_R_M.Controllers
                 contact.Nombre = contacto.Nombre;
                 contact.Apellido1 = contacto.Apellido1;
                 contact.Apellido2 = contacto.Apellido2;
+                contact.Id_Empresa = contacto.Id_Empresa;
                 contact.Puesto = contacto.Puesto;
                 contact.Correo.Clear();
                 contact.Correo = contacto.Correo;
@@ -147,7 +143,7 @@ namespace C_R_M.Controllers
                 return RedirectToAction("Index");
             }
             int? idem = AccountController.Account.GetUser.Id_Empresa;
-            ViewBag.Empresa = new SelectList(db.Empresa.Where(e => e.Id_Empresa == idem.Value).ToList(), "Id_Empresa", "Nombre");
+            ViewBag.Empresa = new SelectList(db.Empresa.ToList(), "Id_Empresa", "Nombre");
             return View(contacto);
         }
 
