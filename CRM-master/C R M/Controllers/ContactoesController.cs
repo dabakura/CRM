@@ -2,11 +2,13 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.Linq.Dynamic;
 using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using C_R_M.Models;
+using Newtonsoft.Json;
 
 namespace C_R_M.Controllers
 {
@@ -17,24 +19,17 @@ namespace C_R_M.Controllers
         // GET: Contactoes
         public ActionResult Index()
         {
-            int? id = AccountController.Account.GetUser.Id_Empresa;
             var contacto = db.Contacto.Include(c => c.Empresa);
             List<Contacto> listContactos = contacto.ToList();
             List<SelectList> listCorreos = new List<SelectList>();
             List<SelectList> listTelefonos = new List<SelectList>();
-            if (id != null)
+            foreach (var item in contacto)
             {
-                foreach (var item in contacto)
-                {
-                    
-                        listCorreos.Add(new SelectList(item.Correo, "Id_Correo", "Direccion"));
-                        listTelefonos.Add(new SelectList(item.Telefono, "Id_Telefono", "N_Telefonico"));
-                  
-                }
-                ViewBag.Telefonos = listTelefonos.ToArray();
-                ViewBag.Correos = listCorreos.ToArray();
+                listCorreos.Add(new SelectList(item.Correo, "Id_Correo", "Direccion"));
+                listTelefonos.Add(new SelectList(item.Telefono, "Id_Telefono", "N_Telefonico"));
             }
-            else return RedirectToAction("Index", "Home", null);
+            ViewBag.Telefonos = listTelefonos.ToArray();
+            ViewBag.Correos = listCorreos.ToArray();
             return View(listContactos);
         }
 
@@ -56,10 +51,7 @@ namespace C_R_M.Controllers
         // GET: Contactoes/Create
         public ActionResult Create()
         {
-            int? id = AccountController.Account.GetUser.Id_Empresa;
-            if (id != null)
-                ViewBag.Empresa = new SelectList(db.Empresa.ToList(), "Id_Empresa", "Nombre");
-            else return RedirectToAction("Index", "Home", null);
+            ViewBag.Empresa = new SelectList(db.Empresa.ToList(), "Id_Empresa", "Nombre");
             return View();
         }
 
@@ -83,10 +75,7 @@ namespace C_R_M.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            int? id = AccountController.Account.GetUser.Id_Empresa;
-            if (id != null)
-                ViewBag.Empresa = new SelectList(db.Empresa.ToList(), "Id_Empresa", "Nombre");
-            else return RedirectToAction("Index", "Home", null);
+            ViewBag.Empresa = new SelectList(db.Empresa.ToList(), "Id_Empresa", "Nombre");
             return View(contacto);
         }
 
@@ -102,7 +91,6 @@ namespace C_R_M.Controllers
             {
                 return HttpNotFound();
             }
-            int? idem = AccountController.Account.GetUser.Id_Empresa;
             ViewBag.Empresa = new SelectList(db.Empresa.ToList(), "Id_Empresa", "Nombre");
             return View(contacto);
         }
@@ -142,7 +130,6 @@ namespace C_R_M.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            int? idem = AccountController.Account.GetUser.Id_Empresa;
             ViewBag.Empresa = new SelectList(db.Empresa.ToList(), "Id_Empresa", "Nombre");
             return View(contacto);
         }
@@ -180,6 +167,74 @@ namespace C_R_M.Controllers
                 db.Dispose();
             }
             base.Dispose(disposing);
+        }
+
+        public JsonResult LoadData()
+        {
+            try
+            {
+                //Creating instance of DatabaseContext class
+                using (CRMEntities _context = new CRMEntities())
+                {
+                    var draw = Request.Form.GetValues("draw").FirstOrDefault();
+                    var start = Request.Form.GetValues("start").FirstOrDefault();
+                    var length = Request.Form.GetValues("length").FirstOrDefault();
+                    var sortColumn = Request.Form.GetValues("columns[" + Request.Form.GetValues("order[0][column]").FirstOrDefault() + "][name]").FirstOrDefault();
+                    var sortColumnDir = Request.Form.GetValues("order[0][dir]").FirstOrDefault();
+                    var searchValue = Request.Form.GetValues("search[value]").FirstOrDefault();
+
+
+                    //Paging Size (10,20,50,100)  
+                    int pageSize = length != null ? Convert.ToInt32(length) : 0;
+                    int skip = start != null ? Convert.ToInt32(start) : 0;
+                    int recordsTotal = 0;
+
+                    // Getting all Customer data  
+                    var customerData = (from tempcustomer in _context.Contacto
+                                        select tempcustomer);
+
+                    //Sorting  
+                    if (!string.IsNullOrEmpty(sortColumn) && !string.IsNullOrEmpty(sortColumnDir))
+                    {
+                        customerData = customerData.OrderBy(sortColumn + " " + sortColumnDir);
+                    }
+
+                    //Search  
+                    if (!string.IsNullOrEmpty(searchValue))
+                    {
+                        customerData = customerData.Where(m => m.Nombre.Contains(searchValue)
+                        || m.Apellido1.Contains(searchValue) || m.Apellido2.Contains(searchValue) || m.Empresa.Nombre.Contains(searchValue));
+                    }
+
+                    //total number of rows count   
+                    recordsTotal = customerData.Count();
+                    //Paging   
+                    var data = customerData.Skip(skip).Take(pageSize).ToList();
+                    List<Contacto> list = new List<Contacto>();
+                    foreach (var item in data)
+                    {
+                        list.Add(new Contacto
+                        {
+                            Apellido1 = item.Apellido1,
+                            Apellido2 = item.Apellido2,
+                            Id_Contacto = item.Id_Contacto,
+                            Id_Empresa = item.Id_Empresa,
+                            Nombre = item.Nombre,
+                            Puesto = item.Puesto,
+                            Telefono = (from te in item.Telefono select new Telefono { Codigo = te.Codigo, N_Telefonico = te.N_Telefonico }).ToList(),
+                            Empresa = new Empresa { Nombre = item.Empresa.Nombre },
+                            Correo = (from te in item.Correo select new Correo { Direccion = te.Direccion }).ToList(),
+                        });
+                    }
+                    //Returning Json Data  
+                    return Json(new { draw = draw, recordsFiltered = recordsTotal, recordsTotal = recordsTotal, data = list });
+                }
+            }
+            catch (Exception e)
+            {
+                System.Diagnostics.Debug.WriteLine(e.Message);
+            }
+            return Json(new { data = "error" }, JsonRequestBehavior.AllowGet);
         }
     }
 }

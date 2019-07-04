@@ -30,6 +30,14 @@ namespace C_R_M
 
             bundles.Add(new StyleBundle("~/Content/css-login").Include(
                       "~/Content/Login.css"));
+
+            bundles.Add(new StyleBundle("~/Content/css-datatables").Include(
+                      "~/Content/dataTables.bootstrap.min.css",
+                      "~/Content/responsive.bootstrap.min.css"));
+
+            bundles.Add(new ScriptBundle("~/bundles/datatables").Include(
+                     "~/Scripts/jquery.dataTables.min.js",
+                     "~/Scripts/dataTables.bootstrap4.min.js"));
         }
     }
 }

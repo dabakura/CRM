@@ -73,6 +73,9 @@
       <HintPath>..\packages\System.Diagnostics.DiagnosticSource.4.5.1\lib\net46\System.Diagnostics.DiagnosticSource.dll</HintPath>
     </Reference>
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Linq.Dynamic, Version=1.0.6132.35681, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Linq.Dynamic.1.0.7\lib\net40\System.Linq.Dynamic.dll</HintPath>
+    </Reference>
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
     <Reference Include="System.Web.DynamicData" />
@@ -6417,6 +6420,9 @@
     <Content Include="Content\build\js\PushMenu.js" />
     <Content Include="Content\build\js\TodoList.js" />
     <Content Include="Content\build\js\Tree.js" />
+    <Content Include="Content\dataTables.bootstrap.min.css" />
+    <Content Include="Content\responsive.bootstrap.min.css" />
+    <Content Include="Scripts\dataTables.bootstrap4.min.js" />
     <Content Include="Content\Datepicker\css\bootstrap-datepicker.css" />
     <Content Include="Content\Datepicker\css\bootstrap-datepicker.min.css" />
     <Content Include="Content\Datepicker\css\bootstrap-datepicker.standalone.css" />
@@ -6560,6 +6566,7 @@
     <Content Include="Content\dist\js\demo.js" />
     <Content Include="Content\dist\js\pages\dashboard.js" />
     <Content Include="Content\dist\js\pages\dashboard2.js" />
+    <Content Include="Scripts\jquery.dataTables.min.js" />
     <Content Include="Content\Login.css" />
     <Content Include="Content\plugins\bootstrap-slider\bootstrap-slider.js" />
     <Content Include="Content\plugins\bootstrap-slider\slider.css" />
@@ -6703,7 +6710,7 @@
     <Content Include="Content\plugins\timepicker\bootstrap-timepicker.js" />
     <Content Include="Content\plugins\timepicker\bootstrap-timepicker.min.css" />
     <Content Include="Content\plugins\timepicker\bootstrap-timepicker.min.js" />
-    <Content Include="favicon.ico" />
+    <Content Include="Scripts\favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
     <Content Include="Content\Datepicker\css\bootstrap-datepicker.css.map" />
@@ -7363,6 +7370,7 @@
     <Content Include="Models\Model.edmx.diagram">
       <DependentUpon>Model.edmx</DependentUpon>
     </Content>
+    <Content Include="Resources\Spanish.json" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
