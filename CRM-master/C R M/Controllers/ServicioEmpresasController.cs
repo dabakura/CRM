@@ -17,10 +17,9 @@ namespace C_R_M.Controllers
         private CRMEntities db = new CRMEntities();
 
         // GET: ServicioEmpresas
-        public async Task<ActionResult> Index()
+        public ActionResult Index()
         {
-            var servicioEmpresa = db.ServicioEmpresa.Include(s => s.Empresa).Include(s => s.Producto);
-            return View(await servicioEmpresa.ToListAsync());
+            return View();
         }
 
         // GET: ServicioEmpresas/Details/5
