@@ -1,71 +1,93 @@
 ﻿@model IEnumerable<C_R_M.Models.ServicioEmpresa>
 @using C_R_M.Models
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Servicios";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
-<h2>Index</h2>
-
-<p>
-    @Html.ActionLink("Crear nuevo", "Create")
-</p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Descripcion)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Fecha_Creacion)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Primer_Pago)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Renovacion)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Precio)
-        </th>
-        <th>
-            @Html.DisplayName("Empresa")
-        </th>
-        <th>
-            @Html.DisplayName("Producto")
-        </th>
-        <th></th>
-    </tr>
-
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Descripcion)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Fecha_Creacion)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Primer_Pago)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Renovacion)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Precio)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Empresa.Nombre)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Producto.Nombre)
-        </td>
-        <td>
-            @Html.ActionLink("Ver cuentas", "Index", "Cuentas", new { id = item.Id_Servicio_Empresa, tipo = TipoConsulta.ActorizadaCuenta }, null) |
-            @Html.ActionLink("Edit", "Edit", new { id = item.Id_Servicio_Empresa }) |
-            @Html.ActionLink("Details", "Details", new { id = item.Id_Servicio_Empresa }) |
-            @Html.ActionLink("Delete", "Delete", new { id = item.Id_Servicio_Empresa })
-        </td>
-    </tr>
+@section Styles{
+    @Styles.Render("~/Content/css-datatables")
+    <style>
+        .ml-1 {
+            margin-left: 3px;
+        }
+    </style>
 }
 
-</table>
+
+
+    <h2>Servicios vendidos</h2>
+    <p>
+        <a href="@Url.Action("Create")" class="btn btn-success"><i class="fa fa-plus-circle"></i> Crear Nuevo</a>
+    </p>
+    <br />
+    <div style=" margin:0 auto;">
+        <table id="demoGrid" class="table table-striped table-bordered dt-responsive nowrap" width="100%" cellspacing="0">
+            <thead>
+                <tr>
+                    <th>Id_Servicio_Empresa</th>
+                    <th>Descripción</th>
+                    <th>Creación</th>
+                    <th>Primer Pago</th>
+                    <th>Renovación</th>
+                    <th>Precio</th>
+                    <th>Empresa</th>
+                    <th>Producto</th>
+                    <th>Opciones</th>
+                </tr>
+            </thead>
+        </table>
+    </div>
+
+
+@section scripts{
+    @Scripts.Render("~/bundles/datatables")
+    <script>
+        $(document).ready(function () {
+            $("#demoGrid").DataTable({
+                "language": {
+                    "url": "@Url.Content("/Resources/Spanish.json")"
+                },
+                "processing": true, // for show progress bar
+                "serverSide": true, // for process server side
+                "filter": true, // this is for disable filter (search box)
+                "orderMulti": false, // for disable multiple column at once
+                "pageLength": 5,
+
+                "ajax": {
+                    "url": "/ServicioEmpresas/LoadData",
+                    "type": "POST",
+                    "datatype": "json"
+                },
+
+                "columnDefs":
+                    [{
+                        "targets": [0],
+                        "visible": false,
+                        "sortable": false,
+                        "searchable": false
+                    }, {
+                            "targets": [8],
+                            "visible": true,
+                            "sortable": false,
+                            "searchable": false
+                        }],
+
+                "columns": [
+                    { "data": "Id_Servicio_Empresa", "name": "Id_Servicio_Empresa", "autoWidth": true },
+                    { "data": "Descripcion", "name": "Descripcion", "autoWidth": true },
+                    { "data": "Fecha_Creacion", "name": "Fecha_Creacion", "autoWidth": true },
+                    { "data": "Primer_Pago", "name": "Primer_Pago", "autoWidth": true },
+                    { "data": "Renovacion", "name": "Renovacion", "autoWidth": true },
+                    { "data": "Precio", "name": "Precio", "autoWidth": true },
+                    { "data": "Empresa.Nombre", "name": "Empresa.Nombre", "autoWidth": true },
+                    { "data": "Producto.Nombre", "name": "Producto.Nombre", "autoWidth": true },
+                    {
+                        "render": function (data, type, full, meta) {
+                            return '<a class="btn btn-info ml-1" href="/Cuentas/Index/?&id=' + full.Id_Servicio_Empresa + '&tipo=1">Ver Cuentas</a><a class="btn btn-info ml-1" href="/ServicioEmpresas/Details/' + full.Id_Servicio_Empresa + '"><i class="fa fa-info-circle"></i></a><a class="btn btn-success ml-1" href="/ServicioEmpresas/Edit/' + full.Id_Servicio_Empresa + '"><i class="fa fa-edit  fa-lg"></i></a><a class="btn btn-danger ml-1" href="/ServicioEmpresas/Delete/' + full.Id_Servicio_Empresa + '"><i class="fa fa-trash fa-lg"></i></a>';
+                        }
+                    }
+                ]
+
+            });
+        });</script>
+}

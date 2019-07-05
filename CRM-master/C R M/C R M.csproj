@@ -224,6 +224,7 @@
     <Compile Include="Models\Rol.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Servicio.cs" />
     <Compile Include="Models\ServicioEmpresa.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>

@@ -19,18 +19,7 @@ namespace C_R_M.Controllers
         // GET: Contactoes
         public ActionResult Index()
         {
-            var contacto = db.Contacto.Include(c => c.Empresa);
-            List<Contacto> listContactos = contacto.ToList();
-            List<SelectList> listCorreos = new List<SelectList>();
-            List<SelectList> listTelefonos = new List<SelectList>();
-            foreach (var item in contacto)
-            {
-                listCorreos.Add(new SelectList(item.Correo, "Id_Correo", "Direccion"));
-                listTelefonos.Add(new SelectList(item.Telefono, "Id_Telefono", "N_Telefonico"));
-            }
-            ViewBag.Telefonos = listTelefonos.ToArray();
-            ViewBag.Correos = listCorreos.ToArray();
-            return View(listContactos);
+            return View();
         }
 
         // GET: Contactoes/Details/5

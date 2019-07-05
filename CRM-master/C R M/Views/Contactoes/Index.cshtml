@@ -3,7 +3,7 @@
 @{
     /**/
 
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Contactos";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 @section Styles{
@@ -14,69 +14,6 @@
         }
     </style>
 }
-
-
-
-
-
-@*<table class="table">
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Nombre)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Apellido1)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Apellido2)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Puesto)
-            </th>
-            <th>
-                @Html.DisplayName("Empresa")
-            </th>
-            <th>@Html.DisplayName("Telefonos")</th>
-            <th>@Html.DisplayName("Correos")</th>
-            <th></th>
-        </tr>
-        @{int index = 0; }
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Nombre)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Apellido1)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Apellido2)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Puesto)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Empresa.Nombre)
-                </td>
-                <td>
-                    @Html.DropDownList("Telefono", (IEnumerable<SelectListItem>)(ViewBag.Telefonos[index]), htmlAttributes: new { @class = "form-control" })
-                </td>
-
-                <td>
-                    @Html.DropDownList("Correo", (IEnumerable<SelectListItem>)(ViewBag.Correos[index]), htmlAttributes: new { @class = "form-control" })
-                </td>
-                <td>
-                    @Html.ActionLink("Editar", "Edit", new { id = item.Id_Contacto }) |
-                    @Html.ActionLink("Detalles", "Details", new { id = item.Id_Contacto }) |
-                    @Html.ActionLink("Borrar", "Delete", new { id = item.Id_Contacto })
-                </td>
-            </tr>
-            index++;
-
-        }
-
-    </table>*@
 
 
     <div class="container">
