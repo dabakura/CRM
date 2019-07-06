@@ -18,6 +18,8 @@ namespace C_R_M.Controllers
         // GET: Recordatorios
         public async Task<ActionResult> Index()
         {
+            if (AccountController.Account.GetUser == null)
+                return RedirectPermanent("Login/Index");
             var recordatorio = db.Recordatorio.Include(r => r.Empresa);
             return View(await recordatorio.ToListAsync());
         }
@@ -25,6 +27,8 @@ namespace C_R_M.Controllers
         // GET: Recordatorios/Details/5
         public async Task<ActionResult> Details(int? id)
         {
+            if (AccountController.Account.GetUser == null)
+                return RedirectPermanent("Login/Index");
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -40,6 +44,8 @@ namespace C_R_M.Controllers
         // GET: Recordatorios/Create
         public ActionResult Create()
         {
+            if (AccountController.Account.GetUser == null)
+                return RedirectPermanent("Login/Index");
             ViewBag.Empresa = new SelectList(db.Empresa, "Id_Empresa", "Nombre");
             return View();
         }
@@ -51,6 +57,8 @@ namespace C_R_M.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Create([Bind(Include = "Id_Recordatorio,Tipo,Fecha,Hora,Minutos,Abreviatura,Detalle,Id_empresa,Mensaje")] Recordatorio recordatorio)
         {
+            if (AccountController.Account.GetUser == null)
+                return RedirectPermanent("Login/Index");
             if (ModelState.IsValid)
             {
                 db.Recordatorio.Add(recordatorio);
@@ -65,6 +73,8 @@ namespace C_R_M.Controllers
         // GET: Recordatorios/Edit/5
         public async Task<ActionResult> Edit(int? id)
         {
+            if (AccountController.Account.GetUser == null)
+                return RedirectPermanent("Login/Index");
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -85,6 +95,8 @@ namespace C_R_M.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Edit([Bind(Include = "Id_Recordatorio,Tipo,Fecha,Hora,Minutos,Abreviatura,Detalle,Id_empresa,Mensaje")] Recordatorio recordatorio)
         {
+            if (AccountController.Account.GetUser == null)
+                return RedirectPermanent("Login/Index");
             if (ModelState.IsValid)
             {
                 db.Entry(recordatorio).State = EntityState.Modified;
@@ -98,6 +110,8 @@ namespace C_R_M.Controllers
         // GET: Recordatorios/Delete/5
         public async Task<ActionResult> Delete(int? id)
         {
+            if (AccountController.Account.GetUser == null)
+                return RedirectPermanent("Login/Index");
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -115,6 +129,8 @@ namespace C_R_M.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> DeleteConfirmed(int id)
         {
+            if (AccountController.Account.GetUser == null)
+                return RedirectPermanent("Login/Index");
             Recordatorio recordatorio = await db.Recordatorio.FindAsync(id);
             db.Recordatorio.Remove(recordatorio);
             await db.SaveChangesAsync();
@@ -123,6 +139,8 @@ namespace C_R_M.Controllers
 
         public async Task<ActionResult> RecordatoriosDia()
         {
+            if (AccountController.Account.GetUser == null)
+                return RedirectPermanent("Login/Index");
             var recordatorio = await db.Recordatorio.Include(r => r.Empresa).ToListAsync();
             return View(recordatorio.FindAll(r => r.Fecha.Date == DateTime.Now.Date));
         }

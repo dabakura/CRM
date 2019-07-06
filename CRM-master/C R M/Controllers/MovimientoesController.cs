@@ -18,12 +18,16 @@ namespace C_R_M.Controllers
         // GET: Movimientoes
         public async Task<ActionResult> Index()
         {
+            if (AccountController.Account.GetUser == null)
+                return RedirectPermanent("Login/Index");
             return View(await db.Movimiento.ToListAsync());
         }
 
         // GET: Movimientoes/Details/5
         public async Task<ActionResult> Details(int? id)
         {
+            if (AccountController.Account.GetUser == null)
+                return RedirectPermanent("Login/Index");
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -39,6 +43,8 @@ namespace C_R_M.Controllers
         // GET: Movimientoes/Create
         public ActionResult Create()
         {
+            if (AccountController.Account.GetUser == null)
+                return RedirectPermanent("Login/Index");
             return View();
         }
 
@@ -49,6 +55,8 @@ namespace C_R_M.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Create([Bind(Include = "Id_Movimiento,Tipo,Monto,Detalle,Fecha")] Movimiento movimiento)
         {
+            if (AccountController.Account.GetUser == null)
+                return RedirectPermanent("Login/Index");
             if (ModelState.IsValid)
             {
                // movimiento.Fecha = DateTime.Now;
@@ -63,6 +71,8 @@ namespace C_R_M.Controllers
         // GET: Movimientoes/Edit/5
         public async Task<ActionResult> Edit(int? id)
         {
+            if (AccountController.Account.GetUser == null)
+                return RedirectPermanent("Login/Index");
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -82,6 +92,8 @@ namespace C_R_M.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Edit([Bind(Include = "Id_Movimiento,Tipo,Monto,Detalle,Fecha")] Movimiento movimiento)
         {
+            if (AccountController.Account.GetUser == null)
+                return RedirectPermanent("Login/Index");
             if (ModelState.IsValid)
             {
                 db.Entry(movimiento).State = EntityState.Modified;
@@ -94,6 +106,8 @@ namespace C_R_M.Controllers
         // GET: Movimientoes/Delete/5
         public async Task<ActionResult> Delete(int? id)
         {
+            if (AccountController.Account.GetUser == null)
+                return RedirectPermanent("Login/Index");
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -111,6 +125,8 @@ namespace C_R_M.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> DeleteConfirmed(int id)
         {
+            if (AccountController.Account.GetUser == null)
+                return RedirectPermanent("Login/Index");
             Movimiento movimiento = await db.Movimiento.FindAsync(id);
             db.Movimiento.Remove(movimiento);
             await db.SaveChangesAsync();

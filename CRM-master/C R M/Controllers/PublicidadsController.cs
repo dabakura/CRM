@@ -18,6 +18,8 @@ namespace C_R_M.Controllers
         // GET: Publicidads
         public async Task<ActionResult> Index()
         {
+            if (AccountController.Account.GetUser == null)
+                return RedirectPermanent("Login/Index");
             var publicidad = db.Publicidad.Include(p => p.Empresa).Include(p => p.Empresa.EstadodeCuenta).Include(p => p.MedioPublicitario);
             return View(await publicidad.ToListAsync());
         }
@@ -25,6 +27,8 @@ namespace C_R_M.Controllers
         // GET: Publicidads/Details/5
         public async Task<ActionResult> Details(int? id)
         {
+            if (AccountController.Account.GetUser == null)
+                return RedirectPermanent("Login/Index");
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -40,6 +44,8 @@ namespace C_R_M.Controllers
         // GET: Publicidads/Create
         public ActionResult Create()
         {
+            if (AccountController.Account.GetUser == null)
+                return RedirectPermanent("Login/Index");
             ViewBag.Empresa = new SelectList(db.Empresa, "Id_Empresa", "Nombre");
             ViewBag.Medio = new SelectList(db.MedioPublicitario, "Id_Medio_Publicitario", "Nombre");
             return View();
@@ -52,6 +58,8 @@ namespace C_R_M.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Create([Bind(Include = "Id_Publicidad,Medio,Id_empresa,Fecha_Inicio,Fecha_Caducidad,Costo")] Publicidad publicidad)
         {
+            if (AccountController.Account.GetUser == null)
+                return RedirectPermanent("Login/Index");
             if (ModelState.IsValid)
             {
                 db.Publicidad.Add(publicidad);
@@ -82,6 +90,8 @@ namespace C_R_M.Controllers
         // GET: Publicidads/Edit/5
         public async Task<ActionResult> Edit(int? id)
         {
+            if (AccountController.Account.GetUser == null)
+                return RedirectPermanent("Login/Index");
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -102,6 +112,8 @@ namespace C_R_M.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Edit([Bind(Include = "Id_Publicidad,Medio,Id_empresa,Fecha_Inicio,Fecha_Caducidad,Costo")] Publicidad publicidad)
         {
+            if (AccountController.Account.GetUser == null)
+                return RedirectPermanent("Login/Index");
             if (ModelState.IsValid)
             {
                 Publicidad publicidadtem = await db.Publicidad.FindAsync(publicidad.Id_Publicidad);
@@ -123,6 +135,8 @@ namespace C_R_M.Controllers
         // GET: Publicidads/Delete/5
         public async Task<ActionResult> Delete(int? id)
         {
+            if (AccountController.Account.GetUser == null)
+                return RedirectPermanent("Login/Index");
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -140,6 +154,8 @@ namespace C_R_M.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> DeleteConfirmed(int id)
         {
+            if (AccountController.Account.GetUser == null)
+                return RedirectPermanent("Login/Index");
             Publicidad publicidad = await db.Publicidad.FindAsync(id);
             EstadodeCuenta est = await db.EstadodeCuenta.FirstAsync(es => es.Id_Empresa == publicidad.Id_empresa);
             if (publicidad.Costo != null)

@@ -22,7 +22,6 @@
     @RenderSection("styles", required: false)
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
-    
     <!-- Site wrapper -->
     <div class="wrapper">
         <header class="main-header">
@@ -261,24 +260,8 @@
              immediately after the control sidebar -->
         <div class="control-sidebar-bg"></div>
     </div>
-    @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/bootstrap")
-    <script src="~/Content/bower_components/jquery/dist/jquery.min.js"></script>
-    <!-- Bootstrap 3.3.7 -->
-    <script src="~/Content/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
-    <!-- SlimScroll -->
-    <script src="~/Content//bower_components/jquery-slimscroll/jquery.slimscroll.min.js"></script>
-    <!-- FastClick -->
-    <script src="~/Content/bower_components/fastclick/lib/fastclick.js"></script>
-    <!-- AdminLTE App -->
-    <script src="~/Content/dist/js/adminlte.min.js"></script>
-    <!-- AdminLTE for demo purposes -->
-    <script src="~/Content/dist/js/demo.js"></script>
-    <script>
-        $(document).ready(function () {
-            $('.sidebar-menu').tree()
-        })
-    </script>
+    
+    
     @RenderSection("scripts", required: false)
 </body>
 </html>

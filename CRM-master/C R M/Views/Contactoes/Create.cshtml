@@ -1,5 +1,4 @@
 ﻿@model C_R_M.Models.Contacto
-
 @{
     ViewBag.Title = "Create";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -11,110 +10,110 @@
     {
         @Html.AntiForgeryToken()
 
-    <div class="form-horizontal">
-        <h4>Contacto</h4>
-        <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        <div class="form-group">
-            @Html.LabelFor(model => model.Nombre, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Nombre, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Nombre, "", new { @class = "text-danger" })
+        <div class="form-horizontal">
+            <h4>Contacto</h4>
+            <hr />
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <div class="form-group">
+                @Html.LabelFor(model => model.Nombre, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Nombre, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Nombre, "", new { @class = "text-danger" })
 
+                </div>
             </div>
-        </div>
-        <div class="form-group">
-            @Html.LabelFor(model => model.Apellido1, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Apellido1, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Apellido1, "", new { @class = "text-danger" })
+            <div class="form-group">
+                @Html.LabelFor(model => model.Apellido1, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Apellido1, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Apellido1, "", new { @class = "text-danger" })
+                </div>
             </div>
-        </div>
-        <div class="form-group">
-            @Html.LabelFor(model => model.Apellido2, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Apellido2, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Apellido2, "", new { @class = "text-danger" })
+            <div class="form-group">
+                @Html.LabelFor(model => model.Apellido2, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Apellido2, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Apellido2, "", new { @class = "text-danger" })
+                </div>
             </div>
-        </div>
-        <div class="form-group">
-            @Html.LabelFor(model => model.Puesto, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Puesto, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Puesto, "", new { @class = "text-danger" })
+            <div class="form-group">
+                @Html.LabelFor(model => model.Puesto, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Puesto, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Puesto, "", new { @class = "text-danger" })
+                </div>
             </div>
-        </div>
-        <div class="form-group">
-            @Html.LabelFor(model => model.Id_Empresa, "Empresa", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DropDownList("Id_Empresa", (SelectList)ViewBag.Empresa, htmlAttributes: new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.Id_Empresa, "", new { @class = "text-danger" })
+            <div class="form-group">
+                @Html.LabelFor(model => model.Id_Empresa, "Empresa", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DropDownList("Id_Empresa", (SelectList)ViewBag.Empresa, htmlAttributes: new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.Id_Empresa, "", new { @class = "text-danger" })
+                </div>
             </div>
-        </div>
-        <div class="panel panel-default col-10 col-md-offset-1">
-            <div class="panel-heading">
-                <dl class="dl-horizontal" style="margin-bottom: 0">
-                    <dt style="text-align: left;" class="h4">
-                        Correos
-                    </dt>
+            <div class="panel panel-default col-10 col-md-offset-1">
+                <div class="panel-heading">
+                    <dl class="dl-horizontal" style="margin-bottom: 0">
+                        <dt style="text-align: left;" class="h4">
+                            Correos
+                        </dt>
 
-                    <dd class="text-right">
-                        <i class="fa fa-plus-square btn btn-success fa-lg"  onclick="agregarCorreo();" style="margin-top: 7px;"></i>
-                    </dd>
-                </dl>
-            </div>
-            <div class="panel-body" id="correos">
-                <div id="correo0" class="col-12">
-                    <div class="col-md-2">
-                        <label class="control-label" for="">1-Correo</label>
-                    </div>
-                    <div class="col-md-6">
-                        <input class="form-control text-box single-line" id="Correo_0__Direccion" name="Correo[0].Direccion" placeholder="ejemplo@gmail.com" type="text" value="">
+                        <dd class="text-right">
+                            <i class="fa fa-plus-square btn btn-success fa-lg" onclick="agregarCorreo();" style="margin-top: 7px;"></i>
+                        </dd>
+                    </dl>
+                </div>
+                <div class="panel-body" id="correos">
+                    <div id="correo0" class="col-12">
+                        <div class="col-md-2">
+                            <label class="control-label" for="">1-Correo</label>
+                        </div>
+                        <div class="col-md-6">
+                            <input class="form-control text-box single-line" id="Correo_0__Direccion" name="Correo[0].Direccion" placeholder="ejemplo@gmail.com" type="text" value="">
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="panel panel-default col-10 col-md-offset-1">
-            <div class="panel-heading">
-                <dl class="dl-horizontal" style="margin-bottom: 0">
-                    <dt style="text-align: left;" class="h4">
-                        Telefonos
-                    </dt>
+            <div class="panel panel-default col-10 col-md-offset-1">
+                <div class="panel-heading">
+                    <dl class="dl-horizontal" style="margin-bottom: 0">
+                        <dt style="text-align: left;" class="h4">
+                            Telefonos
+                        </dt>
 
-                    <dd class="text-right">
-                        <i class="fa fa-plus-square btn btn-success fa-lg" onclick="agregarTelefono();" style="margin-top: 7px;"></i>
-                    </dd>
-                </dl>
-            </div>
-            <div class="panel-body" id="telefonos">
-                <div id="telefono0" class="col-12">
-                    <div class="col-md-2">
-                        <label class="control-label" for="">1-Telefono</label>
-                    </div>
-                    <div class="col-md-3">
-                        <input class="form-control text-box single-line" id="Telefono_0__Codigo" name="Telefono[0].Codigo" placeholder="Codigo (506)" type="text" value="">
-                    </div>
-                    <div class="col-md-3">
-                        <input class="form-control text-box single-line"  id="Telefono_0__N_Telefonico" name="Telefono[0].N_Telefonicoo" placeholder="Nº Telefonico" type="number" value="">
+                        <dd class="text-right">
+                            <i class="fa fa-plus-square btn btn-success fa-lg" onclick="agregarTelefono();" style="margin-top: 7px;"></i>
+                        </dd>
+                    </dl>
+                </div>
+                <div class="panel-body" id="telefonos">
+                    <div id="telefono0" class="col-12">
+                        <div class="col-md-2">
+                            <label class="control-label" for="">1-Telefono</label>
+                        </div>
+                        <div class="col-md-3">
+                            <input class="form-control text-box single-line" id="Telefono_0__Codigo" name="Telefono[0].Codigo" placeholder="Codigo (506)" type="text" value="">
+                        </div>
+                        <div class="col-md-3">
+                            <input class="form-control text-box single-line" id="Telefono_0__N_Telefonico" name="Telefono[0].N_Telefonicoo" placeholder="Nº Telefonico" type="number" value="">
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Guardar" class="btn btn-default" />
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Guardar" class="btn btn-default" />
+                </div>
             </div>
         </div>
-    </div>
     }
-    </div>
+</div>
 
-    <div>
-        @Html.ActionLink("Volver a la lista", "Index")
-    </div>
-    @section Scripts {
-        @Scripts.Render("~/bundles/jqueryval")
-    }
+<div>
+    @Html.ActionLink("Volver a la lista", "Index")
+</div>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
 
 <script>
     var indexcorreo = 1;
@@ -123,10 +122,10 @@
         $('#correos').append(`
             <div id="correo`+ indexcorreo + `" class="col-12">
                 <div class="col-md-3">
-                    <label class="control-label" for="" style="height:45px;"></label>                
+                    <label class="control-label" for="" style="height:45px;"></label>
                 </div>
                 <div class="col-md-2">
-                    <label class="control-label" for="">`+ (indexcorreo + 1) + `-Correo</label>                
+                    <label class="control-label" for="">`+ (indexcorreo + 1) + `-Correo</label>
                 </div>
 	            <div class="col-md-6">
                     <input class="form-control text-box single-line" id="Correo_`+ indexcorreo + `__Direccion" name="Correo[` + indexcorreo + `].Direccion" placeholder="ejemplo@gmail.com" type="text" value="">
@@ -137,12 +136,12 @@
     }
     function agregarTelefono() {
         $('#telefonos').append(`
-            <div id="telefono`+ indextelefono + `" class="col-12">    
+            <div id="telefono`+ indextelefono + `" class="col-12">
                 <div class="col-md-3">
-                    <label class="control-label" for="" style="height:45px;"></label>                
+                    <label class="control-label" for="" style="height:45px;"></label>
                 </div>
                 <div class="col-md-2">
-                    <label class="control-label" for="">`+ (indextelefono + 1) + `-Telefono</label>      
+                    <label class="control-label" for="">`+ (indextelefono + 1) + `-Telefono</label>
                 </div>
 	            <div class="col-md-3">
                     <input class="form-control text-box single-line" id="Telefono_`+ indextelefono + `__Codigo" name="Telefono[` + indextelefono + `].Codigo" placeholder="Codigo (506)" type="text" value="">

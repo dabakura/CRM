@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
 using System.Linq;
+using System.Linq.Dynamic;
 using System.Threading.Tasks;
 using System.Net;
 using System.Web;
@@ -16,117 +17,123 @@ namespace C_R_M.Controllers
         private CRMEntities db = new CRMEntities();
 
         // GET: Marketings
-        public async Task<ActionResult> Index()
+        public ActionResult Index()
         {
-            var marketing = db.Marketing.Include(m => m.Empresa).Include(m => m.Producto).Include(m => m.Producto1);
-            return View(await marketing.ToListAsync());
+            if (AccountController.Account.GetUser == null)
+                return RedirectPermanent("Login/Index");
+            var marketing = db.ServicioEmpresa.Include(m => m.Empresa).Include(m => m.Producto);
+            List<Servicio> list = new List<Servicio>();
+            foreach (var item in marketing)
+            {
+                if (!list.Exists(lis => lis.Empresa.Id_Empresa == item.Id_Empresa && lis.Producto.Id_Producto == item.Producto.Id_Producto))
+                {
+                    list.Add(new Servicio
+                    {
+                        Id_Empresa = item.Id_Empresa,
+                        Id_Servicio_Empresa = item.Id_Servicio_Empresa,
+                        Empresa = new Empresa { Nombre = item.Empresa.Nombre, Correo = item.Empresa.Correo, Cedula = item.Empresa.Cedula },
+                        Producto = new Producto { Nombre = item.Producto.Nombre, Id_Producto = item.Producto.Id_Producto},
+                    });
+                }
+            }
+            ViewBag.Productos = new SelectList(db.Producto, "Id_Producto", "Nombre");
+            return View(list);
         }
 
-        // GET: Marketings/Details/5
-        public async Task<ActionResult> Details(int? id)
+        // GET: Marketings/Details/
+        public async Task<ActionResult> Details()
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Marketing marketing = await db.Marketing.FindAsync(id);
-            if (marketing == null)
-            {
-                return HttpNotFound();
-            }
+            if (AccountController.Account.GetUser == null)
+                return RedirectPermanent("Login/Index");
+            var marketing = await db.Marketing.Include(m => m.Empresa).Include(m => m.Producto).Include(s => s.Producto1).ToListAsync();
             return View(marketing);
         }
-
-        // GET: Marketings/Create
-        public ActionResult Create()
-        {
-            ViewBag.Empresa = new SelectList(db.Empresa, "Id_Empresa", "Nombre");
-            ViewBag.Id_Producto = new SelectList(db.Producto, "Id_Producto", "Nombre");
-            ViewBag.Sugerencia_Producto = new SelectList(db.Producto, "Id_Producto", "Nombre");
-            return View();
-        }
+        
 
         // POST: Marketings/Create
-        // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que desea enlazarse. Para obtener 
-        // más información vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "Id_Marketing,Id_Producto,Id_Empresa,Sugerencia_Producto,URL")] Marketing marketing)
+        public async Task<JsonResult> Create()
         {
-            if (ModelState.IsValid)
+            var servicios = Request.Form.GetValues("servicios").FirstOrDefault().Split(',');
+            var sugerido =  Convert.ToInt32(Request.Form.GetValues("sugerido").FirstOrDefault());
+            var url = Request.Form.GetValues("url").FirstOrDefault();
+            foreach (var item in servicios)
             {
-                db.Marketing.Add(marketing);
-                await db.SaveChangesAsync();
-                return RedirectToAction("Index");
+                if (!String.IsNullOrEmpty(item))
+                {
+                    int id = Convert.ToInt32(item);
+                    ServicioEmpresa servi = await db.ServicioEmpresa.FindAsync(id);
+                    db.Marketing.Add(new Marketing { Id_Empresa= servi.Id_Empresa, Id_Producto = servi.Id_Producto, Sugerencia_Producto = sugerido, URL = url});
+                    await db.SaveChangesAsync();
+                }
             }
-
-            ViewBag.Empresa = new SelectList(db.Empresa, "Id_Empresa", "Nombre", marketing.Id_Empresa);
-            ViewBag.Id_Producto = new SelectList(db.Producto, "Id_Producto", "Nombre", marketing.Id_Producto);
-            ViewBag.Sugerencia_Producto = new SelectList(db.Producto, "Id_Producto", "Nombre", marketing.Sugerencia_Producto);
-            return View(marketing);
+            return Json("hola",JsonRequestBehavior.AllowGet);
         }
+        
 
-        // GET: Marketings/Edit/5
-        public async Task<ActionResult> Edit(int? id)
+        public JsonResult LoadData()
         {
-            if (id == null)
+            try
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Marketing marketing = await db.Marketing.FindAsync(id);
-            if (marketing == null)
-            {
-                return HttpNotFound();
-            }
-            ViewBag.Empresa = new SelectList(db.Empresa, "Id_Empresa", "Nombre", marketing.Id_Empresa);
-            ViewBag.Id_Producto = new SelectList(db.Producto, "Id_Producto", "Nombre", marketing.Id_Producto);
-            ViewBag.Sugerencia_Producto = new SelectList(db.Producto, "Id_Producto", "Nombre", marketing.Sugerencia_Producto);
-            return View(marketing);
-        }
+                //Creating instance of DatabaseContext class
+                using (CRMEntities _context = new CRMEntities())
+                {
+                    var draw = Request.Form.GetValues("draw").FirstOrDefault();
+                    var start = Request.Form.GetValues("start").FirstOrDefault();
+                    var length = Request.Form.GetValues("length").FirstOrDefault();
+                    var sortColumn = Request.Form.GetValues("columns[" + Request.Form.GetValues("order[0][column]").FirstOrDefault() + "][name]").FirstOrDefault();
+                    var sortColumnDir = Request.Form.GetValues("order[0][dir]").FirstOrDefault();
+                    var searchValue = Request.Form.GetValues("search[value]").FirstOrDefault();
 
-        // POST: Marketings/Edit/5
-        // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que desea enlazarse. Para obtener 
-        // más información vea https://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "Id_Marketing,Id_Producto,Id_Empresa,Sugerencia_Producto,URL")] Marketing marketing)
-        {
-            if (ModelState.IsValid)
-            {
-                db.Entry(marketing).State = EntityState.Modified;
-                await db.SaveChangesAsync();
-                return RedirectToAction("Index");
-            }
-            ViewBag.Empresa = new SelectList(db.Empresa, "Id_Empresa", "Nombre", marketing.Id_Empresa);
-            ViewBag.Id_Producto = new SelectList(db.Producto, "Id_Producto", "Nombre", marketing.Id_Producto);
-            ViewBag.Sugerencia_Producto = new SelectList(db.Producto, "Id_Producto", "Nombre", marketing.Sugerencia_Producto);
-            return View(marketing);
-        }
 
-        // GET: Marketings/Delete/5
-        public async Task<ActionResult> Delete(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Marketing marketing = await db.Marketing.FindAsync(id);
-            if (marketing == null)
-            {
-                return HttpNotFound();
-            }
-            return View(marketing);
-        }
+                    //Paging Size (10,20,50,100)  
+                    int pageSize = length != null ? Convert.ToInt32(length) : 0;
+                    int skip = start != null ? Convert.ToInt32(start) : 0;
+                    int recordsTotal = 0;
 
-        // POST: Marketings/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> DeleteConfirmed(int id)
-        {
-            Marketing marketing = await db.Marketing.FindAsync(id);
-            db.Marketing.Remove(marketing);
-            await db.SaveChangesAsync();
-            return RedirectToAction("Index");
+                    // Getting all Customer data  
+                    var customerData = (from tempcustomer in _context.Marketing
+                                        select tempcustomer);
+
+                    customerData = customerData.OrderBy(sortColumn + " " + sortColumnDir);
+                    //Sorting  
+                    if (!string.IsNullOrEmpty(sortColumn) && !string.IsNullOrEmpty(sortColumnDir))
+                    {
+                        customerData = customerData.OrderBy("Id_Marketing desc");
+                    }
+
+                    //Search  
+                    if (!string.IsNullOrEmpty(searchValue))
+                    {
+                        customerData = customerData.Where(m => m.Producto1.Nombre.Contains(searchValue)
+                        || m.Producto.Nombre.Contains(searchValue) || m.Empresa.Correo.Contains(searchValue) || m.Empresa.Nombre.Contains(searchValue));
+                    }
+
+                    //total number of rows count   
+                    recordsTotal = customerData.Count();
+                    //Paging   
+                    var data = customerData.Skip(skip).Take(pageSize).ToList();
+                    List<Sugeridos> list = new List<Sugeridos>();
+                    foreach (var item in data)
+                    {
+                        list.Add(new Sugeridos
+                        {
+                            Id_Marketing = item.Id_Marketing,
+                            URL = item.URL,
+                            Empresa = new Empresa { Nombre = item.Empresa.Nombre, Correo = item.Empresa.Correo, Cedula = item.Empresa.Cedula},
+                            Producto = new Producto { Nombre = item.Producto.Nombre },
+                            Producto1 = new Producto { Nombre = item.Producto1.Nombre },
+                        });
+                    }
+                    //Returning Json Data  
+                    return Json(new { draw = draw, recordsFiltered = recordsTotal, recordsTotal = recordsTotal, data = list });
+                }
+            }
+            catch (Exception e)
+            {
+                System.Diagnostics.Debug.WriteLine(e.Message);
+            }
+            return Json(new { data = "error" }, JsonRequestBehavior.AllowGet);
         }
 
         protected override void Dispose(bool disposing)

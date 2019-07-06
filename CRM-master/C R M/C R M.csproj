@@ -234,6 +234,7 @@
     <Compile Include="Models\sp_helpdiagrams_Result.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Sugeridos.cs" />
     <Compile Include="Models\sysdiagrams.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
@@ -7495,6 +7496,7 @@
     <Content Include="Views\ServicioEmpresas\Details.cshtml" />
     <Content Include="Views\ServicioEmpresas\Edit.cshtml" />
     <Content Include="Views\ServicioEmpresas\Index.cshtml" />
+    <Content Include="Views\Shared\_Layouttable.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

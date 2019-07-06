@@ -1,52 +1,162 @@
-﻿@model IEnumerable<C_R_M.Models.Marketing>
-
+﻿@model IEnumerable<C_R_M.Models.Servicio>
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Marketing";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Marketing de Productos</h2>
-
-<p>
-    @Html.ActionLink("Crear Nuevo", "Create")
-</p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayName("URL")
-        </th>
-        <th>
-            @Html.DisplayName("Nombre Empresa") 
-        </th>
-        <th>
-            @Html.DisplayName("Producto Comprado")
-        </th>
-        <th>
-            @Html.DisplayName("Producto Sugerido")
-        </th>
-        <th></th>
-    </tr>
-
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.URL)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Empresa.Nombre)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Producto.Nombre)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Producto1.Nombre)
-        </td>
-        <td>
-            @Html.ActionLink("Editar", "Edit", new { id=item.Id_Marketing }) |
-            @Html.ActionLink("Detalles", "Details", new { id=item.Id_Marketing }) |
-            @Html.ActionLink("Borrar", "Delete", new { id=item.Id_Marketing })
-        </td>
-    </tr>
+@section Styles{
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.18/r-2.2.2/sl-1.3.0/datatables.min.css" />
+    <style>
+        .dataTables_filter, .content {
+            display: none;
+        }
+    </style>
 }
 
-</table>
+<h2>Marketings  de Productos</h2>
+<br />
+<div style="width: 80%; margin:0 auto;">
+    <table id="demoGrid" class="table table-striped table-bordered dt-responsive nowrap" width="100%" cellspacing="0">
+        <thead>
+            <tr>
+                <th>Id_Servicio_Empresa</th>
+                <th>Nombre</th>
+                <th>Cedula</th>
+                <th>Correo</th>
+                <th>Producto</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @item.Id_Servicio_Empresa
+                    </td>
+                    <td>
+                        @item.Empresa.Nombre
+                    </td>
+                    <td>
+                        @item.Empresa.Cedula
+                    </td>
+                    <td>
+                        @item.Empresa.Correo
+                    </td>
+                    <td>
+                        @item.Producto.Nombre
+                    </td>
+                </tr>
+            }
+        </tbody>
+        <tfoot>
+            <tr>
+                <th class="none"></th>
+                <th class="none">Nombre</th>
+                <th class="none"></th>
+                <th class="none"></th>
+                <th class="visible">Producto</th>
+            </tr>
+        </tfoot>
+    </table>
+</div>
+<div class="container">
+    <div class="form-horizontal">
+        <div class="form-group">
+            @Html.Label("Producto Sugerido", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-6">
+                @Html.DropDownList("sugerido", (IEnumerable<SelectListItem>)ViewBag.Productos, htmlAttributes: new { @class = "form-control", id = "sugerido" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.Label("URL", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-6">
+                <input class="form-control" type="url" name="url" id="url" />
+            </div>
+        </div>
+        <div class="text-right">
+            <button id="button" class="btn btn-success" style="margin-right: 4em">Enviar Correos</button>
+        </div>
+    </div>
+</div>
+
+@section scripts{
+    <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.10.18/r-2.2.2/sl-1.3.0/datatables.min.js"></script>
+    <script>
+
+        $(document).ready(function () {
+            var table =$("#demoGrid").DataTable({
+                "language": {
+                    "url": "@Url.Content("/Resources/Spanish.json")"
+                },
+                initComplete: function () {
+                    this.api().columns().every(function () {
+                        var column = this;
+                        $('<label style="margin-right:6px;">Seleccione el Producto</label>').appendTo($(column.footer()).empty());
+                        var select = $('<select><option value=""></option></select>')
+                            .appendTo($(column.footer()))
+                            .on('change', function () {
+                                let trs = document.getElementsByTagName("tr");
+                                for (var i = 0; i < trs.length; i++) {
+                                    trs[i].className = (trs[i].className.split(" ").lentgh > 0) ? trs[i].className.split(" ")[0] : "";
+                                }
+                                var val = $.fn.dataTable.util.escapeRegex(
+                                    $(this).val()
+                                );
+
+                                column
+                                    .search(val ? '^' + val + '$' : '', true, false)
+                                    .draw();
+
+                            });
+
+                        column.data().unique().sort().each(function (d, j) {
+                            select.append('<option value="' + d + '">' + d + '</option>')
+                        });
+                    });
+                    let ocultar = $('#demoGrid tfoot tr th');
+                    for (var i = 0; i < ocultar.length; i++) {
+                        if (ocultar[i].className == "none") {
+                            ocultar[i].firstChild.style.display = "none";
+                            ocultar[i].lastChild.style.display = "none";
+                        }
+
+                    }
+                },
+                "processing": true, // for show progress bar
+                "filter": true, // this is for disable filter (search box)
+                "pageLength": 5,
+                "columnDefs":
+                    [{
+                        "targets": [0],
+                        "visible": false,
+                        "sortable": false,
+                        "searchable": false
+                    }],
+            });
+
+            $('#demoGrid tbody').on('click', 'tr', function () {
+                $(this).toggleClass('selected');
+            });
+
+            $('#button').click(function () {
+                let data = { url: "", servicios: "", sugerido: "" };
+                if (table.rows('.selected').data().length > 0) {
+                    for (var i = 0; i < table.rows('.selected').data().length; i++) {
+                        data.servicios += table.rows('.selected').data()[i][0] + ",";
+                    }
+                }
+                data.url = $('input[id=url]').val();
+                data.sugerido = $('select[id=sugerido]').val();
+                if (data.url == null || data.url == "" || data.servicios == null || data.servicios == "")
+                    alert("1- Seleciones un producto y las empresas a las cuales notificar\n2- Seleccione el producto a sugerir\n3- Ingrese una url");
+                else {
+                    $.post("/Marketings/Create", data)
+                        .done(function (data) {
+                            alert("Mensajes enviados: " + data);
+                        });
+                }
+            });
+
+
+        });</script>
+}

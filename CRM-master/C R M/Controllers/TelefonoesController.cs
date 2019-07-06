@@ -17,6 +17,8 @@ namespace C_R_M.Controllers
         // GET: Telefonoes
         public ActionResult Index(int? id)
         {
+            if (AccountController.Account.GetUser == null)
+                return RedirectPermanent("Login/Index");
             var telefono = db.Telefono.Include(t => t.Contacto);
             ViewBag.Contacto = id.Value;
             return View(telefono.ToList().Where(x => x.Id_Telefono==id));
@@ -25,6 +27,8 @@ namespace C_R_M.Controllers
         // GET: Telefonoes/Details/5
         public ActionResult Details(int? id)
         {
+            if (AccountController.Account.GetUser == null)
+                return RedirectPermanent("Login/Index");
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -41,6 +45,8 @@ namespace C_R_M.Controllers
         // GET: Telefonoes/Create
         public ActionResult Create()
         {
+            if (AccountController.Account.GetUser == null)
+                return RedirectPermanent("Login/Index");
             ViewBag.Contacto = new SelectList(db.Contacto, "Id_Contacto", "Nombre");
             return View();
         }
@@ -52,6 +58,8 @@ namespace C_R_M.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "Codigo,N_Telefonico")] Telefono telefono)
         {
+            if (AccountController.Account.GetUser == null)
+                return RedirectPermanent("Login/Index");
             if (ModelState.IsValid)
             {
                 db.Telefono.Add(telefono);
@@ -65,6 +73,8 @@ namespace C_R_M.Controllers
         // GET: Telefonoes/Edit/5
         public ActionResult Edit(int? id)
         {
+            if (AccountController.Account.GetUser == null)
+                return RedirectPermanent("Login/Index");
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -84,6 +94,8 @@ namespace C_R_M.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "Id_Telefono,Codigo,N_Telefonico")] Telefono telefono)
         {
+            if (AccountController.Account.GetUser == null)
+                return RedirectPermanent("Login/Index");
             if (ModelState.IsValid)
             {
                 db.Entry(telefono).State = EntityState.Modified;
@@ -97,6 +109,8 @@ namespace C_R_M.Controllers
         // GET: Telefonoes/Delete/5
         public ActionResult Delete(int? id)
         {
+            if (AccountController.Account.GetUser == null)
+                return RedirectPermanent("Login/Index");
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -114,6 +128,8 @@ namespace C_R_M.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
+            if (AccountController.Account.GetUser == null)
+                return RedirectPermanent("Login/Index");
             Telefono telefono = db.Telefono.Find(id);
             db.Telefono.Remove(telefono);
             db.SaveChanges();

@@ -19,12 +19,16 @@ namespace C_R_M.Controllers
         // GET: ServicioEmpresas
         public ActionResult Index()
         {
+            if (AccountController.Account.GetUser == null)
+                return RedirectPermanent("Login/Index");
             return View();
         }
 
         // GET: ServicioEmpresas/Details/5
         public async Task<ActionResult> Details(int? id)
         {
+            if (AccountController.Account.GetUser == null)
+                return RedirectPermanent("Login/Index");
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -40,6 +44,8 @@ namespace C_R_M.Controllers
         // GET: ServicioEmpresas/Create
         public ActionResult Create()
         {
+            if (AccountController.Account.GetUser == null)
+                return RedirectPermanent("Login/Index");
             ViewBag.Empresa = new SelectList(db.Empresa, "Id_Empresa", "Nombre");
             ViewBag.Producto = new SelectList(db.Producto, "Id_Producto", "Nombre");
             return View();
@@ -52,6 +58,8 @@ namespace C_R_M.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Create([Bind(Include = "Id_Servicio_Empresa,Id_Producto,Descripcion,Fecha_Creacion,Primer_Pago,Renovacion,Id_Empresa,Precio")] ServicioEmpresa servicioEmpresa)
         {
+            if (AccountController.Account.GetUser == null)
+                return RedirectPermanent("Login/Index");
             if (ModelState.IsValid)
             {
                 db.ServicioEmpresa.Add(servicioEmpresa);
@@ -67,6 +75,8 @@ namespace C_R_M.Controllers
         // GET: ServicioEmpresas/Edit/5
         public async Task<ActionResult> Edit(int? id)
         {
+            if (AccountController.Account.GetUser == null)
+                return RedirectPermanent("Login/Index");
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -88,6 +98,8 @@ namespace C_R_M.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Edit([Bind(Include = "Id_Servicio_Empresa,Id_Producto,Descripcion,Fecha_Creacion,Primer_Pago,Renovacion,Empresa,Precio")] ServicioEmpresa servicioEmpresa)
         {
+            if (AccountController.Account.GetUser == null)
+                return RedirectPermanent("Login/Index");
             if (ModelState.IsValid)
             {
                 db.Entry(servicioEmpresa).State = EntityState.Modified;
@@ -102,6 +114,8 @@ namespace C_R_M.Controllers
         // GET: ServicioEmpresas/Delete/5
         public async Task<ActionResult> Delete(int? id)
         {
+            if (AccountController.Account.GetUser == null)
+                return RedirectPermanent("Login/Index");
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -119,6 +133,8 @@ namespace C_R_M.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> DeleteConfirmed(int id)
         {
+            if (AccountController.Account.GetUser == null)
+                return RedirectPermanent("Login/Index");
             ServicioEmpresa servicioEmpresa = await db.ServicioEmpresa.FindAsync(id);
             db.ServicioEmpresa.Remove(servicioEmpresa);
             await db.SaveChangesAsync();

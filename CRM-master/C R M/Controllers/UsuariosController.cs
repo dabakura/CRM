@@ -18,6 +18,8 @@ namespace C_R_M.Controllers
         // GET: Usuarios
         public async Task<ActionResult> Index()
         {
+            if (AccountController.Account.GetUser == null)
+                return RedirectPermanent("Login/Index");
             var usuario = db.Usuario.Include(u => u.Empresa).Include(u => u.Rol);
             return View(await usuario.ToListAsync());
         }
@@ -25,6 +27,8 @@ namespace C_R_M.Controllers
         // GET: Usuarios/Details/5
         public async Task<ActionResult> Details(int? id)
         {
+            if (AccountController.Account.GetUser == null)
+                return RedirectPermanent("Login/Index");
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -40,6 +44,8 @@ namespace C_R_M.Controllers
         // GET: Usuarios/Create
         public ActionResult Create()
         {
+            if (AccountController.Account.GetUser == null)
+                return RedirectPermanent("Login/Index");
             ViewBag.Empresa = new SelectList(db.Empresa, "Id_Empresa", "Nombre");
             ViewBag.Rol = new SelectList(db.Rol, "Id", "Nombre");
             return View();
@@ -52,6 +58,8 @@ namespace C_R_M.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Create([Bind(Include = "Id_Usuario,Nombre,Apellido1,Apellido2,Correo,Contraseña,Fecha_Creacion,Id_Empresa,Id_Rol")] Usuario usuario)
         {
+            if (AccountController.Account.GetUser == null)
+                return RedirectPermanent("Login/Index");
             if (ModelState.IsValid)
             {
                 usuario.Fecha_Creacion = DateTime.Now;
@@ -68,6 +76,8 @@ namespace C_R_M.Controllers
         // GET: Usuarios/Edit/5
         public async Task<ActionResult> Edit(int? id)
         {
+            if (AccountController.Account.GetUser == null)
+                return RedirectPermanent("Login/Index");
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -89,6 +99,8 @@ namespace C_R_M.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Edit([Bind(Include = "Id_Usuario,Nombre,Apellido1,Apellido2,Correo,Contraseña,Fecha_Creacion,Id_Empresa,Id_Rol")] Usuario usuario)
         {
+            if (AccountController.Account.GetUser == null)
+                return RedirectPermanent("Login/Index");
             if (ModelState.IsValid)
             {
                 db.Usuario.Add(usuario);
@@ -104,6 +116,8 @@ namespace C_R_M.Controllers
         // GET: Usuarios/Delete/5
         public async Task<ActionResult> Delete(int? id)
         {
+            if (AccountController.Account.GetUser == null)
+                return RedirectPermanent("Login/Index");
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -121,6 +135,8 @@ namespace C_R_M.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> DeleteConfirmed(int id)
         {
+            if (AccountController.Account.GetUser == null)
+                return RedirectPermanent("Login/Index");
             Usuario usuario = await db.Usuario.FindAsync(id);
             db.Usuario.Remove(usuario);
             await db.SaveChangesAsync();

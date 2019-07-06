@@ -10,11 +10,15 @@ namespace C_R_M.Controllers
     {
         public ActionResult Index()
         {
+            if (AccountController.Account.GetUser == null)
+                return RedirectPermanent("Login/Index");
             return View();
         }
 
         public ActionResult About()
         {
+            if (AccountController.Account.GetUser == null)
+                return RedirectPermanent("Login/Index");
             ViewBag.Message = "Your application description page.";
 
             return View();
@@ -22,6 +26,8 @@ namespace C_R_M.Controllers
 
         public ActionResult Contact()
         {
+            if (AccountController.Account.GetUser == null)
+                return RedirectPermanent("Login/Index");
             ViewBag.Message = "Your contact page.";
 
             return View();

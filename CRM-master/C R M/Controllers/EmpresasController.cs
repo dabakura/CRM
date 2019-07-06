@@ -18,6 +18,8 @@ namespace C_R_M.Controllers
         // GET: Empresas
         public ActionResult Index()
         {
+            if (AccountController.Account.GetUser == null)
+                return RedirectPermanent("Login/Index");
             var empresa = db.Empresa.Include(e => e.Canton).Include(e => e.Distrito).Include(e => e.Provincia).Include(e => e.Pais);
             return View(empresa.ToList());
         }
@@ -26,6 +28,8 @@ namespace C_R_M.Controllers
         // GET: Empresas/Details/5
         public ActionResult Details(int? id)
         {
+            if (AccountController.Account.GetUser == null)
+                return RedirectPermanent("Login/Index");
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -41,6 +45,8 @@ namespace C_R_M.Controllers
         // GET: Empresas/Create
         public ActionResult Create()
         {
+            if (AccountController.Account.GetUser == null)
+                return RedirectPermanent("Login/Index");
             ViewBag.Id_Canton = new SelectList(db.Canton, "Id_Canton", "Nombre");
             ViewBag.Id_Distrito = new SelectList(db.Distrito, "Id_Distrito", "Nombre");
             ViewBag.Id_Provincia = new SelectList(db.Provincia, "Id_Provincia", "Nombre");
@@ -55,6 +61,8 @@ namespace C_R_M.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "Id_Empresa,Nombre,Correo,Tipo_Cedula,Cedula,Id_Pais,Id_Provincia,Id_Canton,Id_Distrito,Otras_Señas,Codigo_Postal")] Empresa empresa)
         {
+            if (AccountController.Account.GetUser == null)
+                return RedirectPermanent("Login/Index");
             if (ModelState.IsValid)
             {
                 db.Empresa.Add(empresa);
@@ -72,6 +80,8 @@ namespace C_R_M.Controllers
         // GET: Empresas/Edit/5
         public ActionResult Edit(int? id)
         {
+            if (AccountController.Account.GetUser == null)
+                return RedirectPermanent("Login/Index");
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -95,6 +105,8 @@ namespace C_R_M.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "Id_Empresa,Nombre,Correo,Tipo_Cedula,Cedula,Id_Pais,Id_Provincia,Id_Canton,Id_Distrito,Otras_Señas,Codigo_Postal")] Empresa empresa)
         {
+            if (AccountController.Account.GetUser == null)
+                return RedirectPermanent("Login/Index");
             if (ModelState.IsValid)
             {
                 db.Entry(empresa).State = EntityState.Modified;
@@ -111,6 +123,8 @@ namespace C_R_M.Controllers
         // GET: Empresas/Delete/5
         public ActionResult Delete(int? id)
         {
+            if (AccountController.Account.GetUser == null)
+                return RedirectPermanent("Login/Index");
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -128,6 +142,8 @@ namespace C_R_M.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
+            if (AccountController.Account.GetUser == null)
+                return RedirectPermanent("Login/Index");
             Empresa empresa = db.Empresa.Find(id);
             db.Empresa.Remove(empresa);
             db.SaveChanges();

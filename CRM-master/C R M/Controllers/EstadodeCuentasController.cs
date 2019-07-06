@@ -17,6 +17,8 @@ namespace C_R_M.Controllers
         // GET: EstadodeCuentas
         public ActionResult Index()
         {
+            if (AccountController.Account.GetUser == null)
+                return RedirectPermanent("Login/Index");
             var estadodeCuenta = db.EstadodeCuenta.Include(e => e.Empresa);
             return View(estadodeCuenta);
         }
@@ -24,6 +26,8 @@ namespace C_R_M.Controllers
         // GET: EstadodeCuentas/Details/5
         public ActionResult Details(int? id)
         {
+            if (AccountController.Account.GetUser == null)
+                return RedirectPermanent("Login/Index");
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -39,6 +43,8 @@ namespace C_R_M.Controllers
         // GET: EstadodeCuentas/Create
         public ActionResult Create()
         {
+            if (AccountController.Account.GetUser == null)
+                return RedirectPermanent("Login/Index");
             ViewBag.Empresa = new SelectList(db.Empresa, "Id_Empresa", "Nombre");
             return View();
         }
@@ -50,6 +56,8 @@ namespace C_R_M.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "Id_Empresa,Credito_Disponible")] EstadodeCuenta estadodeCuenta)
         {
+            if (AccountController.Account.GetUser == null)
+                return RedirectPermanent("Login/Index");
             if (ModelState.IsValid)
             {
                 db.EstadodeCuenta.Add(estadodeCuenta);
@@ -64,6 +72,8 @@ namespace C_R_M.Controllers
         // GET: EstadodeCuentas/Edit/5
         public ActionResult Edit(int? id)
         {
+            if (AccountController.Account.GetUser == null)
+                return RedirectPermanent("Login/Index");
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -83,6 +93,8 @@ namespace C_R_M.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "Id_Empresa,Credito_Disponible")] EstadodeCuenta estadodeCuenta)
         {
+            if (AccountController.Account.GetUser == null)
+                return RedirectPermanent("Login/Index");
             if (ModelState.IsValid)
             {
                 db.Entry(estadodeCuenta).State = EntityState.Modified;
@@ -95,6 +107,8 @@ namespace C_R_M.Controllers
         // GET: EstadodeCuentas/Delete/5
         public ActionResult Delete(int? id)
         {
+            if (AccountController.Account.GetUser == null)
+                return RedirectPermanent("Login/Index");
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -112,6 +126,8 @@ namespace C_R_M.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
+            if (AccountController.Account.GetUser == null)
+                return RedirectPermanent("Login/Index");
             EstadodeCuenta estadodeCuenta = db.EstadodeCuenta.Find(id);
             db.EstadodeCuenta.Remove(estadodeCuenta);
             db.SaveChanges();

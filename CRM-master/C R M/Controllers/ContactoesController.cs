@@ -19,12 +19,16 @@ namespace C_R_M.Controllers
         // GET: Contactoes
         public ActionResult Index()
         {
+            if (AccountController.Account.GetUser == null)
+                return RedirectPermanent("Login/Index");
             return View();
         }
 
         // GET: Contactoes/Details/5
         public ActionResult Details(int? id)
         {
+            if (AccountController.Account.GetUser == null)
+                return RedirectPermanent("Login/Index");
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -40,6 +44,8 @@ namespace C_R_M.Controllers
         // GET: Contactoes/Create
         public ActionResult Create()
         {
+            if (AccountController.Account.GetUser == null)
+                return RedirectPermanent("Login/Index");
             ViewBag.Empresa = new SelectList(db.Empresa.ToList(), "Id_Empresa", "Nombre");
             return View();
         }
@@ -51,6 +57,8 @@ namespace C_R_M.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "Id_Contacto,Nombre,Apellido1,Apellido2,Puesto,Id_Empresa,Correo,Telefono")]Contacto contacto)
         {
+            if (AccountController.Account.GetUser == null)
+                return RedirectPermanent("Login/Index");
             for (int i = 0; i < contacto.Correo.Count; i++)
                 if (String.IsNullOrEmpty(contacto.Correo.ElementAt(i).Direccion)) contacto.Correo.Remove(contacto.Correo.ElementAt(i));
             for (int i = 0; i < contacto.Telefono.Count; i++)
@@ -71,6 +79,8 @@ namespace C_R_M.Controllers
         // GET: Contactoes/Edit/5
         public ActionResult Edit(int? id)
         {
+            if (AccountController.Account.GetUser == null)
+                return RedirectPermanent("Login/Index");
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -91,6 +101,8 @@ namespace C_R_M.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "Id_Contacto,Nombre,Apellido1,Apellido2,Puesto,Id_Empresa,Correo,Telefono")] Contacto contacto)
         {
+            if (AccountController.Account.GetUser == null)
+                return RedirectPermanent("Login/Index");
             for (int i = 0; i < contacto.Correo.Count; i++)
             {
                 contacto.Correo.ElementAt(i).Contacto = null;
@@ -126,6 +138,8 @@ namespace C_R_M.Controllers
         // GET: Contactoes/Delete/5
         public ActionResult Delete(int? id)
         {
+            if (AccountController.Account.GetUser == null)
+                return RedirectPermanent("Login/Index");
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -143,6 +157,8 @@ namespace C_R_M.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
+            if (AccountController.Account.GetUser == null)
+                return RedirectPermanent("Login/Index");
             Contacto contacto = db.Contacto.Find(id);
             db.Contacto.Remove(contacto);
             db.SaveChanges();

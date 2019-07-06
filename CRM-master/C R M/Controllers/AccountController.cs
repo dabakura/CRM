@@ -18,7 +18,6 @@ namespace C_R_M.Controllers
         private AccountController()
         {
             this.db = new CRMEntities();
-            GetUser = null;
             Recuerdame = false;
             Modulos = new Modulo[] {
                 new Modulo { Titulo = "Empresas", Action = "Index", Controller = "Empresas", Tipo ="Normal", Icono = "fa fa-table" },
@@ -38,7 +37,7 @@ namespace C_R_M.Controllers
         }
         public static AccountController Account => accountController ?? (accountController = new AccountController());
 
-        public Usuario GetUser { get; set; }
+        public Usuario GetUser { get { return (HttpContext.Current.Session["user"] == null) ? null : db.Usuario.ToList().Find(u => u.Id_Usuario == Convert.ToInt32(HttpContext.Current.Session["user"])); } }
         private Modulo[] Modulos { get; set; }
 
         public Modulo[] Get_Modulos(string tipo)
@@ -54,18 +53,22 @@ namespace C_R_M.Controllers
         }
         public bool IniciarSesion(LoginModel login)
         {
-            GetUser = db.Usuario.ToList().Find(u => u.Correo == login.Email && u.Contraseña == login.Password);
+            var User = db.Usuario.ToList().Find(u => u.Correo == login.Email && u.Contraseña == login.Password);
+            if (User != null)
+                HttpContext.Current.Session["user"] = User.Id_Usuario;
+            else
+                HttpContext.Current.Session["user"] = null;
             Recuerdame = login.RememberMe;
-            if (Recuerdame && GetUser != null)
-                HttpContext.Current.Session["userid"] = GetUser.Id_Usuario;
+            if (Recuerdame && User != null)
+                HttpContext.Current.Session["userid"] = User.Id_Usuario;
             else
                 HttpContext.Current.Session["userid"] = null;
-            return GetUser != null;
+            return User != null;
         }
         // GET: Account
         public void CerrarSesion()
         {
-            GetUser = null;
+            HttpContext.Current.Session["user"] = null;
             if (!Recuerdame)
                 HttpContext.Current.Session["userid"] = null;
         }
@@ -74,7 +77,7 @@ namespace C_R_M.Controllers
         {
             if (HttpContext.Current.Session["userid"] != null)
             {
-                GetUser = db.Usuario.ToList().Find(u => u.Id_Usuario == (int)HttpContext.Current.Session["userid"]);
+                HttpContext.Current.Session["user"] = HttpContext.Current.Session["userid"];
                 return true;
             }
             return false;

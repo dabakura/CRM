@@ -18,6 +18,8 @@ namespace C_R_M.Controllers
         // GET: ServiciosContratados
         public async Task<ActionResult> Index()
         {
+            if (AccountController.Account.GetUser == null)
+                return RedirectPermanent("Login/Index");
             int? id = AccountController.Account.GetUser.Id_Empresa;
             List<ServicioEmpresa> servicios = new List<ServicioEmpresa>();
             if (id != null)
@@ -28,6 +30,8 @@ namespace C_R_M.Controllers
         // GET: ServiciosContratados/Details/5
         public async Task<ActionResult> Details(int? id)
         {
+            if (AccountController.Account.GetUser == null)
+                return RedirectPermanent("Login/Index");
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
