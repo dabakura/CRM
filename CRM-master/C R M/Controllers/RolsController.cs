@@ -214,6 +214,7 @@ namespace C_R_M.Controllers
                     new AsigPermiso("ServiciosContratados","Details",false),
                     new AsigPermiso("ServicioEmpresas","Index",false),
                     new AsigPermiso("ServicioEmpresas",false,false,false,false),
+                    new AsigPermiso("Report","Index",false),
                 };
             List<AsigPermiso> list = new List<AsigPermiso>();
             permisos.ForEach(p => list.Add(new AsigPermiso(p)));
