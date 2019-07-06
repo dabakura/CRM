@@ -57,17 +57,28 @@ namespace C_R_M.Controllers
             var servicios = Request.Form.GetValues("servicios").FirstOrDefault().Split(',');
             var sugerido =  Convert.ToInt32(Request.Form.GetValues("sugerido").FirstOrDefault());
             var url = Request.Form.GetValues("url").FirstOrDefault();
+            string salida = "Todos los correos enviados revisa tu buzon de salida";
+            string errores = "No se pudo enviar los correos a:";
             foreach (var item in servicios)
             {
                 if (!String.IsNullOrEmpty(item))
                 {
                     int id = Convert.ToInt32(item);
                     ServicioEmpresa servi = await db.ServicioEmpresa.FindAsync(id);
-                    db.Marketing.Add(new Marketing { Id_Empresa= servi.Id_Empresa, Id_Producto = servi.Id_Producto, Sugerencia_Producto = sugerido, URL = url});
-                    await db.SaveChangesAsync();
+                    Producto pro = await db.Producto.FindAsync(sugerido);
+                    if (Email.Send(servi.Empresa.Correo,"Sugerencia de producto", "Te recomendamos la adquicision de nuestro servicio de "+ pro.Nombre+ ".\nPara mas información visita la pagina:\n"+ url))
+                    {
+                        db.Marketing.Add(new Marketing { Id_Empresa = servi.Id_Empresa, Id_Producto = servi.Id_Producto, Sugerencia_Producto = sugerido, URL = url });
+                        await db.SaveChangesAsync();
+                    }
+                    else
+                    {
+                        errores += "\nEmpresa: "+ servi.Empresa.Nombre +"Correo: "+servi.Empresa.Correo;
+                    }
                 }
             }
-            return Json("hola",JsonRequestBehavior.AllowGet);
+            salida = (errores.Equals("No se pudo enviar los correos a:")) ? salida : errores;
+            return Json(salida,JsonRequestBehavior.AllowGet);
         }
         
 
@@ -106,7 +117,8 @@ namespace C_R_M.Controllers
                     if (!string.IsNullOrEmpty(searchValue))
                     {
                         customerData = customerData.Where(m => m.Producto1.Nombre.Contains(searchValue)
-                        || m.Producto.Nombre.Contains(searchValue) || m.Empresa.Correo.Contains(searchValue) || m.Empresa.Nombre.Contains(searchValue));
+                        || m.Producto.Nombre.Contains(searchValue) || m.Empresa.Correo.Contains(searchValue) || m.Empresa.Nombre.Contains(searchValue)
+                        || m.Empresa.Cedula.Contains(searchValue) || m.URL.Contains(searchValue));
                     }
 
                     //total number of rows count   

@@ -7424,10 +7424,6 @@
     <Content Include="Views\EstadodeCuentas\Details.cshtml" />
     <Content Include="Views\EstadodeCuentas\Edit.cshtml" />
     <Content Include="Views\EstadodeCuentas\Index.cshtml" />
-    <Content Include="Views\Marketings\Create.cshtml" />
-    <Content Include="Views\Marketings\Delete.cshtml" />
-    <Content Include="Views\Marketings\Details.cshtml" />
-    <Content Include="Views\Marketings\Edit.cshtml" />
     <Content Include="Views\Marketings\Index.cshtml" />
     <Content Include="Views\Publicidads\Create.cshtml" />
     <Content Include="Views\Publicidads\Delete.cshtml" />
@@ -7497,6 +7493,7 @@
     <Content Include="Views\ServicioEmpresas\Edit.cshtml" />
     <Content Include="Views\ServicioEmpresas\Index.cshtml" />
     <Content Include="Views\Shared\_Layouttable.cshtml" />
+    <Content Include="Views\Marketings\Details.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

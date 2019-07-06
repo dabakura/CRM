@@ -12,72 +12,72 @@
         }
     </style>
 }
+    <div class="container" style="width: 100%;">
+        <h2>Marketings  de Productos</h2>
+        @Html.ActionLink("Ver sugerencias enviadas", "Details", null, htmlAttributes: new { @class = "btn btn-info" })
+        <div style="margin-top: 1em;" class="col-12">
+            <table id="demoGrid" class="table table-striped table-bordered dt-responsive nowrap col-12" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th>Id_Servicio_Empresa</th>
+                        <th>Nombre</th>
+                        <th>Cedula</th>
+                        <th>Correo</th>
+                        <th>Producto</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @item.Id_Servicio_Empresa
+                            </td>
+                            <td>
+                                @item.Empresa.Nombre
+                            </td>
+                            <td>
+                                @item.Empresa.Cedula
+                            </td>
+                            <td>
+                                @item.Empresa.Correo
+                            </td>
+                            <td>
+                                @item.Producto.Nombre
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <th class="none"></th>
+                        <th class="none">Nombre</th>
+                        <th class="none"></th>
+                        <th class="none"></th>
+                        <th class="visible">Producto</th>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
 
-<h2>Marketings  de Productos</h2>
-<br />
-<div style="width: 80%; margin:0 auto;">
-    <table id="demoGrid" class="table table-striped table-bordered dt-responsive nowrap" width="100%" cellspacing="0">
-        <thead>
-            <tr>
-                <th>Id_Servicio_Empresa</th>
-                <th>Nombre</th>
-                <th>Cedula</th>
-                <th>Correo</th>
-                <th>Producto</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in Model)
-            {
-                <tr>
-                    <td>
-                        @item.Id_Servicio_Empresa
-                    </td>
-                    <td>
-                        @item.Empresa.Nombre
-                    </td>
-                    <td>
-                        @item.Empresa.Cedula
-                    </td>
-                    <td>
-                        @item.Empresa.Correo
-                    </td>
-                    <td>
-                        @item.Producto.Nombre
-                    </td>
-                </tr>
-            }
-        </tbody>
-        <tfoot>
-            <tr>
-                <th class="none"></th>
-                <th class="none">Nombre</th>
-                <th class="none"></th>
-                <th class="none"></th>
-                <th class="visible">Producto</th>
-            </tr>
-        </tfoot>
-    </table>
-</div>
-<div class="container">
-    <div class="form-horizontal">
-        <div class="form-group">
-            @Html.Label("Producto Sugerido", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-6">
-                @Html.DropDownList("sugerido", (IEnumerable<SelectListItem>)ViewBag.Productos, htmlAttributes: new { @class = "form-control", id = "sugerido" })
+        <div class="form-horizontal">
+            <div class="form-group">
+                @Html.Label("Producto Sugerido", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-6">
+                    @Html.DropDownList("sugerido", (IEnumerable<SelectListItem>)ViewBag.Productos, htmlAttributes: new { @class = "form-control", id = "sugerido" })
+                </div>
             </div>
-        </div>
-        <div class="form-group">
-            @Html.Label("URL", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-6">
-                <input class="form-control" type="url" name="url" id="url" />
+            <div class="form-group">
+                @Html.Label("URL", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-6">
+                    <input class="form-control" type="url" name="url" id="url" />
+                </div>
             </div>
-        </div>
-        <div class="text-right">
-            <button id="button" class="btn btn-success" style="margin-right: 4em">Enviar Correos</button>
+            <div class="text-right">
+                <button id="button" class="btn btn-success" style="margin-right: 4em">Enviar Correos</button>
+            </div>
         </div>
     </div>
-</div>
 
 @section scripts{
     <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.10.18/r-2.2.2/sl-1.3.0/datatables.min.js"></script>
@@ -152,7 +152,7 @@
                 else {
                     $.post("/Marketings/Create", data)
                         .done(function (data) {
-                            alert("Mensajes enviados: " + data);
+                            alert(data);
                         });
                 }
             });
