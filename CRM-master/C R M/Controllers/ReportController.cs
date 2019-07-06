@@ -10,6 +10,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.UI.WebControls;
 using Microsoft.Reporting.WebForms;
+using System.Threading.Tasks;
 
 namespace C_R_M.Controllers
 {
@@ -17,19 +18,18 @@ namespace C_R_M.Controllers
     {
         private CRMEntities db = new CRMEntities();
         // GET: Report
-        public ActionResult Index()
+        public async Task<ActionResult> Index()
         {
-            var list = db.ServicioEmpresa.Include(r => r.Empresa);
-            ViewBag.Servicios = new SelectList(db.ServicioEmpresa.Include(Se => Se.Empresa).Include(p => p.Producto), "Id_Servicio_Empresa", "Empresa.Nombre");
+            ViewBag.Servicios = await ListItems();
             int id = db.ServicioEmpresa.First()!= null ? db.ServicioEmpresa.First().Id_Servicio_Empresa: 0;
             ViewBag.ReportViewer = GetReportViewer("SELECT * FROM dbo.View_ReportCuentas WHERE Id_Servicio_Empresa = " + id);
             return View();
         }
         // POST: Report/Create
         [HttpPost]
-        public ActionResult Index(int? Id_Servicio_Empresa)
+        public async Task<ActionResult> Index(int? Id_Servicio_Empresa)
         {
-            ViewBag.Servicios = new SelectList(db.ServicioEmpresa.Include(Se => Se.Empresa).Include(p => p.Producto), "Id_Servicio_Empresa", "Empresa.Nombre");
+            ViewBag.Servicios = await ListItems();
             int id = db.ServicioEmpresa.First() != null ? db.ServicioEmpresa.First().Id_Servicio_Empresa : 0;
             if (Id_Servicio_Empresa.HasValue)
             {
@@ -43,13 +43,30 @@ namespace C_R_M.Controllers
         }
 
 
+        private async Task<List<SelectListItem>> ListItems() {
+            List<SelectListItem> list = new List<SelectListItem>();
+            var queryEmpresas = from em in await db.ServicioEmpresa.ToListAsync()
+                                group em by em.Empresa.Nombre into newGroup
+                                orderby newGroup.Key
+                                select newGroup;
+            foreach (var nameGroup in queryEmpresas)
+            {
+                SelectListGroup llave = new SelectListGroup { Name = "Empresa: " + nameGroup.Key };
+                foreach (var item in nameGroup)
+                {
+                    list.Add(new SelectListItem { Text = "Producto: " + item.Producto.Nombre + " - Fecha: " + item.Fecha_Creacion.ToShortDateString(), Value = "" + item.Id_Servicio_Empresa, Group = llave });
+                }
+            }
+            return list;
+        }
+
         private ReportViewer GetReportViewer(String queryservicios)
         {
             ReportViewer reportViewer = new ReportViewer();
             reportViewer.ProcessingMode = ProcessingMode.Local;
-            reportViewer.SizeToReportContent = false;
             reportViewer.Width = Unit.Percentage(100);
             reportViewer.Height = Unit.Percentage(100);
+            reportViewer.ZoomMode = ZoomMode.Percent;
             var connectionString = ConfigurationManager.ConnectionStrings["CRMConnectionString"].ConnectionString;
             DataSet datos = new DataSet();
             SqlConnection conx = new SqlConnection(connectionString);
@@ -57,6 +74,7 @@ namespace C_R_M.Controllers
             adpE.Fill(datos);
             reportViewer.LocalReport.ReportPath = Request.MapPath(Request.ApplicationPath) + @"Reports\ReportVentas.rdlc";
             reportViewer.LocalReport.DataSources.Add(new ReportDataSource("DataSetCuentas", datos.Tables[0]));
+            reportViewer.ShowZoomControl = true;
             reportViewer.ZoomPercent = 150;
             return reportViewer;
         }

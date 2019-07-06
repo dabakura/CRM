@@ -7,8 +7,12 @@
 @section Styles{
     @Styles.Render("~/Content/css-datatables")
     <style>
-        table {
-            width: 100%;
+        iframe {
+            height: 350px;
+            width: 646px;
+        }
+        .content {
+            display: none;
         }
     </style>
 }
@@ -16,18 +20,21 @@
 
 @using (Html.BeginForm())
 {
-    <div class="form-inline">
+    <div class="form-horizontal">
         <br />
         <div class="form-group">
-            @Html.Label("Seleccione un servicio", htmlAttributes: new { @class = "control-label col-md-12" })
-            <br />
-            <div class="col-sm-12">
-                @Html.DropDownList("Id_Servicio_Empresa", (IEnumerable<SelectListItem>)ViewBag.Servicios, "Seleccione", new { @class = "form-control small" })
-                <input type="submit" value="Buscar" class="btn btn-primary" />
+            @Html.Label("Seleccione un servicio", htmlAttributes: new { @class = "control-label col-sm-4" })
+            <div class="col-sm-4">
+                @Html.DropDownList("Id_Servicio_Empresa", (IEnumerable<SelectListItem>)ViewBag.Servicios, "Seleccione", new { @class = "form-control col-8" })
+            </div>
+            <div class="col-sm-4">
+                <input type="submit" value="Buscar" class="btn btn-success col-sm-4" />
             </div>
         </div>
     </div>
 }
 
 <hr />
-@Html.ReportViewer(ViewBag.ReportViewer as Microsoft.Reporting.WebForms.ReportViewer, htmlAttributes: new { @class = "col-sm-12" })
+<div class="text-center col-12">
+    @Html.ReportViewer(ViewBag.ReportViewer as Microsoft.Reporting.WebForms.ReportViewer, htmlAttributes: new { @class = "col-7" })
+</div>

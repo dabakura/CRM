@@ -8,9 +8,7 @@
 <head runat="server">
     <title></title>
     <style>
-        table, tr td table {
-            width: 100%;
-        }
+        
     </style>
 </head>
 <body style="margin: 0px; padding: 0px;">
