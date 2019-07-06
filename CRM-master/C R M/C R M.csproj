@@ -6447,6 +6447,7 @@
     <Content Include="Content\dataTables.bootstrap.min.css" />
     <Content Include="Content\responsive.bootstrap.min.css" />
     <Content Include="ReportViewerWebForm.aspx" />
+    <Content Include="Resources\Images\user.png" />
     <Content Include="Scripts\dataTables.bootstrap4.min.js" />
     <Content Include="Content\Datepicker\css\bootstrap-datepicker.css" />
     <Content Include="Content\Datepicker\css\bootstrap-datepicker.min.css" />

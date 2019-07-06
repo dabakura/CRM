@@ -14,6 +14,7 @@ using System.Web.Script.Serialization;
 
 namespace C_R_M.Controllers
 {
+    [PermisoAttribute]
     public class RolsController : Controller
     {
         private CRMEntities db = new CRMEntities();
@@ -136,7 +137,7 @@ namespace C_R_M.Controllers
             await db.SaveChangesAsync();
             return RedirectToAction("Index");
         }
-
+        [AllowAnonymous]
         [HttpPost]
         public JsonResult Update(string permisos, int id)
         {
@@ -164,7 +165,7 @@ namespace C_R_M.Controllers
             }
             base.Dispose(disposing);
         }
-
+        [AllowAnonymous]
         public static String TipoPermiso(PermisoRol permisorol)
         {
             Permiso per = permisorol.Permiso;

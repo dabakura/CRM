@@ -12,6 +12,7 @@ using C_R_M.Models;
 
 namespace C_R_M.Controllers
 {
+    [PermisoAttribute]
     public class ServicioEmpresasController : Controller
     {
         private CRMEntities db = new CRMEntities();
@@ -141,7 +142,7 @@ namespace C_R_M.Controllers
             return RedirectToAction("Index");
         }
 
-
+        [AllowAnonymous]
         public JsonResult LoadData()
         {
             try

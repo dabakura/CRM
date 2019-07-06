@@ -14,6 +14,7 @@ using System.Threading.Tasks;
 
 namespace C_R_M.Controllers
 {
+    [PermisoAttribute]
     public class ReportController : Controller
     {
         private CRMEntities db = new CRMEntities();
@@ -42,7 +43,7 @@ namespace C_R_M.Controllers
             return View();
         }
 
-
+        [AllowAnonymous]
         private async Task<List<SelectListItem>> ListItems() {
             List<SelectListItem> list = new List<SelectListItem>();
             var queryEmpresas = from em in await db.ServicioEmpresa.ToListAsync()
@@ -59,7 +60,7 @@ namespace C_R_M.Controllers
             }
             return list;
         }
-
+        [AllowAnonymous]
         private ReportViewer GetReportViewer(String queryservicios)
         {
             ReportViewer reportViewer = new ReportViewer();

@@ -10,7 +10,6 @@ namespace C_R_M.Controllers
 {
     public class Email
     {
-
         public static bool Send(string receiver, string subject, string message) {
             try
             {

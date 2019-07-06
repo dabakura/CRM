@@ -12,6 +12,7 @@ using Newtonsoft.Json;
 
 namespace C_R_M.Controllers
 {
+    [PermisoAttribute]
     public class ContactoesController : Controller
     {
         private CRMEntities db = new CRMEntities();
@@ -173,7 +174,7 @@ namespace C_R_M.Controllers
             }
             base.Dispose(disposing);
         }
-
+        [AllowAnonymous]
         public JsonResult LoadData()
         {
             try

@@ -25,6 +25,7 @@ namespace C_R_M.Controllers
                     case RolesPermisos.Editar_Registro:
                         return usuario.Rol.PermisoRol.Where(x => x.Modulo.Equals(Modulo) && x.Permiso.Editar).Any();
                     case RolesPermisos.Permiso:
+                        if (!usuario.Rol.PermisoRol.Where(x => x.Modulo.Equals(Modulo)).Any()) return true;
                         return usuario.Rol.PermisoRol.Where(x => x.Modulo.Equals(Modulo) && x.Permiso.Crear && x.Permiso.Editar && x.Permiso.Mostrar && x.Permiso.Eliminar).Any();
                     default:
                         return false;

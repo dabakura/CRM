@@ -11,6 +11,7 @@ using C_R_M.Models;
 
 namespace C_R_M.Controllers
 {
+    [PermisoAttribute]
     public class UsuariosController : Controller
     {
         private CRMEntities db = new CRMEntities();
@@ -151,16 +152,6 @@ namespace C_R_M.Controllers
             }
             base.Dispose(disposing);
         }
-
-        public bool Logeo(string email,string contraseña)
-        {
-             var usuario = db.Usuario.Include(u => u.Empresa).Include(u => u.Rol);
-            var resultado = usuario.Where(x => x.Correo == email && x.Contraseña == contraseña).FirstOrDefault();
-            if (resultado != null)
-            {
-                return true;
-            }
-            return false;
-        }
+        
     }
 }

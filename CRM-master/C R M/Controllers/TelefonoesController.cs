@@ -10,6 +10,7 @@ using C_R_M.Models;
 
 namespace C_R_M.Controllers
 {
+    [PermisoAttribute]
     public class TelefonoesController : Controller
     {
         private CRMEntities db = new CRMEntities();

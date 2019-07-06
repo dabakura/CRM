@@ -12,6 +12,7 @@ using C_R_M.Models;
 
 namespace C_R_M.Controllers
 {
+    [PermisoAttribute]
     public class MarketingsController : Controller
     {
         private CRMEntities db = new CRMEntities();
@@ -81,7 +82,7 @@ namespace C_R_M.Controllers
             return Json(salida,JsonRequestBehavior.AllowGet);
         }
         
-
+        [AllowAnonymous]
         public JsonResult LoadData()
         {
             try

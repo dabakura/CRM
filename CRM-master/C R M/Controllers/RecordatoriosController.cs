@@ -11,6 +11,7 @@ using C_R_M.Models;
 
 namespace C_R_M.Controllers
 {
+    [PermisoAttribute]
     public class RecordatoriosController : Controller
     {
         private CRMEntities db = new CRMEntities();
@@ -136,7 +137,7 @@ namespace C_R_M.Controllers
             await db.SaveChangesAsync();
             return RedirectToAction("Index");
         }
-
+        [AllowAnonymous]
         public async Task<ActionResult> RecordatoriosDia()
         {
             if (AccountController.Account.GetUser == null)
@@ -144,7 +145,7 @@ namespace C_R_M.Controllers
             var recordatorio = await db.Recordatorio.Include(r => r.Empresa).ToListAsync();
             return View(recordatorio.FindAll(r => r.Fecha.Date == DateTime.Now.Date));
         }
-
+        [AllowAnonymous]
         public static int RecordatoriosCount()
         {
             CRMEntities db = new CRMEntities();
