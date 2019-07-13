@@ -11,6 +11,7 @@ namespace C_R_M.Models
 {
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel;
     using System.ComponentModel.DataAnnotations;
 
     public partial class Cuenta
@@ -19,9 +20,15 @@ namespace C_R_M.Models
         public int Servicio_Empresa { get; set; }
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
+        [DisplayName("Fecha Pago")]
         public System.DateTime Fecha_Pago { get; set; }
+        [Range(0d, Double.MaxValue, ErrorMessage = "Debe ser mayor o igual a 0")]
+        [DisplayName("Monto Abono")]
         public double Monto_Abono { get; set; }
+        [Range(0d, Double.MaxValue, ErrorMessage = "Debe ser mayor o igual a 0")]
+        [DisplayName("Monto Pendiente")]
         public Nullable<double> Monto_Pendiente { get; set; }
+        [DisplayName("Descripción")]
         public string Descripcion { get; set; }
     
         public virtual ServicioEmpresa ServicioEmpresa { get; set; }

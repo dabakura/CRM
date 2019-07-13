@@ -8,6 +8,8 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using C_R_M.Models;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace C_R_M.Controllers
 {
@@ -15,7 +17,6 @@ namespace C_R_M.Controllers
     public class UsuariosController : Controller
     {
         private CRMEntities db = new CRMEntities();
-
         // GET: Usuarios
         public async Task<ActionResult> Index()
         {
@@ -63,6 +64,7 @@ namespace C_R_M.Controllers
                 return RedirectPermanent("Login/Index");
             if (ModelState.IsValid)
             {
+                usuario.Contraseña = Seguridad.Encripta(usuario.Contraseña);
                 usuario.Fecha_Creacion = DateTime.Now;
                 db.Usuario.Add(usuario);
                 await db.SaveChangesAsync();
@@ -88,6 +90,7 @@ namespace C_R_M.Controllers
             {
                 return HttpNotFound();
             }
+            usuario.Contraseña = Seguridad.Desencripta(usuario.Contraseña);
             ViewBag.Empresa = new SelectList(db.Empresa, "Id_Empresa", "Nombre", usuario.Id_Empresa);
             ViewBag.Rol = new SelectList(db.Rol, "Id", "Nombre", usuario.Id_Rol);
             return View(usuario);
@@ -104,6 +107,7 @@ namespace C_R_M.Controllers
                 return RedirectPermanent("Login/Index");
             if (ModelState.IsValid)
             {
+                usuario.Contraseña = Seguridad.Encripta(usuario.Contraseña);
                 db.Usuario.Add(usuario);
                 db.Entry(usuario).State = EntityState.Modified;
                 await db.SaveChangesAsync();

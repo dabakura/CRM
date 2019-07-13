@@ -17,6 +17,7 @@ namespace C_R_M.Models
     {
         public int Id_Movimiento { get; set; }
         public string Tipo { get; set; }
+        [Range(0d, Double.MaxValue, ErrorMessage = "Debe ser mayor o igual a 0")]
         public Nullable<double> Monto { get; set; }
         public string Detalle { get; set; }
         [DataType(DataType.Date)]

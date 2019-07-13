@@ -11,18 +11,22 @@ namespace C_R_M.Models
 {
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel;
     using System.ComponentModel.DataAnnotations;
 
     public partial class Usuario
     {
         public int Id_Usuario { get; set; }
         public string Nombre { get; set; }
+        [DisplayName("1º Apellido")]
         public string Apellido1 { get; set; }
+        [DisplayName("2º Apellido")]
         public string Apellido2 { get; set; }
         public string Correo { get; set; }
         public string Contraseña { get; set; }
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
+        [DisplayName("Fecha Creación")]
         public Nullable<System.DateTime> Fecha_Creacion { get; set; }
         public Nullable<int> Id_Empresa { get; set; }
         public Nullable<int> Id_Rol { get; set; }

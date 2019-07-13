@@ -21,15 +21,19 @@ namespace C_R_M.Controllers
                 {
                     case "Create":
                         Permiso = RolesPermisos.Crear_Registro;
+                        Modulo = filterContext.ActionDescriptor.ControllerDescriptor.ControllerName;
                         break;
                     case "Details":
                         Permiso = RolesPermisos.Visualizar_Registro;
+                        Modulo = filterContext.ActionDescriptor.ControllerDescriptor.ControllerName;
                         break;
                     case "Edit":
                         Permiso = RolesPermisos.Editar_Registro;
+                        Modulo = filterContext.ActionDescriptor.ControllerDescriptor.ControllerName;
                         break;
                     case "Delete":
                         Permiso = RolesPermisos.Eliminar_Registro;
+                        Modulo = filterContext.ActionDescriptor.ControllerDescriptor.ControllerName;
                         break;
                     default:
                         Modulo = filterContext.ActionDescriptor.ControllerDescriptor.ControllerName + "-" + filterContext.ActionDescriptor.ActionName;

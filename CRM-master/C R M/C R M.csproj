@@ -161,6 +161,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\MarketingsController.cs" />
+    <Compile Include="Controllers\MedioPublicitariosController.cs" />
     <Compile Include="Controllers\MovimientoesController.cs" />
     <Compile Include="Controllers\PermisoAttribute.cs" />
     <Compile Include="Controllers\ProductoesController.cs" />
@@ -168,6 +169,7 @@
     <Compile Include="Controllers\RecordatoriosController.cs" />
     <Compile Include="Controllers\ReportController.cs" />
     <Compile Include="Controllers\RolsController.cs" />
+    <Compile Include="Controllers\Seguridad.cs" />
     <Compile Include="Controllers\ServicioEmpresasController.cs" />
     <Compile Include="Controllers\ServiciosContratadosController.cs" />
     <Compile Include="Controllers\TelefonoesController.cs" />
@@ -7543,6 +7545,11 @@
     <Content Include="Views\Shared\_Layouttable.cshtml" />
     <Content Include="Views\Marketings\Details.cshtml" />
     <Content Include="Views\Report\Index.cshtml" />
+    <Content Include="Views\MedioPublicitarios\Create.cshtml" />
+    <Content Include="Views\MedioPublicitarios\Delete.cshtml" />
+    <Content Include="Views\MedioPublicitarios\Details.cshtml" />
+    <Content Include="Views\MedioPublicitarios\Edit.cshtml" />
+    <Content Include="Views\MedioPublicitarios\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

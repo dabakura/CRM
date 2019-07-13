@@ -11,10 +11,13 @@ namespace C_R_M.Models
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel;
+    using System.ComponentModel.DataAnnotations;
+
     public partial class EstadodeCuenta
     {
         public int Id_Empresa { get; set; }
+        [DisplayName("Credito Disponible")]
         public decimal Credito_Disponible { get; set; }
     
         public virtual Empresa Empresa { get; set; }

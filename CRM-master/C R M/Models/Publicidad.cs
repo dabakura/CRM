@@ -11,6 +11,7 @@ namespace C_R_M.Models
 {
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel;
     using System.ComponentModel.DataAnnotations;
 
     public partial class Publicidad
@@ -20,10 +21,13 @@ namespace C_R_M.Models
         public int Id_empresa { get; set; }
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
+        [DisplayName("Fecha Inicio")]
         public Nullable<System.DateTime> Fecha_Inicio { get; set; }
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
+        [DisplayName("Fecha Caducidad")]
         public Nullable<System.DateTime> Fecha_Caducidad { get; set; }
+        [Range(0d, Double.MaxValue, ErrorMessage = "Debe ser mayor o igual a 0")]
         public Nullable<double> Costo { get; set; }
     
         public virtual Empresa Empresa { get; set; }

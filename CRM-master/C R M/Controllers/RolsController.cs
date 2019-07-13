@@ -200,6 +200,8 @@ namespace C_R_M.Controllers
                     new AsigPermiso("Productoes","Index",false),
                     new AsigPermiso("Publicidads",false,false,false,false),
                     new AsigPermiso("Publicidads","Index",false),
+                    new AsigPermiso("MedioPublicitarios",false,false,false,false),
+                    new AsigPermiso("MedioPublicitarios","Index",false),
                     new AsigPermiso("Recordatorios",false,false,false,false),
                     new AsigPermiso("Recordatorios","Index",false),
                     new AsigPermiso("Recordatorios","RecordatoriosDia",false),

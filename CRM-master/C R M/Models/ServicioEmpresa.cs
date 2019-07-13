@@ -11,6 +11,7 @@ namespace C_R_M.Models
 {
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel;
     using System.ComponentModel.DataAnnotations;
 
     public partial class ServicioEmpresa
@@ -23,17 +24,22 @@ namespace C_R_M.Models
     
         public int Id_Servicio_Empresa { get; set; }
         public int Id_Producto { get; set; }
+        [DisplayName("Descripción")]
         public string Descripcion { get; set; }
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
+        [DisplayName("Fecha Creación")]
         public System.DateTime Fecha_Creacion { get; set; }
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
+        [DisplayName("Primer Pago")]
         public Nullable<System.DateTime> Primer_Pago { get; set; }
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
+        [DisplayName("Renovación")]
         public System.DateTime Renovacion { get; set; }
         public int Id_Empresa { get; set; }
+        [Range(0d, Double.MaxValue, ErrorMessage = "Debe ser mayor o igual a 0")]
         public double Precio { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

@@ -67,7 +67,8 @@ namespace C_R_M.Controllers
             reportViewer.ProcessingMode = ProcessingMode.Local;
             reportViewer.Width = Unit.Percentage(100);
             reportViewer.Height = Unit.Percentage(100);
-            reportViewer.ZoomMode = ZoomMode.Percent;
+            reportViewer.SizeToReportContent = true;
+            reportViewer.ZoomMode = ZoomMode.FullPage;
             var connectionString = ConfigurationManager.ConnectionStrings["CRMConnectionString"].ConnectionString;
             DataSet datos = new DataSet();
             SqlConnection conx = new SqlConnection(connectionString);
@@ -75,8 +76,6 @@ namespace C_R_M.Controllers
             adpE.Fill(datos);
             reportViewer.LocalReport.ReportPath = Request.MapPath(Request.ApplicationPath) + @"Reports\ReportVentas.rdlc";
             reportViewer.LocalReport.DataSources.Add(new ReportDataSource("DataSetCuentas", datos.Tables[0]));
-            reportViewer.ShowZoomControl = true;
-            reportViewer.ZoomPercent = 150;
             return reportViewer;
         }
     }

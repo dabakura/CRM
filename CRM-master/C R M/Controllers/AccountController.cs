@@ -2,6 +2,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
+using System.Text;
 using System.Web;
 using System.Web.Helpers;
 using System.Web.Mvc;
@@ -22,11 +24,12 @@ namespace C_R_M.Controllers
             Modulos = new Modulo[] {
                 new Modulo { Titulo = "Empresas", Action = "Index", Controller = "Empresas", Tipo ="Normal", Icono = "fa fa-table" },
                 new Modulo { Titulo = "Servicios Vendidos", Action = "Index", Controller = "ServicioEmpresas", Tipo ="Normal", Icono = "fa fa-table" },
-                new Modulo { Titulo = "Servicios Acquiridos", Action = "Index", Controller = "ServiciosContratados", Tipo ="Normal", Icono = "fa fa-table" },
+                new Modulo { Titulo = "Servicios Adquiridos", Action = "Index", Controller = "ServiciosContratados", Tipo ="Normal", Icono = "fa fa-table" },
                 new Modulo { Titulo = "Contactos", Action = "Index", Controller = "Contactoes", Tipo ="Normal", Icono = "fa fa-table" },
                 new Modulo { Titulo = "Marketing", Action = "Index", Controller = "Marketings", Tipo ="Normal", Icono = "fa fa-envelope" },
                 new Modulo { Titulo = "Productos", Action = "Index", Controller = "Productoes", Tipo ="Normal", Icono = "fa fa-th" },
                 new Modulo { Titulo = "Publicidad", Action = "Index", Controller = "Publicidads", Tipo ="Normal", Icono = "fa fa-archive" },
+                new Modulo { Titulo = "Medio Publicitario", Action = "Index", Controller = "MedioPublicitarios", Tipo ="Normal", Icono = "fa fa-archive" },
                 new Modulo { Titulo = "Recordatorios", Action = "Index", Controller = "Recordatorios", Tipo ="Normal", Icono = "fa fa-calendar" },
                 new Modulo { Titulo = "Estado de Cuenta", Action = "Index", Controller = "EstadodeCuentas", Tipo ="Normal", Icono = "fa fa-th" },
                 new Modulo { Titulo = "Roles y Permisos", Action = "Index", Controller = "Rols", Tipo ="Normal", Icono = "fa fa-th" },
@@ -54,7 +57,7 @@ namespace C_R_M.Controllers
         }
         public bool IniciarSesion(LoginModel login)
         {
-            var User = db.Usuario.ToList().Find(u => u.Correo == login.Email && u.Contraseña == login.Password);
+            var User = db.Usuario.ToList().Find(u => u.Correo == login.Email && u.Contraseña == Seguridad.Encripta(login.Password));
             if (User != null)
                 HttpContext.Current.Session["user"] = User.Id_Usuario;
             else
@@ -89,7 +92,7 @@ namespace C_R_M.Controllers
             return new LoginModel
             {
                 Email = GetUser.Correo,
-                Password = GetUser.Contraseña,
+                Password = Seguridad.Desencripta(GetUser.Contraseña),
                 RememberMe = true
             };
         }

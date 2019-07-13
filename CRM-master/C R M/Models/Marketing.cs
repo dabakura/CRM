@@ -11,12 +11,14 @@ namespace C_R_M.Models
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel;
+
     public partial class Marketing
     {
         public int Id_Marketing { get; set; }
         public int Id_Producto { get; set; }
         public int Id_Empresa { get; set; }
+        [DisplayName("Sugerencia Producto")]
         public int Sugerencia_Producto { get; set; }
         public string URL { get; set; }
     
