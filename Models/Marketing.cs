@@ -12,16 +12,18 @@ namespace C_R_M.Models
     using System;
     using System.Collections.Generic;
     using System.ComponentModel;
-    using System.ComponentModel.DataAnnotations;
 
-    public partial class EstadodeCuenta
+    public partial class Marketing
     {
+        public int Id_Marketing { get; set; }
+        public int Id_Producto { get; set; }
         public int Id_Empresa { get; set; }
-        [DisplayName("Credito Disponible")]
-        [RegularExpression(@"^\d*\.?\d{0,2}$",ErrorMessage ="Solo dos dijitos despues del punto")]
-        [Range(-999999999999.99, 999999999999.99, ErrorMessage = "Debe ser mayor o igual a 0 y menor a 999999999999.99")]
-        public decimal Credito_Disponible { get; set; }
+        [DisplayName("Sugerencia Producto")]
+        public int Sugerencia_Producto { get; set; }
+        public string URL { get; set; }
     
         public virtual Empresa Empresa { get; set; }
+        public virtual Producto Producto { get; set; }
+        public virtual Producto Producto1 { get; set; }
     }
 }

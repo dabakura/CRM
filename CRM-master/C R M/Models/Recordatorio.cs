@@ -9,6 +9,7 @@
 
 namespace C_R_M.Models
 {
+    using C_R_M.Controllers;
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
@@ -18,18 +19,20 @@ namespace C_R_M.Models
         public int Id_Recordatorio { get; set; }
         public string Tipo { get; set; }
         [DataType(DataType.Date)]
+        [CustomDateAttribute(ErrorMessage = "La fecha no puede ser anterior a la actual")]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public System.DateTime Fecha { get; set; }
-        [Range(0, 23, ErrorMessage = "Ingrese una hora valida")]
-        public Nullable<int> Hora { get; set; }
-        [Range(0, 59, ErrorMessage = "Ingrese minutos validos")]
-        public Nullable<int> Minutos { get; set; }
+        [DataType(DataType.Time)]
+        [DisplayFormat(DataFormatString = "{0:HH:mm}", ApplyFormatInEditMode = true, HtmlEncode =false)]
+        public Nullable<System.DateTime> Hora { get; set; }
+        //[Range(0, 59, ErrorMessage = "Ingrese minutos validos")]
+        //public Nullable<int> Minutos { get; set; }
         public string Abreviatura { get; set; }
         public string Detalle { get; set; }
         public Nullable<int> Id_empresa { get; set; }
         [DataType(DataType.Text)]
         public string Mensaje { get; set; }
-    
+
         public virtual Empresa Empresa { get; set; }
     }
 }

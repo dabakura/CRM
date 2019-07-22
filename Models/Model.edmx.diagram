@@ -20,6 +20,7 @@
         <EntityTypeShape EntityType="CRMModel.Producto" Width="1.5" PointX="10.5" PointY="5" />
         <EntityTypeShape EntityType="CRMModel.Provincia" Width="1.5" PointX="0.75" PointY="13.375" />
         <EntityTypeShape EntityType="CRMModel.Publicidad" Width="1.5" PointX="9.75" PointY="17" />
+        <EntityTypeShape EntityType="CRMModel.Recordatorio" Width="1.5" PointX="9.75" PointY="28.25" />
         <EntityTypeShape EntityType="CRMModel.Rol" Width="1.5" PointX="7.5" PointY="8.375" />
         <EntityTypeShape EntityType="CRMModel.ServicioEmpresa" Width="1.5" PointX="9.75" PointY="12.625" />
         <EntityTypeShape EntityType="CRMModel.sysdiagrams" Width="1.5" PointX="2.75" PointY="0.75" />
@@ -35,6 +36,7 @@
         <AssociationConnector Association="CRMModel.FK_EstadodeCuenta_Empresa1" />
         <AssociationConnector Association="CRMModel.FK_Marketing_Empresa" />
         <AssociationConnector Association="CRMModel.FK_Publicidad_Empresa" />
+        <AssociationConnector Association="CRMModel.FK_Recordatorio_Empresa" />
         <AssociationConnector Association="CRMModel.FK_ServicioEmpresa_Empresa" />
         <AssociationConnector Association="CRMModel.FK_Usuario_Empresa" />
         <AssociationConnector Association="CRMModel.FK_Marketing_Producto" />
@@ -48,9 +50,6 @@
         <EntityTypeShape EntityType="CRMModel.Telefono" Width="1.5" PointX="12" PointY="23.5" />
         <AssociationConnector Association="CRMModel.Contacto_Correo" />
         <AssociationConnector Association="CRMModel.Contacto_Telefono" />
-        <EntityTypeShape EntityType="CRMModel.Recordatorio" Width="1.5" PointX="10.125" PointY="27.875" />
-        <EntityTypeShape EntityType="CRMModel.View_ReportCuentas" Width="1.5" PointX="0.75" PointY="3.75" />
-        <AssociationConnector Association="CRMModel.FK_Recordatorio_Empresa" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

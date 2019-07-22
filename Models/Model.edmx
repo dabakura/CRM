@@ -177,7 +177,8 @@
           <Property Name="Id_Recordatorio" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Tipo" Type="varchar" MaxLength="200" />
           <Property Name="Fecha" Type="date" Nullable="false" />
-          <Property Name="Hora" Type="datetime" />
+          <Property Name="Hora" Type="int" />
+          <Property Name="Minutos" Type="int" />
           <Property Name="Abreviatura" Type="varchar" MaxLength="10" Nullable="false" />
           <Property Name="Detalle" Type="varchar" MaxLength="200" Nullable="false" />
           <Property Name="Id_empresa" Type="int" />
@@ -234,32 +235,6 @@
           <Property Name="Fecha_Creacion" Type="date" />
           <Property Name="Id_Empresa" Type="int" />
           <Property Name="Id_Rol" Type="int" />
-        </EntityType>
-        <!--Errores durante la generación:
-advertencia 6002: La tabla o vista 'CRM.dbo.View_ReportCuentas' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
-        <EntityType Name="View_ReportCuentas">
-          <Key>
-            <PropertyRef Name="Fecha_Creacion" />
-            <PropertyRef Name="Renovacion" />
-            <PropertyRef Name="Precio" />
-            <PropertyRef Name="Monto_Abono" />
-            <PropertyRef Name="Fecha_Pago" />
-            <PropertyRef Name="Producto_Adquirido" />
-            <PropertyRef Name="Id_Servicio_Empresa" />
-          </Key>
-          <Property Name="Fecha_Creacion" Type="date" Nullable="false" />
-          <Property Name="Primer_Pago" Type="date" />
-          <Property Name="Renovacion" Type="date" Nullable="false" />
-          <Property Name="Precio" Type="float" Nullable="false" />
-          <Property Name="Monto_Pendiente" Type="float" />
-          <Property Name="Monto_Abono" Type="float" Nullable="false" />
-          <Property Name="Fecha_Pago" Type="date" Nullable="false" />
-          <Property Name="Nombre" Type="varchar" MaxLength="100" />
-          <Property Name="Correo" Type="varchar" MaxLength="100" />
-          <Property Name="Cedula" Type="varchar" MaxLength="30" />
-          <Property Name="Descripcion" Type="nvarchar" MaxLength="250" />
-          <Property Name="Producto_Adquirido" Type="varchar" MaxLength="100" Nullable="false" />
-          <Property Name="Id_Servicio_Empresa" Type="int" Nullable="false" />
         </EntityType>
         <Association Name="FK_Canton_Canton">
           <End Role="Provincia" Type="Self.Provincia" Multiplicity="0..1" />
@@ -635,23 +610,6 @@ advertencia 6002: La tabla o vista 'CRM.dbo.View_ReportCuentas' no tiene definid
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Telefono" EntityType="Self.Telefono" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Usuario" EntityType="Self.Usuario" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="View_ReportCuentas" EntityType="Self.View_ReportCuentas" store:Type="Views" store:Schema="dbo">
-            <DefiningQuery>SELECT 
-    [View_ReportCuentas].[Fecha_Creacion] AS [Fecha_Creacion], 
-    [View_ReportCuentas].[Primer_Pago] AS [Primer_Pago], 
-    [View_ReportCuentas].[Renovacion] AS [Renovacion], 
-    [View_ReportCuentas].[Precio] AS [Precio], 
-    [View_ReportCuentas].[Monto_Pendiente] AS [Monto_Pendiente], 
-    [View_ReportCuentas].[Monto_Abono] AS [Monto_Abono], 
-    [View_ReportCuentas].[Fecha_Pago] AS [Fecha_Pago], 
-    [View_ReportCuentas].[Nombre] AS [Nombre], 
-    [View_ReportCuentas].[Correo] AS [Correo], 
-    [View_ReportCuentas].[Cedula] AS [Cedula], 
-    [View_ReportCuentas].[Descripcion] AS [Descripcion], 
-    [View_ReportCuentas].[Producto_Adquirido] AS [Producto_Adquirido], 
-    [View_ReportCuentas].[Id_Servicio_Empresa] AS [Id_Servicio_Empresa]
-    FROM [dbo].[View_ReportCuentas] AS [View_ReportCuentas]</DefiningQuery>
-          </EntitySet>
           <AssociationSet Name="FK_Canton_Canton" Association="Self.FK_Canton_Canton">
             <End Role="Provincia" EntitySet="Provincia" />
             <End Role="Canton" EntitySet="Canton" />
@@ -803,6 +761,7 @@ advertencia 6002: La tabla o vista 'CRM.dbo.View_ReportCuentas' no tiene definid
           <EntitySet Name="Producto" EntityType="CRMModel.Producto" />
           <EntitySet Name="Provincia" EntityType="CRMModel.Provincia" />
           <EntitySet Name="Publicidad" EntityType="CRMModel.Publicidad" />
+          <EntitySet Name="Recordatorio" EntityType="CRMModel.Recordatorio" />
           <EntitySet Name="Rol" EntityType="CRMModel.Rol" />
           <EntitySet Name="ServicioEmpresa" EntityType="CRMModel.ServicioEmpresa" />
           <EntitySet Name="sysdiagrams" EntityType="CRMModel.sysdiagrams" />
@@ -851,6 +810,10 @@ advertencia 6002: La tabla o vista 'CRM.dbo.View_ReportCuentas' no tiene definid
             <End Role="Empresa" EntitySet="Empresa" />
             <End Role="Publicidad" EntitySet="Publicidad" />
           </AssociationSet>
+          <AssociationSet Name="FK_Recordatorio_Empresa" Association="CRMModel.FK_Recordatorio_Empresa">
+            <End Role="Empresa" EntitySet="Empresa" />
+            <End Role="Recordatorio" EntitySet="Recordatorio" />
+          </AssociationSet>
           <AssociationSet Name="FK_ServicioEmpresa_Empresa" Association="CRMModel.FK_ServicioEmpresa_Empresa">
             <End Role="Empresa" EntitySet="Empresa" />
             <End Role="ServicioEmpresa" EntitySet="ServicioEmpresa" />
@@ -896,12 +859,6 @@ advertencia 6002: La tabla o vista 'CRM.dbo.View_ReportCuentas' no tiene definid
           <AssociationSet Name="Contacto_Telefono" Association="CRMModel.Contacto_Telefono">
             <End Role="Contacto" EntitySet="Contacto" />
             <End Role="Telefono" EntitySet="Telefono" />
-          </AssociationSet>
-          <EntitySet Name="Recordatorio" EntityType="CRMModel.Recordatorio" />
-          <EntitySet Name="View_ReportCuentas" EntityType="CRMModel.View_ReportCuentas" />
-          <AssociationSet Name="FK_Recordatorio_Empresa" Association="CRMModel.FK_Recordatorio_Empresa">
-            <End Role="Empresa" EntitySet="Empresa" />
-            <End Role="Recordatorio" EntitySet="Recordatorio" />
           </AssociationSet>
           </EntityContainer>
         <ComplexType Name="sp_helpdiagramdefinition_Result">
@@ -985,9 +942,9 @@ advertencia 6002: La tabla o vista 'CRM.dbo.View_ReportCuentas' no tiene definid
           <NavigationProperty Name="EstadodeCuenta" Relationship="CRMModel.FK_EstadodeCuenta_Empresa1" FromRole="Empresa" ToRole="EstadodeCuenta" />
           <NavigationProperty Name="Marketing" Relationship="CRMModel.FK_Marketing_Empresa" FromRole="Empresa" ToRole="Marketing" />
           <NavigationProperty Name="Publicidad" Relationship="CRMModel.FK_Publicidad_Empresa" FromRole="Empresa" ToRole="Publicidad" />
+          <NavigationProperty Name="Recordatorio" Relationship="CRMModel.FK_Recordatorio_Empresa" FromRole="Empresa" ToRole="Recordatorio" />
           <NavigationProperty Name="ServicioEmpresa" Relationship="CRMModel.FK_ServicioEmpresa_Empresa" FromRole="Empresa" ToRole="ServicioEmpresa" />
           <NavigationProperty Name="Usuario" Relationship="CRMModel.FK_Usuario_Empresa" FromRole="Empresa" ToRole="Usuario" />
-          <NavigationProperty Name="Recordatorio" Relationship="CRMModel.FK_Recordatorio_Empresa" FromRole="Empresa" ToRole="Recordatorio" />
         </EntityType>
         <EntityType Name="EstadodeCuenta">
           <Key>
@@ -1092,6 +1049,20 @@ advertencia 6002: La tabla o vista 'CRM.dbo.View_ReportCuentas' no tiene definid
           <Property Name="Costo" Type="Double" />
           <NavigationProperty Name="Empresa" Relationship="CRMModel.FK_Publicidad_Empresa" FromRole="Publicidad" ToRole="Empresa" />
           <NavigationProperty Name="MedioPublicitario" Relationship="CRMModel.FK_Publicidad_MedioPublicitario" FromRole="Publicidad" ToRole="MedioPublicitario" />
+        </EntityType>
+        <EntityType Name="Recordatorio">
+          <Key>
+            <PropertyRef Name="Id_Recordatorio" />
+          </Key>
+          <Property Name="Id_Recordatorio" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Tipo" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="Fecha" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Hora" Type="DateTime" />
+          <Property Name="Abreviatura" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="Detalle" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="Id_empresa" Type="Int32" />
+          <Property Name="Mensaje" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Empresa" Relationship="CRMModel.FK_Recordatorio_Empresa" FromRole="Recordatorio" ToRole="Empresa" />
         </EntityType>
         <EntityType Name="Rol">
           <Key>
@@ -1280,6 +1251,18 @@ advertencia 6002: La tabla o vista 'CRM.dbo.View_ReportCuentas' no tiene definid
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Recordatorio_Empresa">
+          <End Type="CRMModel.Empresa" Role="Empresa" Multiplicity="0..1" />
+          <End Type="CRMModel.Recordatorio" Role="Recordatorio" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Empresa">
+              <PropertyRef Name="Id_Empresa" />
+            </Principal>
+            <Dependent Role="Recordatorio">
+              <PropertyRef Name="Id_empresa" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_ServicioEmpresa_Empresa">
           <End Type="CRMModel.Empresa" Role="Empresa" Multiplicity="1" />
           <End Type="CRMModel.ServicioEmpresa" Role="ServicioEmpresa" Multiplicity="*" />
@@ -1418,56 +1401,6 @@ advertencia 6002: La tabla o vista 'CRM.dbo.View_ReportCuentas' no tiene definid
         <Association Name="Contacto_Telefono">
           <End Type="CRMModel.Contacto" Role="Contacto" Multiplicity="*" />
           <End Type="CRMModel.Telefono" Role="Telefono" Multiplicity="*" />
-        </Association>
-        <EntityType Name="Recordatorio">
-          <Key>
-            <PropertyRef Name="Id_Recordatorio" />
-          </Key>
-          <Property Name="Id_Recordatorio" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Tipo" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
-          <Property Name="Fecha" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="Hora" Type="DateTime" Precision="3" />
-          <Property Name="Abreviatura" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
-          <Property Name="Detalle" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="false" />
-          <Property Name="Id_empresa" Type="Int32" />
-          <Property Name="Mensaje" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="Empresa" Relationship="CRMModel.FK_Recordatorio_Empresa" FromRole="Recordatorio" ToRole="Empresa" />
-        </EntityType>
-        <EntityType Name="View_ReportCuentas">
-          <Key>
-            <PropertyRef Name="Fecha_Creacion" />
-            <PropertyRef Name="Renovacion" />
-            <PropertyRef Name="Precio" />
-            <PropertyRef Name="Monto_Abono" />
-            <PropertyRef Name="Fecha_Pago" />
-            <PropertyRef Name="Producto_Adquirido" />
-            <PropertyRef Name="Id_Servicio_Empresa" />
-          </Key>
-          <Property Name="Fecha_Creacion" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="Primer_Pago" Type="DateTime" Precision="0" />
-          <Property Name="Renovacion" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="Precio" Type="Double" Nullable="false" />
-          <Property Name="Monto_Pendiente" Type="Double" />
-          <Property Name="Monto_Abono" Type="Double" Nullable="false" />
-          <Property Name="Fecha_Pago" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="Nombre" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="Correo" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="Cedula" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
-          <Property Name="Descripcion" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
-          <Property Name="Producto_Adquirido" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="Id_Servicio_Empresa" Type="Int32" Nullable="false" />
-        </EntityType>
-        <Association Name="FK_Recordatorio_Empresa">
-          <End Type="CRMModel.Empresa" Role="Empresa" Multiplicity="0..1" />
-          <End Type="CRMModel.Recordatorio" Role="Recordatorio" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Empresa">
-              <PropertyRef Name="Id_Empresa" />
-            </Principal>
-            <Dependent Role="Recordatorio">
-              <PropertyRef Name="Id_empresa" />
-            </Dependent>
-          </ReferentialConstraint>
         </Association>
         </Schema>
     </edmx:ConceptualModels>
@@ -1654,6 +1587,20 @@ advertencia 6002: La tabla o vista 'CRM.dbo.View_ReportCuentas' no tiene definid
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="Recordatorio">
+            <EntityTypeMapping TypeName="CRMModel.Recordatorio">
+              <MappingFragment StoreEntitySet="Recordatorio">
+                <ScalarProperty Name="Mensaje" ColumnName="Mensaje" />
+                <ScalarProperty Name="Id_empresa" ColumnName="Id_empresa" />
+                <ScalarProperty Name="Detalle" ColumnName="Detalle" />
+                <ScalarProperty Name="Abreviatura" ColumnName="Abreviatura" />
+                <ScalarProperty Name="Hora" ColumnName="Hora" />
+                <ScalarProperty Name="Fecha" ColumnName="Fecha" />
+                <ScalarProperty Name="Tipo" ColumnName="Tipo" />
+                <ScalarProperty Name="Id_Recordatorio" ColumnName="Id_Recordatorio" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="Rol">
             <EntityTypeMapping TypeName="CRMModel.Rol">
               <MappingFragment StoreEntitySet="Rol">
@@ -1735,39 +1682,6 @@ advertencia 6002: La tabla o vista 'CRM.dbo.View_ReportCuentas' no tiene definid
               <ScalarProperty Name="Id_Contacto" ColumnName="Id_Contacto" />
             </EndProperty>
           </AssociationSetMapping>
-          <EntitySetMapping Name="Recordatorio">
-            <EntityTypeMapping TypeName="CRMModel.Recordatorio">
-              <MappingFragment StoreEntitySet="Recordatorio">
-                <ScalarProperty Name="Mensaje" ColumnName="Mensaje" />
-                <ScalarProperty Name="Id_empresa" ColumnName="Id_empresa" />
-                <ScalarProperty Name="Detalle" ColumnName="Detalle" />
-                <ScalarProperty Name="Abreviatura" ColumnName="Abreviatura" />
-                <ScalarProperty Name="Hora" ColumnName="Hora" />
-                <ScalarProperty Name="Fecha" ColumnName="Fecha" />
-                <ScalarProperty Name="Tipo" ColumnName="Tipo" />
-                <ScalarProperty Name="Id_Recordatorio" ColumnName="Id_Recordatorio" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="View_ReportCuentas">
-            <EntityTypeMapping TypeName="CRMModel.View_ReportCuentas">
-              <MappingFragment StoreEntitySet="View_ReportCuentas">
-                <ScalarProperty Name="Id_Servicio_Empresa" ColumnName="Id_Servicio_Empresa" />
-                <ScalarProperty Name="Producto_Adquirido" ColumnName="Producto_Adquirido" />
-                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
-                <ScalarProperty Name="Cedula" ColumnName="Cedula" />
-                <ScalarProperty Name="Correo" ColumnName="Correo" />
-                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
-                <ScalarProperty Name="Fecha_Pago" ColumnName="Fecha_Pago" />
-                <ScalarProperty Name="Monto_Abono" ColumnName="Monto_Abono" />
-                <ScalarProperty Name="Monto_Pendiente" ColumnName="Monto_Pendiente" />
-                <ScalarProperty Name="Precio" ColumnName="Precio" />
-                <ScalarProperty Name="Renovacion" ColumnName="Renovacion" />
-                <ScalarProperty Name="Primer_Pago" ColumnName="Primer_Pago" />
-                <ScalarProperty Name="Fecha_Creacion" ColumnName="Fecha_Creacion" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

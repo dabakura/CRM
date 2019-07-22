@@ -8,10 +8,11 @@ namespace C_R_M.Controllers
 {
     public class HomeController : Controller
     {
-        public ActionResult Index()
+        public ActionResult Index(string estado = "Autorizado")
         {
             if (AccountController.Account.GetUser == null)
                 return RedirectPermanent("Login/Index");
+            ViewBag.Estado = estado;
             return View();
         }
 

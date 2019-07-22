@@ -57,7 +57,7 @@ namespace C_R_M.Controllers
         // más información vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "Id_Recordatorio,Tipo,Fecha,Hora,Minutos,Abreviatura,Detalle,Id_empresa,Mensaje")] Recordatorio recordatorio)
+        public async Task<ActionResult> Create([Bind(Include = "Id_Recordatorio,Tipo,Fecha,Hora,Abreviatura,Detalle,Id_empresa,Mensaje")] Recordatorio recordatorio)
         {
             if (AccountController.Account.GetUser == null)
                 return RedirectPermanent("Login/Index");
@@ -95,7 +95,7 @@ namespace C_R_M.Controllers
         // más información vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "Id_Recordatorio,Tipo,Fecha,Hora,Minutos,Abreviatura,Detalle,Id_empresa,Mensaje")] Recordatorio recordatorio)
+        public async Task<ActionResult> Edit([Bind(Include = "Id_Recordatorio,Tipo,Fecha,Hora,Abreviatura,Detalle,Id_empresa,Mensaje")] Recordatorio recordatorio)
         {
             if (AccountController.Account.GetUser == null)
                 return RedirectPermanent("Login/Index");

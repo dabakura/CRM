@@ -12,3 +12,10 @@
         display: none;
     }
 </style>
+
+@if (!ViewBag.Estado.Equals("Autorizado"))
+{
+    <script>
+        alert("No estas Autorizado para esta Acción");
+    </script>
+}

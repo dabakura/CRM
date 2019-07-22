@@ -154,6 +154,7 @@
     <Compile Include="Controllers\ContactoesController.cs" />
     <Compile Include="Controllers\CorreosController.cs" />
     <Compile Include="Controllers\CuentasController.cs" />
+    <Compile Include="Controllers\CustomDateAttribute.cs" />
     <Compile Include="Controllers\Email.cs" />
     <Compile Include="Controllers\EmpresasController.cs" />
     <Compile Include="Controllers\EstadodeCuentasController.cs" />
@@ -274,6 +275,9 @@
     <Compile Include="Models\LoginModel.cs" />
     <Compile Include="Models\Modulo.cs" />
     <Compile Include="Models\Usuario.cs">
+      <DependentUpon>Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\View_ReportCuentas.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />

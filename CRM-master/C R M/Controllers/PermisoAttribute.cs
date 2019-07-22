@@ -46,7 +46,8 @@ namespace C_R_M.Controllers
                 filterContext.Result = new RedirectToRouteResult(new RouteValueDictionary(new
                 {
                     controller = "Home",
-                    action = "Index"
+                    action = "Index",
+                    estado = "No autorizado"
                 }));
             }
             Permiso = RolesPermisos.None;

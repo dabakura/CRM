@@ -8,7 +8,7 @@
 //------------------------------------------------------------------------------
 
 namespace C_R_M.Models
-{ 
+{
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
@@ -17,8 +17,7 @@ namespace C_R_M.Models
     {
         public int Id_Movimiento { get; set; }
         public string Tipo { get; set; }
-        [RegularExpression(@"^\d*\.?\d{0,2}$", ErrorMessage = "Solo dos dijitos despues del punto")]
-        [Range(-999999999999.99, 999999999999.99, ErrorMessage = "Debe ser mayor o igual a 0 y menor a 999999999999.99")]
+        [Range(0d, Double.MaxValue, ErrorMessage = "Debe ser mayor o igual a 0")]
         public Nullable<double> Monto { get; set; }
         public string Detalle { get; set; }
         [DataType(DataType.Date)]

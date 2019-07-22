@@ -39,8 +39,7 @@ namespace C_R_M.Models
         [DisplayName("Renovación")]
         public System.DateTime Renovacion { get; set; }
         public int Id_Empresa { get; set; }
-        [RegularExpression(@"^\d*\.?\d{0,2}$", ErrorMessage = "Solo dos dijitos despues del punto")]
-        [Range(-999999999999.99, 999999999999.99, ErrorMessage = "Debe ser mayor o igual a 0 y menor a 999999999999.99")]
+        [Range(0d, Double.MaxValue, ErrorMessage = "Debe ser mayor o igual a 0")]
         public double Precio { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

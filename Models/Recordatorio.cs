@@ -8,21 +8,30 @@
 //------------------------------------------------------------------------------
 
 namespace C_R_M.Models
-{ 
+{
+    using C_R_M.Controllers;
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
 
-    public partial class Movimiento
+    public partial class Recordatorio
     {
-        public int Id_Movimiento { get; set; }
+        public int Id_Recordatorio { get; set; }
         public string Tipo { get; set; }
-        [RegularExpression(@"^\d*\.?\d{0,2}$", ErrorMessage = "Solo dos dijitos despues del punto")]
-        [Range(-999999999999.99, 999999999999.99, ErrorMessage = "Debe ser mayor o igual a 0 y menor a 999999999999.99")]
-        public Nullable<double> Monto { get; set; }
-        public string Detalle { get; set; }
         [DataType(DataType.Date)]
+        [CustomDateAttribute(ErrorMessage ="La fecha no puede ser menor a la actual")]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
-        public Nullable<System.DateTime> Fecha { get; set; }
+        public System.DateTime Fecha { get; set; }
+        [DataType(DataType.Time)]
+        public Nullable<System.DateTime> Hora { get; set; }
+        //[Range(0, 59, ErrorMessage = "Ingrese minutos validos")]
+        //public Nullable<int> Minutos { get; set; }
+        public string Abreviatura { get; set; }
+        public string Detalle { get; set; }
+        public Nullable<int> Id_empresa { get; set; }
+        [DataType(DataType.Text)]
+        public string Mensaje { get; set; }
+    
+        public virtual Empresa Empresa { get; set; }
     }
 }

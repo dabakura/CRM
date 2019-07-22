@@ -12,16 +12,20 @@ namespace C_R_M.Models
     using System;
     using System.Collections.Generic;
     using System.ComponentModel;
-    using System.ComponentModel.DataAnnotations;
 
-    public partial class EstadodeCuenta
+    public partial class Correo
     {
-        public int Id_Empresa { get; set; }
-        [DisplayName("Credito Disponible")]
-        [RegularExpression(@"^\d*\.?\d{0,2}$",ErrorMessage ="Solo dos dijitos despues del punto")]
-        [Range(-999999999999.99, 999999999999.99, ErrorMessage = "Debe ser mayor o igual a 0 y menor a 999999999999.99")]
-        public decimal Credito_Disponible { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Correo()
+        {
+            this.Contacto = new HashSet<Contacto>();
+        }
     
-        public virtual Empresa Empresa { get; set; }
+        public int Id_Correo { get; set; }
+        [DisplayName("Dirección")]
+        public string Direccion { get; set; }
+    
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Contacto> Contacto { get; set; }
     }
 }
