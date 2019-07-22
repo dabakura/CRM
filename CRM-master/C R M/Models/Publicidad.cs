@@ -28,7 +28,7 @@ namespace C_R_M.Models
         [DisplayName("Fecha Caducidad")]
         public Nullable<System.DateTime> Fecha_Caducidad { get; set; }
         [RegularExpression(@"^\d*\.?\d{0,2}$", ErrorMessage = "Solo dos dijitos despues del punto")]
-        [Range(-999999999999.99, 999999999999.99, ErrorMessage = "Debe ser mayor o igual a 0 y menor a 999999999999.99")]
+        [Range(0, 999999999999.99, ErrorMessage = "Debe ser mayor o igual a 0 y menor a 999999999999.99")]
         public Nullable<double> Costo { get; set; }
     
         public virtual Empresa Empresa { get; set; }
