@@ -63,6 +63,10 @@ namespace C_R_M.Controllers
             {
                 db.Rol.Add(rol);
                 await db.SaveChangesAsync();
+                List<PermisoRol> listpermisos = new List<PermisoRol>();
+                Permisos().ForEach(p => { PermisoRol per = p.PermisoRol; per.Id_Rol = rol.Id; listpermisos.Add(per); });
+                db.PermisoRol.AddRange(listpermisos);
+                await db.SaveChangesAsync();
                 ViewBag.Permisos = Permisos();
                 ViewBag.Id = rol.Id;
                 return View("CreatePermiso");
@@ -194,6 +198,8 @@ namespace C_R_M.Controllers
                     new AsigPermiso("Empresas","Index",false),
                     new AsigPermiso("Contactoes",false,false,false,false),
                     new AsigPermiso("Contactoes","Index",false),
+                    new AsigPermiso("Cuentas",false,false,false,false),
+                    new AsigPermiso("Cuentas","Index",false),
                     new AsigPermiso("Marketings",false,false,false,false),
                     new AsigPermiso("Marketings","Index",false),
                     new AsigPermiso("Productoes",false,false,false,false),
@@ -212,7 +218,7 @@ namespace C_R_M.Controllers
                     new AsigPermiso("Usuarios",false,false,false,false),
                     new AsigPermiso("Usuarios","Index",false),
                     new AsigPermiso("EstadodeCuentas",false,false,false,false),
-                    new AsigPermiso("Usuarios","Index",false),
+                    new AsigPermiso("EstadodeCuentas","Index",false),
                     new AsigPermiso("ServiciosContratados","Index",false),
                     new AsigPermiso("ServiciosContratados","Details",false),
                     new AsigPermiso("ServicioEmpresas","Index",false),

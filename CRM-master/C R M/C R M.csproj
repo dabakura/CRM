@@ -7550,6 +7550,9 @@
     <Content Include="Views\MedioPublicitarios\Details.cshtml" />
     <Content Include="Views\MedioPublicitarios\Edit.cshtml" />
     <Content Include="Views\MedioPublicitarios\Index.cshtml" />
+    <Content Include="Views\Empresas\ListContactos.cshtml" />
+    <Content Include="Views\Empresas\ListServicios.cshtml" />
+    <Content Include="Views\Empresas\ListEstadoCuentas.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

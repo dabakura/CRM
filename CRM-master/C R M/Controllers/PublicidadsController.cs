@@ -49,7 +49,8 @@ namespace C_R_M.Controllers
                 return RedirectPermanent("Login/Index");
             ViewBag.Empresa = new SelectList(db.Empresa, "Id_Empresa", "Nombre");
             ViewBag.Medio = new SelectList(db.MedioPublicitario, "Id_Medio_Publicitario", "Nombre");
-            return View();
+            Publicidad publicidad = new Publicidad { Fecha_Caducidad = DateTime.Now, Fecha_Inicio = DateTime.Now };
+            return View(publicidad);
         }
 
         // POST: Publicidads/Create

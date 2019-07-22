@@ -46,7 +46,8 @@ namespace C_R_M.Controllers
         {
             if (AccountController.Account.GetUser == null)
                 return RedirectPermanent("Login/Index");
-            return View();
+            Movimiento movimiento = new Movimiento { Fecha = DateTime.Now };
+            return View(movimiento);
         }
 
         // POST: Movimientoes/Create

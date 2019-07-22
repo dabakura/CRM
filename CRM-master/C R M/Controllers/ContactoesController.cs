@@ -60,12 +60,14 @@ namespace C_R_M.Controllers
         {
             if (AccountController.Account.GetUser == null)
                 return RedirectPermanent("Login/Index");
-            for (int i = 0; i < contacto.Correo.Count; i++)
+            int index = contacto.Correo.Count - 1;
+            for (int i = index; i >= 0; i--)
                 if (String.IsNullOrEmpty(contacto.Correo.ElementAt(i).Direccion)) contacto.Correo.Remove(contacto.Correo.ElementAt(i));
-            for (int i = 0; i < contacto.Telefono.Count; i++)
+            index = contacto.Telefono.Count - 1;
+            for (int i = index; i >= 0; i--)
             {
                 if (String.IsNullOrEmpty(contacto.Telefono.ElementAt(i).Codigo)) contacto.Telefono.ElementAt(i).Codigo = "(506)";
-                if (0 == contacto.Telefono.ElementAt(i).N_Telefonico) contacto.Telefono.Remove(contacto.Telefono.ElementAt(i));
+                if (!contacto.Telefono.ElementAt(i).N_Telefonico.HasValue || 0 == contacto.Telefono.ElementAt(i).N_Telefonico) contacto.Telefono.Remove(contacto.Telefono.ElementAt(i));
             }
             if (ModelState.IsValid)
             {

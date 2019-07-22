@@ -1,162 +1,218 @@
 ﻿@model C_R_M.Models.Empresa
-
+@using C_R_M.Models
 @{
     ViewBag.Title = "Edit";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-
-<ul class="nav nav-tabs">
-    <li class="active"><a data-toggle="tab" href="#home">Empresa</a></li>
-    <li><a data-toggle="tab" href="#menu1">Contacto</a></li>
-    <li><a data-toggle="tab" href="#menu2">Servicios</a></li>
-    <li><a data-toggle="tab" href="#menu3">Estado de Cuenta</a></li>
-</ul>
-
-<div class="tab-content">
-    <div id="home" class="tab-pane fade in active">
-        <h2>Editar</h2>
-        
-
-        @using (Html.BeginForm())
-        {
-            @Html.AntiForgeryToken()
-
-            
-        <div class="form-horizontal">
-            <h4>Empresa</h4>
-            <hr />
-            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-            @Html.HiddenFor(model => model.Id_Empresa)
-            <div class="form-group">
-                @Html.LabelFor(model => model.Nombre, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.Nombre, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.Nombre, "", new { @class = "text-danger" })
-                </div>
-            </div>
-            <div class="form-group">
-                @Html.LabelFor(model => model.Correo, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.Correo, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.Correo, "", new { @class = "text-danger" })
-                </div>
-            </div>
-            <div class="form-group">
-                @Html.Label("Cédula", htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-
-
-                    @if (Model.Tipo_Cedula.Equals("Juridica"))
-                    {
-                        @Html.RadioButtonFor(model => model.Tipo_Cedula, "Juridica",htmlAttributes: new { @class = "cedul", @checked = "checked" })
-
-                    @Html.Label("Jurídica")
-                    @Html.RadioButtonFor(model => model.Tipo_Cedula, "Fisica", htmlAttributes: new { @class = "cedul" })
-                    @Html.Label("Física")
-                    }
-                    else
-                    {
-                    @Html.RadioButtonFor(model => model.Tipo_Cedula, "Juridica", htmlAttributes: new { @class = "cedul" })
-                    @Html.Label("Jurídica")
-                    @Html.RadioButtonFor(model => model.Tipo_Cedula, "Fisica",  htmlAttributes: new { @class = "cedul", @checked = "checked" })
-                    @Html.Label("Física")
-                    }
-
-                </div>
-            </div>
-            <div class="form-group">
-                @Html.Label(" ", htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                        @Html.EditorFor(model => model.Cedula, new { htmlAttributes = new { @class = "form-control",@id= "ced", @onclick = "validar()" } })
-                        @Html.ValidationMessageFor(model => model.Cedula, "", new { @class = "text-danger" })
-                   
-                </div>
-            </div>
-            <div class="form-group">
-                @Html.LabelFor(model => model.Id_Pais, "País", htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.DropDownListFor(model => model.Id_Pais, (SelectList)ViewBag.Pais, htmlAttributes: new { @class = "form-control" })
-                    @Html.ValidationMessageFor(model => model.Id_Pais, "", new { @class = "text-danger" })
-                </div>
-            </div>
-            <div class="form-group">
-                @Html.LabelFor(model => model.Id_Provincia, "Provincia", htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.DropDownListFor(model => model.Id_Provincia, (SelectList)ViewBag.Id_Provincia, htmlAttributes: new { @class = "form-control" })
-                    @Html.ValidationMessageFor(model => model.Id_Provincia, "", new { @class = "text-danger" })
-                </div>
-            </div>
-            <div class="form-group">
-                @Html.LabelFor(model => model.Id_Canton, "Cantón", htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.DropDownListFor(model => model.Id_Canton, (SelectList)ViewBag.Id_Canton, htmlAttributes: new { @class = "form-control" })
-                    @Html.ValidationMessageFor(model => model.Id_Canton, "", new { @class = "text-danger" })
-                </div>
-            </div>
-            <div class="form-group">
-                @Html.LabelFor(model => model.Id_Distrito, "Distrito", htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.DropDownListFor(model => model.Id_Distrito, (SelectList)ViewBag.Id_Distrito, htmlAttributes: new { @class = "form-control" })
-                    @Html.ValidationMessageFor(model => model.Id_Distrito, "", new { @class = "text-danger" })
-                </div>
-            </div>
-            <div class="form-group">
-                @Html.LabelFor(model => model.Otras_Señas, "Otras Señas", htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.Otras_Señas, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.Otras_Señas, "", new { @class = "text-danger" })
-                </div>
-            </div>
-            <div class="form-group">
-                @Html.LabelFor(model => model.Codigo_Postal, "Código Postal", htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.Codigo_Postal, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.Codigo_Postal, "", new { @class = "text-danger" })
-                </div>
-            </div>
-            <div class="form-group">
-                <div class="col-md-offset-2 col-md-10">
-                    <input type="submit" value="Actualizar" class="btn btn-default" />
-                </div>
-            </div>
-        </div>
+@section Styles{
+    <style>
+        nav > .nav.nav-tabs {
+            border: none;
+            color: #fff;
+            background: #272e38;
+            border-radius: 0;
+            padding: 25px;
+            height: 75px;
         }
-        <div>
-            @Html.ActionLink("Volver a la lista", "Index")
+
+        nav > div a.nav-item.nav-link,
+        nav > div a.nav-item.nav-link.active {
+            border: none;
+            padding: 18px 25px;
+            color: #fff;
+            background: #272e38;
+            border-radius: 0;
+        }
+
+            nav > div a.nav-item.nav-link.active:after {
+                content: "";
+                position: relative;
+                bottom: -66px;
+                left: 0%;
+                border: 15px solid transparent;
+                border-top-color: #e74c3c;
+            }
+
+        .tab-content {
+            background: #fdfdfd;
+            line-height: 25px;
+            border: 1px solid #ddd;
+            border-top: 5px solid #e74c3c;
+            border-bottom: 5px solid #e74c3c;
+            padding: 30px 25px;
+        }
+
+        nav > div a.nav-item.nav-link:hover,
+        nav > div a.nav-item.nav-link:focus {
+            border: none;
+            background: #e74c3c;
+            color: #fff;
+            border-radius: 0;
+            transition: background 0.20s linear;
+        }
+    </style>
+}
+@*<ul class="nav nav-tabs">
+        <li class="active"><a data-toggle="tab" href="#home">Empresa</a></li>
+        <li><a data-toggle="tab" href="#menu1">Contacto</a></li>
+        <li><a data-toggle="tab" href="#menu2">Servicios</a></li>
+        <li><a data-toggle="tab" href="#menu3">Estado de Cuenta</a></li>
+    </ul>*@
+<div class="container" style="width: 100%;">
+    <div class="row">
+        <div class="col-xs-12 ">
+            <nav>
+                <div class="nav nav-tabs nav-fill" id="nav-tab" role="tablist">
+                    <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">Home</a>
+                    <a class="nav-item nav-link" id="nav-contacto-tab" data-toggle="tab" href="#nav-contacto" role="tab" aria-controls="nav-contacto" aria-selected="false">Contacto</a>
+                    <a class="nav-item nav-link" id="nav-servicios-tab" data-toggle="tab" href="#nav-servicios" role="tab" aria-controls="nav-servicios" aria-selected="false">Servicios</a>
+                    <a class="nav-item nav-link" id="nav-cuenta-tab" data-toggle="tab" href="#nav-cuenta" role="tab" aria-controls="nav-cuenta" aria-selected="false">Estado Cuentas</a>
+                </div>
+            </nav>
+            <div class="tab-content py-3 px-3 px-sm-0" id="nav-tabContent">
+                @*<div class="tab-content">*@
+                <div class="tab-pane fade show in active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+                    @*<div id="home" class="tab-pane fade in active">*@
+                    <h2>Editar</h2>
+
+                    @using (Html.BeginForm())
+                    {
+                        @Html.AntiForgeryToken()
+
+
+                        <div class="form-horizontal">
+                            <h4>Empresa</h4>
+                            <hr />
+                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                            @Html.HiddenFor(model => model.Id_Empresa)
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Nombre, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.EditorFor(model => model.Nombre, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.Nombre, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Correo, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.EditorFor(model => model.Correo, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.Correo, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                @Html.Label("Cédula", htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+
+                                    @if (Model.Tipo_Cedula.Equals("Juridica"))
+                                    {
+                                        @Html.RadioButtonFor(model => model.Tipo_Cedula, "Juridica", htmlAttributes: new { @class = "cedul", @checked = "checked" })
+
+                                        @Html.Label("Jurídica")
+                                        @Html.RadioButtonFor(model => model.Tipo_Cedula, "Fisica", htmlAttributes: new { @class = "cedul" })
+                                        @Html.Label("Física")
+                                    }
+                                    else
+                                    {
+                                        @Html.RadioButtonFor(model => model.Tipo_Cedula, "Juridica", htmlAttributes: new { @class = "cedul" })
+                                        @Html.Label("Jurídica")
+                                        @Html.RadioButtonFor(model => model.Tipo_Cedula, "Fisica", htmlAttributes: new { @class = "cedul", @checked = "checked" })
+                                        @Html.Label("Física")
+                                    }
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                @Html.Label(" ", htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.EditorFor(model => model.Cedula, new { htmlAttributes = new { @class = "form-control", @id = "ced", @onclick = "validar()" } })
+                                    @Html.ValidationMessageFor(model => model.Cedula, "", new { @class = "text-danger" })
+
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Id_Pais, "País", htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.DropDownListFor(model => model.Id_Pais, (SelectList)ViewBag.Pais, htmlAttributes: new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(model => model.Id_Pais, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Id_Provincia, "Provincia", htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.DropDownListFor(model => model.Id_Provincia, (SelectList)ViewBag.Id_Provincia, htmlAttributes: new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(model => model.Id_Provincia, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Id_Canton, "Cantón", htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.DropDownListFor(model => model.Id_Canton, (SelectList)ViewBag.Id_Canton, htmlAttributes: new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(model => model.Id_Canton, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Id_Distrito, "Distrito", htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.DropDownListFor(model => model.Id_Distrito, (SelectList)ViewBag.Id_Distrito, htmlAttributes: new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(model => model.Id_Distrito, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Otras_Señas, "Otras Señas", htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.EditorFor(model => model.Otras_Señas, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.Otras_Señas, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Codigo_Postal, "Código Postal", htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.EditorFor(model => model.Codigo_Postal, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.Codigo_Postal, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-md-offset-2 col-md-10">
+                                    <input type="submit" value="Actualizar" class="btn btn-default" />
+                                </div>
+                            </div>
+                        </div>
+                    }
+                    <div>
+                        @Html.ActionLink("Volver a la lista", "Index")
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="nav-contacto" role="tabpanel" aria-labelledby="nav-contacto-tab">
+                    @Html.Partial("~/Views/Empresas/ListContactos.cshtml", Model.Contacto)
+                </div>
+                <div class="tab-pane fade" id="nav-servicios" role="tabpanel" aria-labelledby="nav-servicios-tab">
+                    @Html.Partial("~/Views/Empresas/ListServicios.cshtml", Model.ServicioEmpresa)
+                </div>
+                <div class="tab-pane fade" id="nav-cuenta" role="tabpanel" aria-labelledby="nav-cuenta-tab">
+                    @Html.Partial("~/Views/Empresas/ListEstadoCuentas.cshtml", (Model.EstadodeCuenta != null ) ? new List<EstadodeCuenta> { Model.EstadodeCuenta } : new List<EstadodeCuenta>() )
+                </div>
+            </div>
         </div>
     </div>
-    @*<div id="menu1" class="tab-pane fade">
-        @Html.Action("index", "Contactoes", "")
-    </div>
-    <div id="menu2" class="tab-pane fade">
-        @Html.Action("index", "ServicioEmpresas", "")
-    </div>
-    <div id="menu3" class="tab-pane fade">
-        @Html.Action("index", "Cuentas", "")
-    </div>*@
 </div>
-
-
-
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
-<script type="text/javascript">
-    function validar() {
-        var selectedRadio = $(".cedul:checked").val();
-        if (selectedRadio == 'Juridica') {
-            $("#ced").attr('maxlength',7);
-            $("#ced").attr('minlength', 5);
+    <script type="text/javascript">
+        function validar() {
+            var selectedRadio = $(".cedul:checked").val();
+            if (selectedRadio == 'Juridica') {
+                $("#ced").attr('maxlength', 7);
+                $("#ced").attr('minlength', 5);
 
-        } else {
-            $("#ced").attr('maxlength', 10);
-            $("#ced").attr('minlength', 5);
-        }
-    };
+            } else {
+                $("#ced").attr('maxlength', 10);
+                $("#ced").attr('minlength', 5);
+            }
+        };
 
-    $(".cedul").change(function () {
-        validar();
-    });
+        $(".cedul").change(function () {
+            validar();
+        });
 
-</script>
+    </script>
 }

@@ -50,7 +50,8 @@ namespace C_R_M.Controllers
                 return RedirectPermanent("Login/Index");
             ViewBag.Empresa = new SelectList(db.Empresa, "Id_Empresa", "Nombre");
             ViewBag.Rol = new SelectList(db.Rol, "Id", "Nombre");
-            return View();
+            Usuario usuario = new Usuario { Fecha_Creacion = DateTime.Now };
+            return View(usuario);
         }
 
         // POST: Usuarios/Create

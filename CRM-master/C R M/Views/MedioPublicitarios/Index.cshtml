@@ -8,7 +8,7 @@
 <h2>Lista de Medios Publicitarios</h2>
 
 <p>
-    @Html.ActionLink("Crear Nuevo", "Create")
+    <a href="@Url.Action("Create")" class="btn btn-success"><i class="fa fa-plus-circle"></i> Crear Nuevo</a>
 </p>
 <table class="table">
     <tr>
@@ -24,9 +24,12 @@
             @Html.DisplayFor(modelItem => item.Nombre)
         </td>
         <td>
-            @Html.ActionLink("Editar", "Edit", new { id=item.Id_Medio_Publicitario }) |
-            @Html.ActionLink("Detalle", "Details", new { id=item.Id_Medio_Publicitario }) |
-            @Html.ActionLink("Eliminar", "Delete", new { id=item.Id_Medio_Publicitario })
+            <a class="btn btn-success ml-1" href="@Url.Action("Edit")/@item.Id_Medio_Publicitario"><i class="fa fa-edit  fa-lg"></i></a>
+            <a class="btn btn-info ml-1" href="@Url.Action("Details")/@item.Id_Medio_Publicitario"><i class="fa fa-info-circle"></i></a>
+            <a class="btn btn-danger ml-1" href="@Url.Action("Delete")/@item.Id_Medio_Publicitario"><i class="fa fa-trash fa-lg"></i></a>
+            @*@Html.ActionLink("Editar", "Edit", new { id = item.Id_Medio_Publicitario }) |
+            @Html.ActionLink("Detalle", "Details", new { id = item.Id_Medio_Publicitario }) |
+            @Html.ActionLink("Eliminar", "Delete", new { id = item.Id_Medio_Publicitario })*@
         </td>
     </tr>
 }

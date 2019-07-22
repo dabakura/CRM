@@ -111,8 +111,11 @@ namespace C_R_M.Controllers
         public async Task<ActionResult> DeleteConfirmed(int id)
         {
             MedioPublicitario medioPublicitario = await db.MedioPublicitario.FindAsync(id);
-            db.MedioPublicitario.Remove(medioPublicitario);
-            await db.SaveChangesAsync();
+            if (medioPublicitario.Publicidad.Count == 0)
+            {
+                db.MedioPublicitario.Remove(medioPublicitario);
+                await db.SaveChangesAsync();
+            }
             return RedirectToAction("Index");
         }
 

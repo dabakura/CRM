@@ -11,12 +11,13 @@ using C_R_M.Models;
 
 namespace C_R_M.Controllers
 {
-    [PermisoAttribute]
+    
     public class ServiciosContratadosController : Controller
     {
         private CRMEntities db = new CRMEntities();
 
         // GET: ServiciosContratados
+        [PermisoAttribute(Modulo = "ServiciosContratados-Index",Permiso =RolesPermisos.Permiso)]
         public async Task<ActionResult> Index()
         {
             if (AccountController.Account.GetUser == null)
@@ -29,6 +30,7 @@ namespace C_R_M.Controllers
         }
 
         // GET: ServiciosContratados/Details/5
+        [PermisoAttribute(Modulo = "ServiciosContratados-Details", Permiso = RolesPermisos.Permiso)]
         public async Task<ActionResult> Details(int? id)
         {
             if (AccountController.Account.GetUser == null)

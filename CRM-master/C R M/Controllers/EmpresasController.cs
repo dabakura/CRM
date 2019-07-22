@@ -86,7 +86,7 @@ namespace C_R_M.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Empresa empresa = db.Empresa.Find(id);
+            Empresa empresa = db.Empresa.Include(e=>e.Contacto).Include(e => e.ServicioEmpresa).Include(e => e.EstadodeCuenta).First(em => em.Id_Empresa == id);
             if (empresa == null)
             {
                 return HttpNotFound();

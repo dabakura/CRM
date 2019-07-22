@@ -15,7 +15,7 @@
 <h2>Correos</h2>
 
 <p>
-    @Html.ActionLink("Crear Nuevo", "Create")
+    <a href="@Url.Action("Create")" class="btn btn-success"><i class="fa fa-plus-circle"></i> Crear Nuevo</a>
 </p>
 <table class="table">
     <tr>
@@ -38,9 +38,9 @@
                 @Html.DisplayFor(modelItem => item.Contacto1.Nombre)
             </td>
             <td>
-                @Html.ActionLink("Editar", "Edit", new { id = item.Id_Correo }) |
-                @Html.ActionLink("Detalles", "Details", new { id = item.Id_Correo }) |
-                @Html.ActionLink("Borrar", "Delete", new { id = item.Id_Correo })
+                <a class="btn btn-success ml-1" href="@Url.Action("Edit")/@item.Id_Correo"><i class="fa fa-edit  fa-lg"></i></a>
+                <a class="btn btn-info ml-1" href="@Url.Action("Details")/@item.Id_Correo"><i class="fa fa-info-circle"></i></a>
+                <a class="btn btn-danger ml-1" href="@Url.Action("Delete")/@item.Id_Correo"><i class="fa fa-trash fa-lg"></i></a>
             </td>
         </tr>
     }

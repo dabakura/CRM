@@ -9,7 +9,8 @@
 <h2>Cuentas</h2>
 
 <p>
-    @Html.ActionLink("Crear nuevo", "Create",new { id= id_servicio })
+    @*@Html.ActionLink("Crear nuevo", "Create", new { id = id_servicio })*@
+    <a href="@Url.Action("Create")/@id_servicio" class="btn btn-success"><i class="fa fa-plus-circle"></i> Crear Nuevo</a>
 </p>
 <table class="table">
     <tr>
@@ -32,35 +33,42 @@
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Fecha_Pago)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Monto_Abono)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Monto_Pendiente)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Descripcion)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ServicioEmpresa.Producto.Nombre)
-        </td>
-        <td>
-            @Html.ActionLink("Detalle", "Details", new { id = item.Id_Cuenta, tipo = ViewBag.Tipo }) 
-            @if ((string)ViewBag.Volver == "ServicioEmpresas")
-            {
-                string se = " | ";@se @Html.ActionLink("Editar", "Edit", new { id = item.Id_Cuenta }); @se
-                @Html.ActionLink("Borrar", "Delete", new { id = item.Id_Cuenta });
-            }
-        </td>
-    </tr>
-}
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Fecha_Pago)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Monto_Abono)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Monto_Pendiente)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Descripcion)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ServicioEmpresa.Producto.Nombre)
+            </td>
+            <td>
+                <a class="btn btn-info ml-1" href="@Url.Action("Details")/@item.Id_Cuenta?tipo=@ViewBag.Tipo"><i class="fa fa-info-circle"></i></a>
+                @* @Html.ActionLink("Detalle", "Details", new { id = item.Id_Cuenta, tipo = ViewBag.Tipo })*@
+                @if ((string)ViewBag.Volver == "ServicioEmpresas")
+                {
+                    <a class="btn btn-success ml-1" href="@Url.Action("Edit")/@item.Id_Cuenta"><i class="fa fa-edit  fa-lg"></i></a>
+                    <a class="btn btn-danger ml-1" href="@Url.Action("Delete")/@item.Id_Cuenta"><i class="fa fa-trash fa-lg"></i></a>
+                    @*string se = " | ";@se @Html.ActionLink("Editar", "Edit", new { id = item.Id_Cuenta }); @se
+            @Html.ActionLink("Borrar", "Delete", new { id = item.Id_Cuenta });*@
+                }
+            </td>
+        </tr>
+    }
 
 </table>
 <p>
-    @Html.ActionLink("Volver", "Index", (string)ViewBag.Volver,null, null)
+    @Html.ActionLink("Volver", "Index", (string)ViewBag.Volver, null, null)
 </p>
+@*<a class="btn btn-success ml-1" href="@Url.Action("Edit")/@item.Id_Correo"><i class="fa fa-edit  fa-lg"></i></a>
+<a class="btn btn-info ml-1" href="@Url.Action("Details")/@item.Id_Correo"><i class="fa fa-info-circle"></i></a>
+<a class="btn btn-danger ml-1" href="@Url.Action("Delete")/@item.Id_Correo"><i class="fa fa-trash fa-lg"></i></a>*@

@@ -19,10 +19,10 @@
         @Html.HiddenFor(model => model.Id_Telefono)
 
         <div class="form-group">
-            @Html.LabelFor(model => model.Telefono1, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.N_Telefonico, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Telefono1, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Telefono1, "", new { @class = "text-danger" })
+                @Html.EditorFor(model => model.N_Telefonico, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.N_Telefonico, "", new { @class = "text-danger" })
             </div>
         </div>
 

@@ -45,7 +45,7 @@ namespace C_R_M.Controllers
             {
                 filterContext.Result = new RedirectToRouteResult(new RouteValueDictionary(new
                 {
-                    controller = "Login",
+                    controller = "Home",
                     action = "Index"
                 }));
             }

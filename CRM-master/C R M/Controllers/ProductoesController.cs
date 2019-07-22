@@ -128,8 +128,11 @@ namespace C_R_M.Controllers
             if (AccountController.Account.GetUser == null)
                 return RedirectPermanent("Login/Index");
             Producto producto = await db.Producto.FindAsync(id);
-            db.Producto.Remove(producto);
-            await db.SaveChangesAsync();
+            if (producto.Marketing.Count == 0 && producto.Marketing1.Count == 0 && producto.ServicioEmpresa.Count == 0)
+            {
+                db.Producto.Remove(producto);
+                await db.SaveChangesAsync();
+            }
             return RedirectToAction("Index");
         }
 

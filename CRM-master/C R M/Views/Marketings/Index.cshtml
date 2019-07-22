@@ -10,11 +10,110 @@
         .dataTables_filter, .content {
             display: none;
         }
+        .lds-roller {
+            display: inline-block;
+            position: absolute;
+            width: 128px;
+            height: 128px;
+            z-index: 100;
+            left: 43%;
+            top: 44%;
+        }
+        .lds-roller div {
+          animation: lds-roller 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+          transform-origin: 64px 64px;
+        }
+            .lds-roller div:after {
+                content: " ";
+                display: block;
+                position: absolute;
+                width: 12px;
+                height: 12px;
+                border-radius: 50%;
+                background: #117a65;
+                margin: -3px 0 0 -3px;
+            }
+        .lds-roller div:nth-child(1) {
+          animation-delay: -0.036s;
+        }
+        .lds-roller div:nth-child(1):after {
+          top: 100px;
+          left: 100px;
+        }
+        .lds-roller div:nth-child(2) {
+          animation-delay: -0.072s;
+        }
+        .lds-roller div:nth-child(2):after {
+          top: 108px;
+          left: 90px;
+        }
+        .lds-roller div:nth-child(3) {
+          animation-delay: -0.108s;
+        }
+        .lds-roller div:nth-child(3):after {
+          top: 114px;
+          left: 78px;
+        }
+        .lds-roller div:nth-child(4) {
+          animation-delay: -0.144s;
+        }
+        .lds-roller div:nth-child(4):after {
+          top: 116px;
+          left: 64px;
+        }
+        .lds-roller div:nth-child(5) {
+          animation-delay: -0.18s;
+        }
+        .lds-roller div:nth-child(5):after {
+          top: 114px;
+          left: 50px;
+        }
+        .lds-roller div:nth-child(6) {
+          animation-delay: -0.216s;
+        }
+        .lds-roller div:nth-child(6):after {
+          top: 108px;
+          left: 38px;
+        }
+        .lds-roller div:nth-child(7) {
+          animation-delay: -0.252s;
+        }
+        .lds-roller div:nth-child(7):after {
+          top: 100px;
+          left: 24px;
+        }
+        .lds-roller div:nth-child(8) {
+          animation-delay: -0.288s;
+        }
+        .lds-roller div:nth-child(8):after {
+          top: 90px;
+          left: 20px;
+        }
+        @@-webkit-keyframes lds-roller {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        @@keyframes lds-roller {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
     </style>
 }
     <div class="container" style="width: 100%;">
         <h2>Marketings  de Productos</h2>
         @Html.ActionLink("Ver sugerencias enviadas", "Details", null, htmlAttributes: new { @class = "btn btn-info" })
+        <div class="lds-roller" id="roller" style="display:none;"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
         <div style="margin-top: 1em;" class="col-12">
             <table id="demoGrid" class="table table-striped table-bordered dt-responsive nowrap col-12" width="100%" cellspacing="0">
                 <thead>
@@ -84,7 +183,8 @@
     <script>
 
         $(document).ready(function () {
-            var table =$("#demoGrid").DataTable({
+            var table = $("#demoGrid").DataTable({
+                "lengthMenu": [[5, 10, 25, -1], [5, 10, 25, "All"]],
                 "language": {
                     "url": "@Url.Content("/Resources/Spanish.json")"
                 },
@@ -150,8 +250,12 @@
                 if (data.url == null || data.url == "" || data.servicios == null || data.servicios == "")
                     alert("1- Seleciones un producto y las empresas a las cuales notificar\n2- Seleccione el producto a sugerir\n3- Ingrese una url");
                 else {
+                    $('#roller').show();
+                    $('#button').hide();
                     $.post("/Marketings/Create", data)
                         .done(function (data) {
+                            $('#roller').hide();
+                            $('#button').show();
                             alert(data);
                         });
                 }

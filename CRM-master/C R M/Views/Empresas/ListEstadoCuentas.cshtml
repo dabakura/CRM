@@ -1,0 +1,29 @@
+﻿@model IEnumerable<C_R_M.Models.EstadodeCuenta>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Credito_Disponible)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Empresa.Nombre)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Credito_Disponible)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Empresa.Nombre)
+        </td>
+        <td>
+            <a class="btn btn-info ml-1" href="@Url.Action("Details","EstadodeCuentas",null)/@item.Id_Empresa"><i class="fa fa-info-circle"></i></a>
+            <a class="btn btn-success ml-1" href="@Url.Action("Edit","EstadodeCuentas",null)/@item.Id_Empresa"><i class="fa fa-edit  fa-lg"></i></a>
+        </td>
+    </tr>
+}
+
+</table>

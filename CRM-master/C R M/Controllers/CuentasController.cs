@@ -52,7 +52,8 @@ namespace C_R_M.Controllers
                 return RedirectPermanent("Login/Index");
             ViewBag.Servicio = id;
             ViewBag.Servicio_Empresa = new SelectList(db.ServicioEmpresa.Include( s=>s.Producto).Where(s=>s.Id_Servicio_Empresa == id).ToList(), "Id_Servicio_Empresa", "Producto.Nombre");
-            return View();
+            Cuenta cuenta = new Cuenta { Fecha_Pago = DateTime.Now };
+            return View(cuenta);
         }
 
         // POST: Cuentas/Create

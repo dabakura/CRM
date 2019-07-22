@@ -4,7 +4,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<div class="container">
+<div class="container" style="width: 100%;">
     <h2>Asignerle Permisos al Rol</h2>
 
     @Html.Partial("ViewPermiso", (Object)ViewBag.Permisos, new ViewDataDictionary { { "id", (int)ViewBag.Id } })

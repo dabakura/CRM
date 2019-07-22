@@ -1,11 +1,4 @@
 ﻿@model IEnumerable<C_R_M.Models.ServicioEmpresa>
-@using C_R_M.Models
-@{
-    ViewBag.Title = "Index";
-    Layout = "~/Views/Shared/_Layout.cshtml";
-}
-
-<h2>Lista de servicios contratados</h2>
 
 <table class="table">
     <tr>
@@ -57,11 +50,8 @@
             @Html.DisplayFor(modelItem => item.Producto.Nombre)
         </td>
         <td>
-            <a class="btn btn-info ml-1" href="@Url.Action("Details")/@item.Id_Servicio_Empresa"><i class="fa fa-info-circle"></i></a>
-            <a class="btn btn-success ml-1" href="/Cuentas/Index/@item.Id_Servicio_Empresa?tipo=@TipoConsulta.InternaCuenta"><i class="fa fa-edit  fa-lg"></i> Ver Cuentas</a>
-            @*<a class="btn btn-danger ml-1" href="@Url.Action("Delete")/@item.Id"><i class="fa fa-trash fa-lg"></i></a>
-            @Html.ActionLink("Ver detalle", "Details", new { id = item.Id_Servicio_Empresa }) |
-            @Html.ActionLink("Ver cuentas", "Index", "Cuentas", new { id = item.Id_Servicio_Empresa, tipo = TipoConsulta.InternaCuenta }, null)*@
+            <a class="btn btn-info ml-1" href="@Url.Action("Details","ServicioEmpresas",null)/@item.Id_Servicio_Empresa"><i class="fa fa-info-circle"></i></a>
+            <a class="btn btn-success ml-1" href="@Url.Action("Edit","ServicioEmpresas",null)/@item.Id_Servicio_Empresa"><i class="fa fa-edit  fa-lg"></i></a>
         </td>
     </tr>
 }

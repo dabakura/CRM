@@ -46,7 +46,7 @@ namespace C_R_M.Controllers
         {
             if (AccountController.Account.GetUser == null)
                 return RedirectPermanent("Login/Index");
-            ViewBag.Empresa = new SelectList(db.Empresa, "Id_Empresa", "Nombre");
+            ViewBag.Empresa = new SelectList(db.Empresa.Where(em => em.EstadodeCuenta == null), "Id_Empresa", "Nombre");
             return View();
         }
 

@@ -9,15 +9,15 @@
 <h2>Telefonos</h2>
 
 <p>
-    @Html.ActionLink("Crear Nuevo", "Create")
+    <a href="@Url.Action("Create")" class="btn btn-success"><i class="fa fa-plus-circle"></i> Crear Nuevo</a>
 </p>
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.Telefono1)
+            @Html.DisplayNameFor(model => model.N_Telefonico)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Contacto1.Nombre)
+            @Html.DisplayNameFor(model => model.Codigo)
         </th>
         <th></th>
     </tr>
@@ -26,15 +26,18 @@
     {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.Telefono1)
+                @Html.DisplayFor(modelItem => item.N_Telefonico)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Contacto1.Nombre)
+                @Html.DisplayFor(modelItem => item.Codigo)
             </td>
             <td>
-                @Html.ActionLink("Editar", "Edit", new { id = item.Id_Telefono }) |
+                <a class="btn btn-success ml-1" href="@Url.Action("Edit")/@item.Id_Telefono"><i class="fa fa-edit  fa-lg"></i></a>
+                <a class="btn btn-info ml-1" href="@Url.Action("Details")/@item.Id_Telefono"><i class="fa fa-info-circle"></i></a>
+                <a class="btn btn-danger ml-1" href="@Url.Action("Delete")/@item.Id_Telefono"><i class="fa fa-trash fa-lg"></i></a>
+                @*@Html.ActionLink("Editar", "Edit", new { id = item.Id_Telefono }) |
                 @Html.ActionLink("Detalles", "Details", new { id = item.Id_Telefono }) |
-                @Html.ActionLink("Borrar", "Delete", new { id = item.Id_Telefono })
+                @Html.ActionLink("Borrar", "Delete", new { id = item.Id_Telefono })*@
             </td>
         </tr>
     }

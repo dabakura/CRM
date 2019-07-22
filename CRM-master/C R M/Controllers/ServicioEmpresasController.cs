@@ -49,7 +49,8 @@ namespace C_R_M.Controllers
                 return RedirectPermanent("Login/Index");
             ViewBag.Empresa = new SelectList(db.Empresa, "Id_Empresa", "Nombre");
             ViewBag.Producto = new SelectList(db.Producto, "Id_Producto", "Nombre");
-            return View();
+            ServicioEmpresa servicio = new ServicioEmpresa { Fecha_Creacion = DateTime.Now, Primer_Pago = DateTime.Now , Renovacion = DateTime.Now };
+            return View(servicio);
         }
 
         // POST: ServicioEmpresas/Create
