@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
@@ -11,22 +12,20 @@ using C_R_M.Models;
 namespace C_R_M.Controllers
 {
     [PermisoAttribute]
-    public class TelefonoesController : Controller
+    public class ProductosController : Controller
     {
         private CRMEntities db = new CRMEntities();
 
-        // GET: Telefonoes
-        public ActionResult Index(int? id)
+        // GET: Productoes
+        public async Task<ActionResult> Index()
         {
             if (AccountController.Account.GetUser == null)
                 return RedirectPermanent("Login/Index");
-            var telefono = db.Telefono.Include(t => t.Contacto);
-            ViewBag.Contacto = id.Value;
-            return View(telefono.ToList().Where(x => x.Id_Telefono==id));
+            return View(await db.Producto.ToListAsync());
         }
 
-        // GET: Telefonoes/Details/5
-        public ActionResult Details(int? id)
+        // GET: Productoes/Details/5
+        public async Task<ActionResult> Details(int? id)
         {
             if (AccountController.Account.GetUser == null)
                 return RedirectPermanent("Login/Index");
@@ -34,45 +33,43 @@ namespace C_R_M.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Telefono telefono = db.Telefono.Find(id);
-            if (telefono == null)
+            Producto producto = await db.Producto.FindAsync(id);
+            if (producto == null)
             {
                 return HttpNotFound();
             }
-            ViewBag.Contacto = id.Value;
-            return View(telefono);
+            return View(producto);
         }
 
-        // GET: Telefonoes/Create
+        // GET: Productoes/Create
         public ActionResult Create()
         {
             if (AccountController.Account.GetUser == null)
                 return RedirectPermanent("Login/Index");
-            ViewBag.Contacto = new SelectList(db.Contacto, "Id_Contacto", "Nombre");
             return View();
         }
 
-        // POST: Telefonoes/Create
+        // POST: Productoes/Create
         // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que desea enlazarse. Para obtener 
         // más información vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Codigo,N_Telefonico")] Telefono telefono)
+        public async Task<ActionResult> Create([Bind(Include = "Id_Producto,Nombre,Codigo,Tipo_Producto")] Producto producto)
         {
             if (AccountController.Account.GetUser == null)
                 return RedirectPermanent("Login/Index");
             if (ModelState.IsValid)
             {
-                db.Telefono.Add(telefono);
-                db.SaveChanges();
-                return RedirectToAction("Index",new {id=telefono.Contacto});
+                db.Producto.Add(producto);
+                await db.SaveChangesAsync();
+                return RedirectToAction("Index");
             }
-            
-            return View(telefono);
+
+            return View(producto);
         }
 
-        // GET: Telefonoes/Edit/5
-        public ActionResult Edit(int? id)
+        // GET: Productoes/Edit/5
+        public async Task<ActionResult> Edit(int? id)
         {
             if (AccountController.Account.GetUser == null)
                 return RedirectPermanent("Login/Index");
@@ -80,35 +77,34 @@ namespace C_R_M.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Telefono telefono = db.Telefono.Find(id);
-            if (telefono == null)
+            Producto producto = await db.Producto.FindAsync(id);
+            if (producto == null)
             {
                 return HttpNotFound();
             }
-            return View(telefono);
+            return View(producto);
         }
 
-        // POST: Telefonoes/Edit/5
+        // POST: Productoes/Edit/5
         // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que desea enlazarse. Para obtener 
         // más información vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id_Telefono,Codigo,N_Telefonico")] Telefono telefono)
+        public async Task<ActionResult> Edit([Bind(Include = "Id_Producto,Nombre,Codigo,Tipo_Producto")] Producto producto)
         {
             if (AccountController.Account.GetUser == null)
                 return RedirectPermanent("Login/Index");
             if (ModelState.IsValid)
             {
-                db.Entry(telefono).State = EntityState.Modified;
-                db.SaveChanges();
-                 return RedirectToAction("Index",new {id=telefono.Contacto});
+                db.Entry(producto).State = EntityState.Modified;
+                await db.SaveChangesAsync();
+                return RedirectToAction("Index");
             }
-            ViewBag.Contacto = new SelectList(db.Contacto, "Id_Contacto", "Nombre", telefono.Contacto);
-            return View(telefono);
+            return View(producto);
         }
 
-        // GET: Telefonoes/Delete/5
-        public ActionResult Delete(int? id)
+        // GET: Productoes/Delete/5
+        public async Task<ActionResult> Delete(int? id)
         {
             if (AccountController.Account.GetUser == null)
                 return RedirectPermanent("Login/Index");
@@ -116,24 +112,27 @@ namespace C_R_M.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Telefono telefono = db.Telefono.Find(id);
-            if (telefono == null)
+            Producto producto = await db.Producto.FindAsync(id);
+            if (producto == null)
             {
                 return HttpNotFound();
             }
-            return View(telefono);
+            return View(producto);
         }
 
-        // POST: Telefonoes/Delete/5
+        // POST: Productoes/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
+        public async Task<ActionResult> DeleteConfirmed(int id)
         {
             if (AccountController.Account.GetUser == null)
                 return RedirectPermanent("Login/Index");
-            Telefono telefono = db.Telefono.Find(id);
-            db.Telefono.Remove(telefono);
-            db.SaveChanges();
+            Producto producto = await db.Producto.FindAsync(id);
+            if (producto.Marketing.Count == 0 && producto.Marketing1.Count == 0 && producto.ServicioEmpresa.Count == 0)
+            {
+                db.Producto.Remove(producto);
+                await db.SaveChangesAsync();
+            }
             return RedirectToAction("Index");
         }
 

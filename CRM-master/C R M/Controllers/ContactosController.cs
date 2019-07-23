@@ -13,7 +13,7 @@ using Newtonsoft.Json;
 namespace C_R_M.Controllers
 {
     [PermisoAttribute]
-    public class ContactoesController : Controller
+    public class ContactosController : Controller
     {
         private CRMEntities db = new CRMEntities();
 

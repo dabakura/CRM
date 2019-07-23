@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
 using System.Linq;
-using System.Threading.Tasks;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
@@ -12,20 +11,22 @@ using C_R_M.Models;
 namespace C_R_M.Controllers
 {
     [PermisoAttribute]
-    public class MovimientoesController : Controller
+    public class TelefonosController : Controller
     {
         private CRMEntities db = new CRMEntities();
 
-        // GET: Movimientoes
-        public async Task<ActionResult> Index()
+        // GET: Telefonoes
+        public ActionResult Index(int? id)
         {
             if (AccountController.Account.GetUser == null)
                 return RedirectPermanent("Login/Index");
-            return View(await db.Movimiento.ToListAsync());
+            var telefono = db.Telefono.Include(t => t.Contacto);
+            ViewBag.Contacto = id.Value;
+            return View(telefono.ToList().Where(x => x.Id_Telefono==id));
         }
 
-        // GET: Movimientoes/Details/5
-        public async Task<ActionResult> Details(int? id)
+        // GET: Telefonoes/Details/5
+        public ActionResult Details(int? id)
         {
             if (AccountController.Account.GetUser == null)
                 return RedirectPermanent("Login/Index");
@@ -33,45 +34,45 @@ namespace C_R_M.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Movimiento movimiento = await db.Movimiento.FindAsync(id);
-            if (movimiento == null)
+            Telefono telefono = db.Telefono.Find(id);
+            if (telefono == null)
             {
                 return HttpNotFound();
             }
-            return View(movimiento);
+            ViewBag.Contacto = id.Value;
+            return View(telefono);
         }
 
-        // GET: Movimientoes/Create
+        // GET: Telefonoes/Create
         public ActionResult Create()
         {
             if (AccountController.Account.GetUser == null)
                 return RedirectPermanent("Login/Index");
-            Movimiento movimiento = new Movimiento { Fecha = DateTime.Now };
-            return View(movimiento);
+            ViewBag.Contacto = new SelectList(db.Contacto, "Id_Contacto", "Nombre");
+            return View();
         }
 
-        // POST: Movimientoes/Create
+        // POST: Telefonoes/Create
         // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que desea enlazarse. Para obtener 
         // más información vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "Id_Movimiento,Tipo,Monto,Detalle,Fecha")] Movimiento movimiento)
+        public ActionResult Create([Bind(Include = "Codigo,N_Telefonico")] Telefono telefono)
         {
             if (AccountController.Account.GetUser == null)
                 return RedirectPermanent("Login/Index");
             if (ModelState.IsValid)
             {
-               // movimiento.Fecha = DateTime.Now;
-                db.Movimiento.Add(movimiento);
-                await db.SaveChangesAsync();
-                return RedirectToAction("Index");
+                db.Telefono.Add(telefono);
+                db.SaveChanges();
+                return RedirectToAction("Index",new {id=telefono.Contacto});
             }
-
-            return View(movimiento);
+            
+            return View(telefono);
         }
 
-        // GET: Movimientoes/Edit/5
-        public async Task<ActionResult> Edit(int? id)
+        // GET: Telefonoes/Edit/5
+        public ActionResult Edit(int? id)
         {
             if (AccountController.Account.GetUser == null)
                 return RedirectPermanent("Login/Index");
@@ -79,34 +80,35 @@ namespace C_R_M.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Movimiento movimiento = await db.Movimiento.FindAsync(id);
-            if (movimiento == null)
+            Telefono telefono = db.Telefono.Find(id);
+            if (telefono == null)
             {
                 return HttpNotFound();
             }
-            return View(movimiento);
+            return View(telefono);
         }
 
-        // POST: Movimientoes/Edit/5
+        // POST: Telefonoes/Edit/5
         // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que desea enlazarse. Para obtener 
         // más información vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "Id_Movimiento,Tipo,Monto,Detalle,Fecha")] Movimiento movimiento)
+        public ActionResult Edit([Bind(Include = "Id_Telefono,Codigo,N_Telefonico")] Telefono telefono)
         {
             if (AccountController.Account.GetUser == null)
                 return RedirectPermanent("Login/Index");
             if (ModelState.IsValid)
             {
-                db.Entry(movimiento).State = EntityState.Modified;
-                await db.SaveChangesAsync();
-                return RedirectToAction("Index");
+                db.Entry(telefono).State = EntityState.Modified;
+                db.SaveChanges();
+                 return RedirectToAction("Index",new {id=telefono.Contacto});
             }
-            return View(movimiento);
+            ViewBag.Contacto = new SelectList(db.Contacto, "Id_Contacto", "Nombre", telefono.Contacto);
+            return View(telefono);
         }
 
-        // GET: Movimientoes/Delete/5
-        public async Task<ActionResult> Delete(int? id)
+        // GET: Telefonoes/Delete/5
+        public ActionResult Delete(int? id)
         {
             if (AccountController.Account.GetUser == null)
                 return RedirectPermanent("Login/Index");
@@ -114,24 +116,24 @@ namespace C_R_M.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Movimiento movimiento = await db.Movimiento.FindAsync(id);
-            if (movimiento == null)
+            Telefono telefono = db.Telefono.Find(id);
+            if (telefono == null)
             {
                 return HttpNotFound();
             }
-            return View(movimiento);
+            return View(telefono);
         }
 
-        // POST: Movimientoes/Delete/5
+        // POST: Telefonoes/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> DeleteConfirmed(int id)
+        public ActionResult DeleteConfirmed(int id)
         {
             if (AccountController.Account.GetUser == null)
                 return RedirectPermanent("Login/Index");
-            Movimiento movimiento = await db.Movimiento.FindAsync(id);
-            db.Movimiento.Remove(movimiento);
-            await db.SaveChangesAsync();
+            Telefono telefono = db.Telefono.Find(id);
+            db.Telefono.Remove(telefono);
+            db.SaveChanges();
             return RedirectToAction("Index");
         }
 

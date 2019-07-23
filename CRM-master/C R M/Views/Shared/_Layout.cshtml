@@ -31,7 +31,7 @@
                 <!-- mini logo for sidebar mini 50x50 pixels -->
                 <span class="logo-mini"><b>P</b>C</span>
                 <!-- logo for regular state and mobile devices -->
-                <span class="logo-lg"><b>Palmer</b>Codes</span>
+                <span class="logo-lg"><b>Bitsoft</b></span>
             </a>
             <!-- Header Navbar: style can be found in header.less -->
             <nav class="navbar navbar-static-top">
@@ -114,7 +114,7 @@
             <!-- sidebar: style can be found in sidebar.less -->
             <section class="sidebar">
                 <!-- search form -->
-                <form action="#" method="get" class="sidebar-form">
+                @*<form action="#" method="get" class="sidebar-form">
                     <div class="input-group">
                         <input type="text" name="q" class="form-control" placeholder="Search...">
                         <span class="input-group-btn">
@@ -123,13 +123,13 @@
                             </button>
                         </span>
                     </div>
-                </form>
+                </form>*@
                 <!-- /.search form -->
                 <!-- sidebar menu: : style can be found in sidebar.less -->
                 <ul class="sidebar-menu" data-widget="tree">
                     @if (AccountController.Account.Get_Modulos("Normal").Length > 0)
                     {
-                        <li class="header">MAIN NAVIGATION</li>
+                        <li class="header">PANEL NAVEGACION</li>
                         foreach (var item in AccountController.Account.Get_Modulos("Normal"))
                         {
                             <li>
@@ -176,7 +176,7 @@
             <div class="pull-right hidden-xs">
                 <b>Version</b> 1.0.0
             </div>
-            <strong>Copyright &copy; 2018-2019 <a href="https://adminlte.io">Palmer Codes</a>.</strong> All rights
+            <strong>Copyright &copy; 2018-2019 <a href="https://adminlte.io">Bitsoft</a>.</strong> All rights
             reserved.
         </footer>
         <!-- Control Sidebar -->

@@ -12,19 +12,19 @@ using C_R_M.Models;
 namespace C_R_M.Controllers
 {
     [PermisoAttribute]
-    public class ProductoesController : Controller
+    public class MovimientosController : Controller
     {
         private CRMEntities db = new CRMEntities();
 
-        // GET: Productoes
+        // GET: Movimientoes
         public async Task<ActionResult> Index()
         {
             if (AccountController.Account.GetUser == null)
                 return RedirectPermanent("Login/Index");
-            return View(await db.Producto.ToListAsync());
+            return View(await db.Movimiento.ToListAsync());
         }
 
-        // GET: Productoes/Details/5
+        // GET: Movimientoes/Details/5
         public async Task<ActionResult> Details(int? id)
         {
             if (AccountController.Account.GetUser == null)
@@ -33,42 +33,44 @@ namespace C_R_M.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Producto producto = await db.Producto.FindAsync(id);
-            if (producto == null)
+            Movimiento movimiento = await db.Movimiento.FindAsync(id);
+            if (movimiento == null)
             {
                 return HttpNotFound();
             }
-            return View(producto);
+            return View(movimiento);
         }
 
-        // GET: Productoes/Create
+        // GET: Movimientoes/Create
         public ActionResult Create()
         {
             if (AccountController.Account.GetUser == null)
                 return RedirectPermanent("Login/Index");
-            return View();
+            Movimiento movimiento = new Movimiento { Fecha = DateTime.Now };
+            return View(movimiento);
         }
 
-        // POST: Productoes/Create
+        // POST: Movimientoes/Create
         // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que desea enlazarse. Para obtener 
         // más información vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "Id_Producto,Nombre,Codigo,Tipo_Producto")] Producto producto)
+        public async Task<ActionResult> Create([Bind(Include = "Id_Movimiento,Tipo,Monto,Detalle,Fecha")] Movimiento movimiento)
         {
             if (AccountController.Account.GetUser == null)
                 return RedirectPermanent("Login/Index");
             if (ModelState.IsValid)
             {
-                db.Producto.Add(producto);
+               // movimiento.Fecha = DateTime.Now;
+                db.Movimiento.Add(movimiento);
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
 
-            return View(producto);
+            return View(movimiento);
         }
 
-        // GET: Productoes/Edit/5
+        // GET: Movimientoes/Edit/5
         public async Task<ActionResult> Edit(int? id)
         {
             if (AccountController.Account.GetUser == null)
@@ -77,33 +79,33 @@ namespace C_R_M.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Producto producto = await db.Producto.FindAsync(id);
-            if (producto == null)
+            Movimiento movimiento = await db.Movimiento.FindAsync(id);
+            if (movimiento == null)
             {
                 return HttpNotFound();
             }
-            return View(producto);
+            return View(movimiento);
         }
 
-        // POST: Productoes/Edit/5
+        // POST: Movimientoes/Edit/5
         // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que desea enlazarse. Para obtener 
         // más información vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "Id_Producto,Nombre,Codigo,Tipo_Producto")] Producto producto)
+        public async Task<ActionResult> Edit([Bind(Include = "Id_Movimiento,Tipo,Monto,Detalle,Fecha")] Movimiento movimiento)
         {
             if (AccountController.Account.GetUser == null)
                 return RedirectPermanent("Login/Index");
             if (ModelState.IsValid)
             {
-                db.Entry(producto).State = EntityState.Modified;
+                db.Entry(movimiento).State = EntityState.Modified;
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
-            return View(producto);
+            return View(movimiento);
         }
 
-        // GET: Productoes/Delete/5
+        // GET: Movimientoes/Delete/5
         public async Task<ActionResult> Delete(int? id)
         {
             if (AccountController.Account.GetUser == null)
@@ -112,27 +114,24 @@ namespace C_R_M.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Producto producto = await db.Producto.FindAsync(id);
-            if (producto == null)
+            Movimiento movimiento = await db.Movimiento.FindAsync(id);
+            if (movimiento == null)
             {
                 return HttpNotFound();
             }
-            return View(producto);
+            return View(movimiento);
         }
 
-        // POST: Productoes/Delete/5
+        // POST: Movimientoes/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> DeleteConfirmed(int id)
         {
             if (AccountController.Account.GetUser == null)
                 return RedirectPermanent("Login/Index");
-            Producto producto = await db.Producto.FindAsync(id);
-            if (producto.Marketing.Count == 0 && producto.Marketing1.Count == 0 && producto.ServicioEmpresa.Count == 0)
-            {
-                db.Producto.Remove(producto);
-                await db.SaveChangesAsync();
-            }
+            Movimiento movimiento = await db.Movimiento.FindAsync(id);
+            db.Movimiento.Remove(movimiento);
+            await db.SaveChangesAsync();
             return RedirectToAction("Index");
         }
 
