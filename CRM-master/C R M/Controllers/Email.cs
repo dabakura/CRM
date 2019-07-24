@@ -23,7 +23,7 @@ namespace C_R_M.Controllers
                          <img src='cid:EmbeddedContent_1' />
                          <h2 style='color: orange'>Bitsoft</h2>
                          <br>
-                         <h4>Palmer code le agradece por su preferencia</h4>
+                         <h4>Bitsoft le agradece por su preferencia</h4>
                          <br>
                          <b>" + message + "</b>" +
                          "<br><p>Este mensaje es automatizado para mas información contactanos al telefono: 22222222</p>"+
