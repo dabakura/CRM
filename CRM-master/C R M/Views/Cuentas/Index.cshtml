@@ -1,5 +1,6 @@
 ﻿@model IEnumerable<C_R_M.Models.Cuenta>
-
+@using C_R_M.Models;
+@using C_R_M.Controllers;
 @{
     ViewBag.Title = "Lista de Cuentas";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -9,8 +10,10 @@
 <h2>Cuentas</h2>
 
 <p>
-    @*@Html.ActionLink("Crear nuevo", "Create", new { id = id_servicio })*@
-    <a href="@Url.Action("Create")/@id_servicio" class="btn btn-success"><i class="fa fa-plus-circle"></i> Crear Nuevo</a>
+    @if (FrontUser.TienePermiso("Cuentas", RolesPermisos.Crear_Registro))
+    {
+        <a href="@Url.Action("Create")/@id_servicio" class="btn btn-success"><i class="fa fa-plus-circle"></i> Crear Nuevo</a>
+    }
 </p>
 <table class="table">
     <tr>
@@ -52,14 +55,20 @@
                 @Html.DisplayFor(modelItem => item.ServicioEmpresa.Producto.Nombre)
             </td>
             <td>
-                <a class="btn btn-info ml-1" href="@Url.Action("Details")/@item.Id_Cuenta?tipo=@ViewBag.Tipo"><i class="fa fa-info-circle"></i></a>
-                @* @Html.ActionLink("Detalle", "Details", new { id = item.Id_Cuenta, tipo = ViewBag.Tipo })*@
+                @if (FrontUser.TienePermiso("Cuentas", RolesPermisos.Visualizar_Registro))
+                {
+                    <a class="btn btn-info ml-1" href="@Url.Action("Details")/@item.Id_Cuenta?tipo=@ViewBag.Tipo"><i class="fa fa-info-circle"></i></a>
+                }
                 @if ((string)ViewBag.Volver == "ServicioEmpresas")
                 {
-                    <a class="btn btn-success ml-1" href="@Url.Action("Edit")/@item.Id_Cuenta"><i class="fa fa-edit  fa-lg"></i></a>
-                    <a class="btn btn-danger ml-1" href="@Url.Action("Delete")/@item.Id_Cuenta"><i class="fa fa-trash fa-lg"></i></a>
-                    @*string se = " | ";@se @Html.ActionLink("Editar", "Edit", new { id = item.Id_Cuenta }); @se
-            @Html.ActionLink("Borrar", "Delete", new { id = item.Id_Cuenta });*@
+                    if (FrontUser.TienePermiso("Cuentas", RolesPermisos.Editar_Registro))
+                    {
+                        <a class="btn btn-success ml-1" href="@Url.Action("Edit")/@item.Id_Cuenta"><i class="fa fa-edit  fa-lg"></i></a>
+                    }
+                    if (FrontUser.TienePermiso("Cuentas", RolesPermisos.Eliminar_Registro))
+                    {
+                        <a class="btn btn-danger ml-1" href="@Url.Action("Delete")/@item.Id_Cuenta"><i class="fa fa-trash fa-lg"></i></a>
+                    }
                 }
             </td>
         </tr>
@@ -67,8 +76,11 @@
 
 </table>
 <p>
-    @Html.ActionLink("Volver", "Index", (string)ViewBag.Volver, null, null)
+    @if (FrontUser.TienePermiso("Cuentas-Index", RolesPermisos.Permiso))
+    {
+        @Html.ActionLink("Volver", "Index", (string)ViewBag.Volver, null, null)
+    }
 </p>
-@*<a class="btn btn-success ml-1" href="@Url.Action("Edit")/@item.Id_Correo"><i class="fa fa-edit  fa-lg"></i></a>
-<a class="btn btn-info ml-1" href="@Url.Action("Details")/@item.Id_Correo"><i class="fa fa-info-circle"></i></a>
-<a class="btn btn-danger ml-1" href="@Url.Action("Delete")/@item.Id_Correo"><i class="fa fa-trash fa-lg"></i></a>*@
+
+
+

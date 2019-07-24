@@ -1,12 +1,11 @@
 ﻿@model C_R_M.Models.Cuenta
-
+@using C_R_M.Models;
+@using C_R_M.Controllers;
 @{
     ViewBag.Title = "Detalle de cuenta";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
 <h2>Detalle</h2>
-
 <div>
     <h4>Cuenta</h4>
     <hr />
@@ -14,45 +13,38 @@
         <dt>
             @Html.DisplayNameFor(model => model.Fecha_Pago)
         </dt>
-
         <dd>
             @Html.DisplayFor(model => model.Fecha_Pago)
         </dd>
-
         <dt>
             @Html.DisplayNameFor(model => model.Monto_Abono)
         </dt>
-
         <dd>
             @Html.DisplayFor(model => model.Monto_Abono)
         </dd>
-
         <dt>
             @Html.DisplayNameFor(model => model.Monto_Pendiente)
         </dt>
-
         <dd>
             @Html.DisplayFor(model => model.Monto_Pendiente)
         </dd>
-
         <dt>
             @Html.DisplayNameFor(model => model.Descripcion)
         </dt>
-
         <dd>
             @Html.DisplayFor(model => model.Descripcion)
         </dd>
-
         <dt>
             @Html.DisplayNameFor(model => model.ServicioEmpresa.Producto.Nombre)
         </dt>
-
         <dd>
             @Html.DisplayFor(model => model.ServicioEmpresa.Producto.Nombre)
         </dd>
-
     </dl>
 </div>
 <p>
-    @Html.ActionLink("Volver", "Index", new { id = Model.Servicio_Empresa, tipo= ViewBag.Tipo })
+    @if (FrontUser.TienePermiso("Cuentas-Index", RolesPermisos.Permiso))
+    {
+        @Html.ActionLink("Volver", "Index", new { id = Model.Servicio_Empresa, tipo = ViewBag.Tipo })
+    }
 </p>

@@ -1,12 +1,11 @@
 ﻿@model C_R_M.Models.Cuenta
-@using C_R_M.Models
+@using C_R_M.Models;
+@using C_R_M.Controllers;
 @{
     ViewBag.Title = "Borrar";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
 <h2>Eliminar</h2>
-
 <h3>Estas seguro de eliminar esta cuenta?</h3>
 <div>
     <h4>Cuenta</h4>
@@ -15,51 +14,46 @@
         <dt>
             @Html.DisplayNameFor(model => model.Fecha_Pago)
         </dt>
-
         <dd>
             @Html.DisplayFor(model => model.Fecha_Pago)
         </dd>
-
         <dt>
             @Html.DisplayNameFor(model => model.Monto_Abono)
         </dt>
-
         <dd>
             @Html.DisplayFor(model => model.Monto_Abono)
         </dd>
-
         <dt>
             @Html.DisplayNameFor(model => model.Monto_Pendiente)
         </dt>
-
         <dd>
             @Html.DisplayFor(model => model.Monto_Pendiente)
         </dd>
-
         <dt>
             @Html.DisplayNameFor(model => model.Descripcion)
         </dt>
-
         <dd>
             @Html.DisplayFor(model => model.Descripcion)
         </dd>
-
         <dt>
             @Html.DisplayNameFor(model => model.ServicioEmpresa.Producto.Nombre)
         </dt>
-
         <dd>
             @Html.DisplayFor(model => model.ServicioEmpresa.Producto.Nombre)
         </dd>
-
     </dl>
-
-    @using (Html.BeginForm()) {
+    @using (Html.BeginForm())
+    {
         @Html.AntiForgeryToken()
 
-        <div class="form-actions no-color">
-            <input type="submit" value="Eliminar" class="btn btn-success" /> |
+    <div class="form-actions no-color">
+        <input type="submit" value="Eliminar" class="btn btn-success" />
+        @if (FrontUser.TienePermiso("Cuentas-Index", RolesPermisos.Permiso))
+        {
+            string separador = " | ";
+            @separador
             @Html.ActionLink("Volver", "Index", new { id = Model.Servicio_Empresa, tipo = TipoConsulta.ActorizadaCuenta })
-        </div>
+        }
+    </div>
     }
 </div>

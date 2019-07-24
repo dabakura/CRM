@@ -1,5 +1,6 @@
 ﻿@model IEnumerable<C_R_M.Models.ServicioEmpresa>
-
+@using C_R_M.Controllers;
+@using C_R_M.Models;
 @{
     ViewBag.Title = "Servicios";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -42,11 +43,20 @@
 @section scripts{
     @Scripts.Render("~/bundles/datatables")
     <script>
+        @if (FrontUser.TienePermiso("Cuentas-Index", RolesPermisos.Permiso))
+        {
+            var cuentas = "var cuentas = true;";
+            @cuentas
+        } else
+        {
+            var cuentas = "var cuentas = false;";
+            @cuentas
+        }
         $(document).ready(function () {
             $("#demoGrid").DataTable({
-                "language": {
-                    "url": "@Url.Content("/Resources/Spanish.json")"
-                },
+                            "language": {
+                                "url": "@Url.Content("/Resources/Spanish.json")"
+                            },
                 "processing": true, // for show progress bar
                 "serverSide": true, // for process server side
                 "filter": true, // this is for disable filter (search box)
@@ -83,6 +93,7 @@
                     { "data": "Producto.Nombre", "name": "Producto.Nombre", "autoWidth": true },
                     {
                         "render": function (data, type, full, meta) {
+                            if (!cuentas) return '';
                             return '<a class="btn btn-info ml-1" href="/Cuentas/Index/?&id=' + full.Id_Servicio_Empresa + '&tipo=1">Ver Cuentas</a><a class="btn btn-info ml-1" href="/ServicioEmpresas/Details/' + full.Id_Servicio_Empresa + '"><i class="fa fa-info-circle"></i></a><a class="btn btn-success ml-1" href="/ServicioEmpresas/Edit/' + full.Id_Servicio_Empresa + '"><i class="fa fa-edit  fa-lg"></i></a><a class="btn btn-danger ml-1" href="/ServicioEmpresas/Delete/' + full.Id_Servicio_Empresa + '"><i class="fa fa-trash fa-lg"></i></a>';
                         }
                     }

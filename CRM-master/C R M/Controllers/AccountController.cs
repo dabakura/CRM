@@ -22,21 +22,21 @@ namespace C_R_M.Controllers
             this.db = new CRMEntities();
             Recuerdame = false;
             Modulos = new Modulo[] {
-                new Modulo { Titulo = "Empresas", Action = "Index", Controller = "Empresas", Tipo ="Normal", Icono = "fa fa-table" },
-                new Modulo { Titulo = "Servicios Vendidos", Action = "Index", Controller = "ServicioEmpresas", Tipo ="Normal", Icono = "fa fa-table" },
-                new Modulo { Titulo = "Servicios Adquiridos", Action = "Index", Controller = "ServiciosContratados", Tipo ="Normal", Icono = "fa fa-table" },
-                new Modulo { Titulo = "Contactos", Action = "Index", Controller = "Contactos", Tipo ="Normal", Icono = "fa fa-table" },
-                new Modulo { Titulo = "Marketing", Action = "Index", Controller = "Marketings", Tipo ="Normal", Icono = "fa fa-envelope" },
-                new Modulo { Titulo = "Productos", Action = "Index", Controller = "Productos", Tipo ="Normal", Icono = "fa fa-th" },
-                new Modulo { Titulo = "Publicidad", Action = "Index", Controller = "Publicidads", Tipo ="Normal", Icono = "fa fa-archive" },
-                new Modulo { Titulo = "Medio Publicitario", Action = "Index", Controller = "MedioPublicitarios", Tipo ="Normal", Icono = "fa fa-archive" },
+                new Modulo { Titulo = "Empresas", Action = "Index", Controller = "Empresas", Tipo ="Normal", Icono = "fa fa-building" },
+                new Modulo { Titulo = "Servicios Vendidos", Action = "Index", Controller = "ServicioEmpresas", Tipo ="Normal", Icono = "fa fa-shopping-bag" },
+                new Modulo { Titulo = "Servicios Adquiridos", Action = "Index", Controller = "ServiciosContratados", Tipo ="Normal", Icono = "fa fa-shopping-cart" },
+                new Modulo { Titulo = "Contactos", Action = "Index", Controller = "Contactos", Tipo ="Normal", Icono = "fa fa-address-book" },
+                new Modulo { Titulo = "Marketing", Action = "Index", Controller = "Marketings", Tipo ="Normal", Icono = "fa fa-comments" },
+                new Modulo { Titulo = "Productos", Action = "Index", Controller = "Productos", Tipo ="Normal", Icono = "fa fa-product-hunt" },
+                new Modulo { Titulo = "Publicidad", Action = "Index", Controller = "Publicidads", Tipo ="Normal", Icono = "fa fa-facebook-square" },
+                new Modulo { Titulo = "Medio Publicitario", Action = "Index", Controller = "MedioPublicitarios", Tipo ="Normal", Icono = "fa fa-medium" },
                 new Modulo { Titulo = "Recordatorios", Action = "Index", Controller = "Recordatorios", Tipo ="Normal", Icono = "fa fa-calendar" },
                 new Modulo { Titulo = "Estado de Cuenta", Action = "Index", Controller = "EstadodeCuentas", Tipo ="Normal", Icono = "fa fa-th" },
-                new Modulo { Titulo = "Roles y Permisos", Action = "Index", Controller = "Rols", Tipo ="Normal", Icono = "fa fa-th" },
-                new Modulo { Titulo = "Reportes", Action = "Index", Controller = "Report", Tipo ="Normal", Icono = "fa fa-th" },
-                new Modulo { Titulo = "Movimientos", Action = "Index", Controller = "Movimientos", Tipo ="Proceso", Icono = "fa fa-circle-o" },
-                new Modulo { Titulo = "Usuarios", Action = "Index", Controller = "Usuarios", Tipo ="Proceso", Icono = "fa fa-circle-o" },
-                new Modulo { Titulo = "Recordatorios", Action = "Index", Controller = "Recordatorios", Tipo ="Proceso", Icono = "fa fa-circle-o" },
+                new Modulo { Titulo = "Roles y Permisos", Action = "Index", Controller = "Rols", Tipo ="Normal", Icono = "fa fa-lock" },
+                new Modulo { Titulo = "Reportes", Action = "Index", Controller = "Report", Tipo ="Normal", Icono = "fa fa-file" },
+                new Modulo { Titulo = "Movimientos", Action = "Index", Controller = "Movimientos", Tipo ="Proceso", Icono = "fa fa-bar-chart" },
+                new Modulo { Titulo = "Usuarios", Action = "Index", Controller = "Usuarios", Tipo ="Proceso", Icono = "fa fa-users" },
+                new Modulo { Titulo = "Recordatorios", Action = "Index", Controller = "Recordatorios", Tipo ="Proceso", Icono = "fa fa-calendar" },
             };
         }
         public static AccountController Account => accountController ?? (accountController = new AccountController());
