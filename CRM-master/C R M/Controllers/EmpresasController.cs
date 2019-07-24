@@ -14,7 +14,7 @@ namespace C_R_M.Controllers
     public class EmpresasController : Controller
     {
         private CRMEntities db = new CRMEntities();
-        
+
         // GET: Empresas
         public ActionResult Index()
         {
@@ -24,7 +24,7 @@ namespace C_R_M.Controllers
             return View(empresa.ToList());
         }
 
-        
+
         // GET: Empresas/Details/5
         public ActionResult Details(int? id)
         {
@@ -47,11 +47,12 @@ namespace C_R_M.Controllers
         {
             if (AccountController.Account.GetUser == null)
                 return RedirectPermanent("Login/Index");
-            ViewBag.Id_Canton = new SelectList(db.Canton, "Id_Canton", "Nombre");
-            ViewBag.Id_Distrito = new SelectList(db.Distrito, "Id_Distrito", "Nombre");
-            ViewBag.Id_Provincia = new SelectList(db.Provincia, "Id_Provincia", "Nombre");
+            ViewBag.Id_Canton = new SelectList(db.Canton.Where(a => a.Id_Canton == 1), "Id_Canton", "Nombre");
+            ViewBag.Id_Distrito = new SelectList(db.Distrito.Where(a => a.Id_Distrito == 1), "Id_Distrito", "Nombre");
+            ViewBag.Id_Provincia = new SelectList(db.Provincia.Where(a => a.Id_Provincia == 1), "Id_Provincia", "Nombre");
             ViewBag.Pais = new SelectList(db.Pais, "Id_Pais", "Nombre");
-            return View();
+            Empresa empresa = new Empresa { Id_Pais = db.Pais.First(p => p.Nombre.Equals("Costa Rica")).Id_Pais };
+            return View(empresa);
         }
 
         // POST: Empresas/Create
@@ -73,7 +74,7 @@ namespace C_R_M.Controllers
             ViewBag.Id_Canton = new SelectList(db.Canton, "Id_Canton", "Nombre", empresa.Id_Canton);
             ViewBag.Id_Distrito = new SelectList(db.Distrito, "Id_Distrito", "Nombre", empresa.Id_Distrito);
             ViewBag.Id_Provincia = new SelectList(db.Provincia, "Id_Provincia", "Nombre", empresa.Id_Provincia);
-            ViewBag.Pais = new SelectList(db.Pais, "Id_Pais", "Nombre",empresa.Id_Pais);
+            ViewBag.Pais = new SelectList(db.Pais, "Id_Pais", "Nombre", empresa.Id_Pais);
             return View(empresa);
         }
 
@@ -86,14 +87,14 @@ namespace C_R_M.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Empresa empresa = db.Empresa.Include(e=>e.Contacto).Include(e => e.ServicioEmpresa).Include(e => e.EstadodeCuenta).First(em => em.Id_Empresa == id);
+            Empresa empresa = db.Empresa.Find(id);
             if (empresa == null)
             {
                 return HttpNotFound();
             }
-            ViewBag.Id_Canton = new SelectList(db.Canton, "Id_Canton", "Nombre", empresa.Id_Canton);
-            ViewBag.Id_Distrito = new SelectList(db.Distrito, "Id_Distrito", "Nombre", empresa.Id_Distrito);
-            ViewBag.Id_Provincia = new SelectList(db.Provincia, "Id_Provincia", "Nombre", empresa.Id_Provincia);
+            ViewBag.Id_Canton = new SelectList(db.Canton.Where(c => c.Provincia == empresa.Id_Provincia && c.Id_Canton != 1).OrderBy(a => a.Nombre), "Id_Canton", "Nombre");
+            ViewBag.Id_Distrito = new SelectList(db.Distrito.Where(c => c.Canton == empresa.Id_Canton && c.Id_Distrito != 1).OrderBy(a => a.Nombre), "Id_Distrito", "Nombre");
+            ViewBag.Id_Provincia = new SelectList(db.Provincia.Where(a => a.Id_Provincia != 1).OrderBy(a => a.Nombre), "Id_Provincia", "Nombre");
             ViewBag.Pais = new SelectList(db.Pais, "Id_Pais", "Nombre", empresa.Id_Pais);
             return View(empresa);
         }
@@ -157,6 +158,34 @@ namespace C_R_M.Controllers
                 db.Dispose();
             }
             base.Dispose(disposing);
+        }
+
+        [HttpPost]
+
+        public JsonResult ListCantones(Int64 ID_PROVINCIA, CRMEntities _Model)
+        {
+            ViewBag.e = new SelectList(db.Canton.Where(c => c.Provincia == ID_PROVINCIA && c.Id_Canton != 1).OrderBy(a => a.Nombre), "Id_Canton", "Nombre");
+            return Json(ViewBag.e);
+        }
+
+        [HttpPost]
+
+        public JsonResult ListDistritos(Int64 ID_CANTON, CRMEntities _Model)
+        {
+            ViewBag.e = new SelectList(db.Distrito.Where(c => c.Canton == ID_CANTON && c.Id_Distrito != 1).OrderBy(a => a.Nombre), "Id_Distrito", "Nombre");
+            return Json(ViewBag.e);
+        }
+
+        [HttpPost]
+        public JsonResult ListProvincias(Int64 ID_PAIS, CRMEntities _Model)
+        {
+            ViewBag.e = new SelectList(db.Provincia.Where(a => a.Id_Provincia == 0), "Id_Provincia", "Nombre");
+            if (ID_PAIS == 48)
+            {
+                ViewBag.e = new SelectList(db.Provincia.Where(a => a.Id_Provincia != 1).OrderBy(a => a.Nombre), "Id_Provincia", "Nombre");
+            }
+            return Json(ViewBag.e);
+
         }
     }
 }
