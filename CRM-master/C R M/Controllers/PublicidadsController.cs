@@ -79,7 +79,7 @@ namespace C_R_M.Controllers
                     db.EstadodeCuenta.Add(new EstadodeCuenta { Id_Empresa = publicidad.Id_empresa, Credito_Disponible = ((decimal)((publicidad.Costo != null) ? (0 - publicidad.Costo.Value) : 0)) });
                 else
                 {
-                    est.Credito_Disponible -= (decimal)((publicidad.Costo != null) ? (publicidad.Costo.Value) : 0);
+                    est.Credito_Disponible = Decimal.Round(est.Credito_Disponible - (decimal)(publicidad.Costo.HasValue ? publicidad.Costo.Value : 0), 2);
                 }
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");

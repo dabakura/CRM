@@ -35,8 +35,7 @@ namespace C_R_M.Controllers
                 new Modulo { Titulo = "Roles y Permisos", Action = "Index", Controller = "Rols", Tipo ="Normal", Icono = "fa fa-lock" },
                 new Modulo { Titulo = "Reportes", Action = "Index", Controller = "Report", Tipo ="Normal", Icono = "fa fa-file" },
                 new Modulo { Titulo = "Movimientos", Action = "Index", Controller = "Movimientos", Tipo ="Proceso", Icono = "fa fa-bar-chart" },
-                new Modulo { Titulo = "Usuarios", Action = "Index", Controller = "Usuarios", Tipo ="Proceso", Icono = "fa fa-users" },
-                new Modulo { Titulo = "Recordatorios", Action = "Index", Controller = "Recordatorios", Tipo ="Proceso", Icono = "fa fa-calendar" },
+                new Modulo { Titulo = "Usuarios", Action = "Index", Controller = "Usuarios", Tipo ="Proceso", Icono = "fa fa-users" }
             };
         }
         public static AccountController Account => accountController ?? (accountController = new AccountController());
