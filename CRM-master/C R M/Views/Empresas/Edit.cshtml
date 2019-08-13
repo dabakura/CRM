@@ -207,11 +207,11 @@
     function validar() {
         var selectedRadio = $(".cedul:checked").val();
         if (selectedRadio == 'Juridica') {
-            $("#ced").attr('maxlength',7);
-            $("#ced").attr('minlength', 5);
+            $("#ced").attr('maxlength', 9);
+            $("#ced").attr('minlength', 9);
         } else {
             $("#ced").attr('maxlength', 10);
-            $("#ced").attr('minlength', 5);
+            $("#ced").attr('minlength', 10);
         }
     };
     $(".cedul").change(function () {
